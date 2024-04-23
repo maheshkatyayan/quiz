@@ -1,38 +1,105 @@
-.App {
-  text-align: center;
+body{
+  background-color: #21222a;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.homepage{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .formwapper{
+    background: #282a36;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
   }
-  to {
-    transform: rotate(360deg);
+  .logo{
+  width: 200px;
+  height: 80px;
+  margin-bottom: 30px;
   }
-}
+  footer{
+    position: fixed;
+    bottom: 0;
+  }
+  footer a{
+    color: #4aee88;
+  }
+  .inputgroup{
+    display: flex;
+    flex-direction: column;
+  }
+  .paste{
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+  .inputbox{
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    margin-bottom: 14px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+  }
+  .btn{
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+  #Join{
+    background-color: #4aee88;
+    width: 100px;
+    margin-left: auto;
+  }
+  #Join:hover{
+    background-color: #2d4731;
+  }
+  .span{
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+  .reatenewbtn{
+    color: #4aee88;
+  }
+  
+  .mainwrap{
+   height: 100vh;
+   display: grid;
+   grid-template-columns: 230px 1fr;
+  }
+  .editorwrap{
+    background-color:rgb(57, 61, 71) ;
+    color: rgb(229, 233, 235);
+  }
+  .sidewrap{
+    background-color: #3b204b;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  .asidemiddle{
+  flex: 1;
+  }
+  .clientlist{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .btn1{
+    height: 30px;
+    width: 200px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    padding-top: 10px;
+  }
+  .name1{
+    margin: 10px;
+  }
