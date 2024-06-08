@@ -13,6 +13,7 @@ const Question = () => {
   const [dis,setdis]=useState('')
   const [imgsrc,setimgsrc]=useState('')
 
+ 
   // Handler for question input change
   const handleQuestionChange = (e) => {
     setQuestion(e.target.value);
@@ -44,7 +45,7 @@ const Question = () => {
   };
 
   // Handler for finalizing and submitting the question
-  const handelFinalquestion = () => {
+  const handeleFinalquestion = () => {
     const data = { question, options,dis,imgsrc };
     console.log(data);
     try {
@@ -190,7 +191,7 @@ const Question = () => {
       </div>
       <input type="text" id="answer" value={Answer} onChange={handleAnswer}/>
       {/* Button to finalize and submit the question */}
-      <button onClick={handelFinalquestion}>ADD question</button>
+      <button onClick={handeleFinalquestion}>ADD question</button>
     </div>
   );
 };

@@ -1,51 +1,76 @@
-import express from "express";
-import bodyParser from "body-parser";
-import pg from "pg";
-import cors from "cors"
+import express from 'express'; // Importing the Express framework to create a web server
+import { createServer } from 'http'; // Importing the HTTP module to create an HTTP server
+import { Server } from 'socket.io'; // Importing the Server class from Socket.IO for real-time communication
+import cors from 'cors'; // Importing CORS middleware to handle Cross-Origin Resource Sharing
+import bodyParser from 'body-parser'; // Importing body-parser middleware to parse incoming request bodies
+import EventEmitter from 'events'; // Importing the events module to create an event emitter
 
-const app = express();
-const port = 8000;
+// Creating an instance of EventEmitter
+const eventemiter = new EventEmitter(); // EventEmitter allows us to create, emit, and listen to custom events
+var receiveddata = null; // Variable to store data received from 'start' event
 
-const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "world",
-  password: "Mahesh@1802",
-  port: 4000,
+const app = express(); // Creating an Express application
+const server = createServer(app); // Creating an HTTP server using the Express app
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000", // Allowing CORS for the specified origin (frontend)
+    methods: ["GET", "POST"] // Allowing only GET and POST methods for CORS
+  }
 });
-db.connect();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+// Applying middleware to the Express app
 app.use(cors({
-  origin:"http://localhost:3000",
-  methods:["GET","POST"]
-}))
-// GET home page
-const question=[]
-app.get("/", async (req, res) => {
-    try{
-        const result = await db.query("SELECT question FROM quiz ");
-        // result.rows.forEach((i) => {
-        //   question.push(i.question)
-        //   console.log(i.question)
-        // });
-    }catch(err){
-        console.log(err)
-    }
-    // console.log(question[0])
+  origin: "http://localhost:3000", // Allowing CORS for the specified origin (frontend)
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"] // Allowing various HTTP methods for CORS
+}));
 
-});
-db.end()
+app.use(bodyParser.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
+app.use(bodyParser.json()); // Middleware to parse JSON bodies
 
-app.post('/added', async (req, res) => {
-  const receivedData1 = req.body.data;
-  console.log('Received data1:', receivedData1);
-  // Process the received data as needed
-  // Send back a response
-  res.status(200).send('Data received successfully1');
+// Defining a GET route at '/' which sends a simple response
+app.get('/', (req, res) => {
+  res.send("hello"); // Responding with a simple "hello" message
 });
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+// Defining a POST route at '/sendmessage'
+app.post('/sendmessage', (req, res) => {
+  const { message } = req.body; // Extracting the message from the request body
+  console.log("Received message:", message); // Logging the received message
+  io.emit('receive_message', message); // Emitting 'receive_message' event to all connected clients
+  res.status(200).send({ success: true }); // Sending a success response to the client
+});
+
+// Listening for socket connections
+io.on('connection', (socket) => {
+  console.log('a user connected', socket.id); // Logging when a user connects with their socket ID
+
+  // Listening for 'send_message' event from the client
+  socket.on('send_message', (data) => {
+    console.log("socket listening to:", data, socket.id); // Logging the received data and socket ID
+    // io.emit('receive_message', data, socket.id); // (Commented out) Broadcast the message to all clients
+  });
+
+  // Listening for 'start' event from the client
+  socket.on('Set', (data) => {
+    receiveddata = data; // Storing received data in the wider scope variable
+    eventemiter.emit('newData', data); // Emitting 'newData' event with the received data
+    console.log(`i got ${data}`); // Logging the received data
+    io.emit('permission',data)
+  });
+
+socket.on('send_name',(data)=>{
+console.log('send_name: ',data)
+})
+
+  console.log("newdata", receiveddata); // Logging the received data stored in the wider scope variable
+
+  // Listening for the disconnect event
+  socket.on('disconnect', () => {
+    console.log('user disconnected'); // Logging when a user disconnects
+  });
+});
+
+// Starting the server on port 8000
+server.listen(8000, () => {
+  console.log('server running at http://localhost:8000'); // Logging that the server is running
 });

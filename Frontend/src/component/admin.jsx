@@ -4,7 +4,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 
 
-const Clientlogin = () => {
+const Adminlogin = () => {
   const [roomId, setRoomId] = useState('');
   const [Username,setUsername]=useState('')
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Clientlogin = () => {
       toast.error("nikal lore username  nahi diya hai")
     }
     else if(roomId && Username){
-      navigate(`/Timer`,
+      navigate(`/Question`,
       {
         state:{
           Username
@@ -42,15 +42,16 @@ const Clientlogin = () => {
 
       <div className="formwapper">
         {/* <img className='logo' src="/EAGLE-logos_black.png" alt="Logo"/> */}
-        <h3>Client page</h3>
+        <h3>Admin page</h3>
         <h4 className='paste'>Paste Room ID</h4>
+        <h4>{roomId}  {Username}</h4>
 
         <div className='inputgroup'>
 
           <input
             type='text' 
             className='inputbox'
-            placeholder='Enter the room ID'
+            placeholder='Enter the Email Id'
             value={roomId} // Bind the input value to the roomId state
             onKeyUp={handelkey}
             onChange={(e) => setRoomId(e.target.value)} // Update roomId state on change
@@ -79,4 +80,4 @@ const Clientlogin = () => {
     </div>
   );
 };
-export default Clientlogin;
+export default Adminlogin;

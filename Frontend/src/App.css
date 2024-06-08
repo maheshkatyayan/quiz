@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lulo+Clean:wght@400&display=swap');
 body{
   background-color: #21222a;
 }
@@ -44,6 +45,19 @@ body{
     font-size: 14px;
     font-weight: bold;
     color: black;
+  }
+  .inputbox1{
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    margin-bottom: 14px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+  }
+  .createnewbtn{
+    color: #4aee88;
   }
   .btn{
     border: none;
@@ -103,3 +117,77 @@ body{
   .name1{
     margin: 10px;
   }
+  /* #nav{
+    background-color: #778d3f;
+    width: 100%;
+    height: 90px;
+  }
+  */
+  .font-lulo {
+    font-family: 'Lulo Clean', sans-serif;
+  }
+  
+  .text-base {
+    font-size: 17px;
+    font-weight: bold;
+    color: #4aee88;
+  }
+  /* buzzer */
+  .message-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .message-card {
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px;
+  }
+  
+  .message-list {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #e1f5fe;
+    border-radius: 5px;
+  }
+  
+  .message-input-container {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .message-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px 0 0 8px;
+    outline: none;
+  }
+  
+  .send-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #0288d1;
+    color: white;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .send-button:hover {
+    background-color: #0277bd;
+  }
+  

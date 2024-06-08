@@ -1,0 +1,40 @@
+ <div>
+      {isSwitchVisible && (
+        <label className="switch">
+          <input type="checkbox" onChange={handleSwitchToggle} />
+          <span className="slider"></span>
+        </label>
+      )}
+    </div>
+      //{just for fun
+  const SwitchComponent = () => {
+    const [variable, setVariable] = useState(0); // State to hold the variable value
+    const [isSwitchVisible, setIsSwitchVisible] = useState(false); // State to control switch visibility
+  
+    useEffect(() => {
+      // Listen for 'newData' event from the server
+      socket.on('permission', (data) => {
+        setVariable(data);
+      });
+  
+      // Clean up the socket connection when the component unmounts
+      return () => {
+        socket.off('newData');
+      };
+    }, []);
+  
+    useEffect(() => {
+      // Toggle switch visibility based on the variable value
+      if (variable === 1) {
+        setIsSwitchVisible(true);
+      } else {
+        setIsSwitchVisible(false);
+      }
+    }, [variable]);
+  
+    // Handler for the switch toggle
+    const handleSwitchToggle = () => {
+      // Handle switch toggle logic here
+      console.log('Switch toggled');
+    };
+    //just for fun}

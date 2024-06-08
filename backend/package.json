@@ -17,6 +17,7 @@
     "express": "^4.19.2",
     "pg": "^8.11.4",
     "postgre": "^0.1.8",
-    "postgresql": "^0.0.1"
+    "postgresql": "^0.0.1",
+    "socket.io": "^4.7.5"
   }
 }
