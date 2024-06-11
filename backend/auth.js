@@ -67,7 +67,7 @@ app.post("/addpassword", async (req, res) => {
   try {
     var hash = await bcrypt.hash(receivedData.password,salt);
     const result = await db.query("INSERT INTO auth(username,email,password_hash) VALUES ($1, $2, $3)", [
-      "sameera",
+      "mahesh",
       receivedData.email,
       hash,
     ]);
