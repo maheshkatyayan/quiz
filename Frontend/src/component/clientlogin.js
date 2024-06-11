@@ -24,18 +24,28 @@ const Clientlogin = () => {
         // Send the password and email to the server
        var data={email:email,password:password}
        console.log(data)
-        await axios.post("http://localhost:1000/loginpassword", { data });
-       // toast.success("Signed in successfully!");
+      const t1=  await axios.post("http://localhost:5000/loginpassword", { data },{ withCredentials: true });
+      //{ withCredentials: true } i spend whole day to resolve this thing
+      console.log(t1.data)
+      if(t1.data){
+        toast.success("Signed in successfully!");
+        navigate(`/home`,
+          {
+            state:{
+              password
+            },
+          })
+      }
+      else{
+        setemail('')
+        setpassword('')
+        toast.error("fail to login")
+      }
+       
       } catch (error) {
         console.error("Error Loging in:", error);
         toast.error("Failed to Log in. Please try again.");
       }
-      // navigate(`/Timer`,
-      // {
-      //   state:{
-      //     password
-      //   },
-      // })
       }
     }
 

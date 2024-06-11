@@ -10,10 +10,12 @@ const [state,dispatch]=useReducer(reducer,initialstate)
 let Api1="http://localhost:5000/getquestion"
 //console.log(state)
 const fetchApidata=async (url)=>{
-  try{
-const response1=await fetch(url);
-const data1=await response1.json();
-//console.log(data1)
+    try {
+      const response1 = await fetch(url, {
+        method: 'GET',
+        credentials: 'include', // This enables cookies to be sent with the request
+      });
+      const data1 = await response1.json();
 
 dispatch({
   type:"GET_Question",

@@ -1,62 +1,75 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import logo from '../imageeee/Club logo.JPG.png'; // Adjust the path according to your project structure
 
 const NavBar = () => {
-  const [showQuizDropdown, setShowQuizDropdown] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(false);
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
 
-  const toggleQuizDropdown = () => {
-    setShowQuizDropdown(!showQuizDropdown);
-  };
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/readtoken", { withCredentials: true });
+                console.log("response",response.data.token)
+                if (response.data.success) {
+                    setUser(true);
+                }
+            } catch (error) {
+                console.error("Error checking auth:", error);
+            }
+        };
+        checkAuth();
+    }, []);
 
-  const toggleoption = () => {
-    setSelectedOption(!selectedOption);
-  };
+    const handleClientLogin = () => {
+         navigate("/Clientlogin");
+    };
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
-    console.log(`Navigate to ${event.target.value}`);
-  };
+    const handleAdminLogin = () => {
+        navigate("/Adminlogin");
+    };
 
-  return (
-    <>
-    <nav className="bg-gray-800" id='nav'>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-        <div className=''>
-            <h6 className="font-lulo text-base">INQUIZITIVE</h6>
-          </div>
-          <div className="flex items-center">
-            <button className="text-white hover:text-gray-300" onClick={() => console.log("Navigate to Home")}>Home</button>
-            <div className="relative ml-4">
-            <button className="text-white hover:text-gray-300" onMouseEnter={toggleoption}>Event</button>
-            {selectedOption && (
-                <ul className="absolute z-10 mt-2 py-1 bg-gray-800 rounded-md shadow-lg">
-                  <li><button className="text-white hover:text-gray-300" onClick={() => console.log("Navigate to Buzzer Room")}>upcomming</button></li>
-                  <li><button className="text-white hover:text-gray-300" onClick={() => console.log("Navigate to MCQ Quiz")}>past</button></li>
-                </ul>
-              )}
-              </div>
-            <button className="ml-4 text-white hover:text-gray-300" onClick={() => console.log("Navigate to Members")}>Members</button>
-            <button className="ml-4 text-white hover:text-gray-300" onClick={() => console.log("Navigate to Posts")}>Posts</button>
-            <div className="relative ml-4">
-              <button className="text-white hover:text-gray-300" onMouseEnter={toggleQuizDropdown}>Quiz</button>
-              {showQuizDropdown && (
-                <ul className="absolute z-10 mt-2 py-1 bg-gray-800 rounded-md shadow-lg">
-                  <li><button className="text-white hover:text-gray-300" onClick={() => console.log("Navigate to Buzzer Room")}>Buzzer</button></li>
-                  <li><button className="text-white hover:text-gray-300" onClick={() => console.log("Navigate to MCQ Quiz")}>MCQ</button></li>
-                </ul>
-              )}
+    const handleQuizroom = () => {
+        navigate("/Timer");
+    };
+
+    const handleLogout = async () => {
+        try {
+            await axios.post("http://localhost:5000/logout", {}, { withCredentials: true });
+            setUser(null);
+            navigate("/home");
+        } catch (error) {
+            console.error("Error logging out:", error);
+        }
+    };
+
+    return (
+        <nav className="navbar">
+            <div className="navbar-logo">
+                <img src={logo} alt="InQuizitive Logo" />
+                <div className="logo-text">
+                    <span className="main-title">InQuizitive</span>
+                    <span className="subtitle">IIIT Dharwad</span>
+                </div>
             </div>
-            <button className="ml-4 text-white hover:text-gray-300" onClick={() => console.log("Navigate to Guide")}>Guide</button>
-            <button className="ml-4 text-white hover:text-gray-300" onClick={() => console.log("Navigate to About Us")}>About Us</button>
-          </div>
-        </div>
-      </div>
-      
-    </nav>
-    </>
-  );
-}
+            <ul className="navbar-links">
+                <li><button onClick={() => window.location.href = '#gettoknowus'}>Get To Know Us</button></li>
+                <li><button onClick={() => window.location.href = '#halloffame'}>Hall Of Fame</button></li>
+                <li><button onClick={handleQuizroom}>Quiz room</button></li>
+                <li><button onClick={handleAdminLogin}>Admin</button></li>
+                <li><button onClick={() => window.location.href = '#myprofile'}>My Profile</button></li>
+                {user ? (
+                    <li className="profile-section">
+                        <span>{user.email}</span>
+                        <button onClick={handleLogout}>Logout</button>
+                    </li>
+                ) : (
+                    <li><button className="login-btn" onClick={handleClientLogin}>Login/SignUp</button></li>
+                )}
+            </ul>
+        </nav>
+    );
+};
 
 export default NavBar;
