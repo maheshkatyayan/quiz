@@ -2,40 +2,46 @@ import { v4 } from 'uuid';
 import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 
 const Clientlogin = () => {
-  const [roomId, setRoomId] = useState('');
-  const [Username,setUsername]=useState('');
+  const [email, setemail] = useState('');
+  const [password,setpassword]=useState('');
   
   const navigate = useNavigate();
 
-  const createNewRoom = (e) => {
-    e.preventDefault();
-    // const id = v4();
-    // setRoomId(id); // Update the roomId state with the newly created ID
-    // toast.success('tu ne room create kyu kiya.');
-    // setUsername('')
+  const createNewSignIn = (e) => {
     navigate(`/sign`)
   };
 
-  const Join=(e)=>{
-    if(!roomId || !Username){
-      toast.error("nikal lore username  nahi diya hai")
+  const LogIn=async (e)=>{
+    if(!email || !password){
+      toast.error("nikal  password  nahi diya hai")
     }
-    else if(roomId && Username){
-      navigate(`/Timer`,
-      {
-        state:{
-          Username
-        },
-      })
+    else if(email && password){
+      try {
+        // Send the password and email to the server
+       var data={email:email,password:password}
+       console.log(data)
+        await axios.post("http://localhost:1000/loginpassword", { data });
+       // toast.success("Signed in successfully!");
+      } catch (error) {
+        console.error("Error Loging in:", error);
+        toast.error("Failed to Log in. Please try again.");
+      }
+      // navigate(`/Timer`,
+      // {
+      //   state:{
+      //     password
+      //   },
+      // })
       }
     }
 
   const handelkey=(e)=>{
     if(e.code==="Enter"){
-      Join()
+      LogIn()
     }
   }
 
@@ -53,24 +59,24 @@ const Clientlogin = () => {
             type='text' 
             className='inputbox1'
             placeholder='Enter the Email ID'
-            value={roomId} // Bind the input value to the roomId state
+            value={email} // Bind the input value to the email state
             onKeyUp={handelkey}
-            onChange={(e) => setRoomId(e.target.value)} // Update roomId state on change
+            onChange={(e) => setemail(e.target.value)} // Update email state on change
           />
           <input
             type='text' 
             className='inputbox'
             placeholder='Password' 
-            value={Username}
+            value={password}
             onKeyUp={handelkey}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setpassword(e.target.value)}
           />
 
-          <button className='btn' id='Join' onClick={Join}>Login</button>
+          <button className='btn' id='Join' onClick={LogIn}>Login</button>
 
           <span className='span'>If you don't have an id, click &nbsp;
           <Toaster />
-            <a href='#' className='createnewbtn' onClick={createNewRoom}>sign in</a>
+            <a href='#' className='createnewbtn' onClick={createNewSignIn}>sign in</a>
           </span>
 
 

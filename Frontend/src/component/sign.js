@@ -36,7 +36,7 @@ const Sign = () => {
 
     try {
       // Send the data to the server
-      await axios.post("http://localhost:5000/addpassword", { data });
+      await axios.post("http://localhost:1000/addpassword", { data });
       toast.success("Signed in successfully!");
       // Navigate to the next page if needed
       // navigate("/nextPage");

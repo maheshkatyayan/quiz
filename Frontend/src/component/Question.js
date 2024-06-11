@@ -60,6 +60,7 @@ const Question = () => {
     setShowImageInput(true); // Show image input when add image button is clicked
   };
 
+
   // Handler for removing the image input
   const handleRemoveimage = () => {
     setShowImageInput(false); // Hide image input when delete image button is clicked
@@ -108,7 +109,7 @@ const Question = () => {
             {/* Conditionally render image input if showImageInput state is true */}
             {showImageInput && (
               <> 
-                <input type="text" id="imgsrc" value={imgsrc} onChange={handleimgsrc}/>
+                <input type="file" id="imgsrc" value={imgsrc} onChange={handleimgsrc}/>
                 {/* Button to remove image input */}
                 <button onClick={handleRemoveimage}><FaDeleteLeft /></button>
               </>
@@ -191,7 +192,7 @@ const Question = () => {
       </div>
       <input type="text" id="answer" value={Answer} onChange={handleAnswer}/>
       {/* Button to finalize and submit the question */}
-      <button onClick={handeleFinalquestion}>ADD question</button>
+      <button onClick={handeleFinalquestion}>ADD question</button><br></br>
     </div>
   );
 };
