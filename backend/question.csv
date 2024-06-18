@@ -1,11 +1,5 @@
-question,options1,options2,options3,options4,answer,discription,image
-What is the capital of France?,Paris,London,Berlin,Madrid,Paris,"Paris is the capital and largest city of France.",https://i1.wp.com/beautifulplacestovisit.com/wp-content/uploads/2011/05/Tour_eiffel_paris-eiffel_tower.jpg
-Who wrote "Hamlet"?,William Shakespeare,Charles Dickens,Jane Austen,Leo Tolstoy,William Shakespeare,"Hamlet" was written by William Shakespeare.,https://tse3.mm.bing.net/th?id=OIP.3oeW0zaj7rmvi362IjKvrAHaHa&pid=Api&P=0&h=180
-What is the chemical symbol for water?,H2O,CO2,NaCl,O2,H2O,The chemical symbol for water is H2O.,https://example.com/water.jpg
-Which planet is known as the Red Planet?,Mars,Venus,Jupiter,Saturn,Mars,Mars is known as the Red Planet due to its reddish appearance.,https://example.com/mars.jpg
-What is the largest mammal in the world?,Blue Whale,Elephant,Giraffe,Rhino,Blue Whale,The Blue Whale is the largest mammal in the world.,https://example.com/blue_whale.jpg
-Who painted the Mona Lisa?,Leonardo da Vinci,Vincent van Gogh,Pablo Picasso,Claude Monet,Leonardo da Vinci,The Mona Lisa was painted by Leonardo da Vinci.,https://example.com/mona_lisa.jpg
-What is the powerhouse of the cell?,Mitochondria,Nucleus,Ribosome,Golgi Apparatus,Mitochondria,The powerhouse of the cell is the mitochondria.,https://example.com/mitochondria.jpg
-Who is the author of "The Great Gatsby"?,F. Scott Fitzgerald,Ernest Hemingway,Mark Twain,John Steinbeck,F. Scott Fitzgerald,"The Great Gatsby" was written by F. Scott Fitzgerald.,https://example.com/great_gatsby.jpg
-What is the tallest mountain in the world?,Mount Everest,K2,Kangchenjunga,Lhotse,Mount Everest,Mount Everest is the tallest mountain in the world.,https://example.com/everest.jpg
-What is the chemical formula for table salt?,NaCl,H2O,CO2,O2,NaCl,The chemical formula for table salt is NaCl.,https://example.com/salt.jpg
+question_id,question,options1,options2,options3,options4,answer,discription,image
+1,What is the capital of France?,Paris,London,Berlin,Madrid,Paris,"Paris is the capital and largest city of France.",https://i1.wp.com/beautifulplacestovisit.com/wp-content/uploads/2011/05/Tour_eiffel_paris-eiffel_tower.jpg
+2,Who wrote "Hamlet"?,William Shakespeare,Charles Dickens,Jane Austen,Leo Tolstoy,William Shakespeare,"Hamlet" was written by William Shakespeare.,https://tse3.mm.bing.net/th?id=OIP.3oeW0zaj7rmvi362IjKvrAHaHa&pid=Api&P=0&h=180
+3,What is the chemical symbol for water?,H2O,CO2,NaCl,O2,H2O,The chemical symbol for water is H2O.,https://wallpaperset.com/w/full/a/6/d/54131.jpg
+4,Which planet is known as the Red Planet?,Mars,Venus,Jupiter,Saturn,Mars is known as the Red Planet due to its reddish appearance.,https://wallpaperaccess.com/full/4031989.jpg

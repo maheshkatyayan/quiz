@@ -11,23 +11,27 @@ const Adminlogin = () => {
 
   const createNewRoom = (e) => {
     e.preventDefault();
-    const id = v4();
+    const id = 9199081035;
     setRoomId(id); // Update the roomId state with the newly created ID
-    toast.success('tu ne room create kyu kiya.');
+    toast.success('welcome to your room');
     setUsername('')
   };
 
   const Join=(e)=>{
     if(!roomId || !Username){
-      toast.error("nikal lore username  nahi diya hai")
+      toast.error("pls enter username")
     }
     else if(roomId && Username){
-      navigate(`/Question`,
-      {
-        state:{
-          Username
-        },
-      })
+      if(Username==='mahesh' && roomId==='91990')
+      navigate(`/Controlpage`,
+        {
+          state:{
+            Username
+          },
+        })
+      }
+      else{
+        toast.error("pls enter right username and key ")
       }
     }
 
@@ -43,15 +47,13 @@ const Adminlogin = () => {
       <div className="formwapper">
         {/* <img className='logo' src="/EAGLE-logos_black.png" alt="Logo"/> */}
         <h3>Admin page</h3>
-        <h4 className='paste'>Paste Room ID</h4>
-        <h4>{roomId}  {Username}</h4>
 
         <div className='inputgroup'>
 
           <input
             type='text' 
             className='inputbox'
-            placeholder='Enter the Email Id'
+            placeholder='Enter the Room Key'
             value={roomId} // Bind the input value to the roomId state
             onKeyUp={handelkey}
             onChange={(e) => setRoomId(e.target.value)} // Update roomId state on change
@@ -67,9 +69,9 @@ const Adminlogin = () => {
 
           <button className='btn' id='Join' onClick={Join}>Join</button>
 
-          <span className='span'>If you don't have an ID, create &nbsp;
+          <span className='span'>If you don't have an Key, create &nbsp;
           <Toaster />
-            <a href='#' className='createnewbtn' onClick={createNewRoom}>new room</a>
+            <a href='#' className='createnewbtn' onClick={createNewRoom}>new room Key</a>
           </span>
 
 

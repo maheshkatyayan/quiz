@@ -19,7 +19,6 @@ function Home() {
     <div>
     <Nav />
       <button onClick={handelbuzzer}>buzzer</button><br></br>
-      <button onClick={handeladminebuzzer}>Admine-buzzer</button>
     </div>
   )
 }
