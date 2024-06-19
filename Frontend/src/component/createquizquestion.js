@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 import { useGlobalcontext } from './contex.js';
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import axios from 'axios';
 
 const Createquizquestion = () => {
   const { question } = useGlobalcontext();
   const [myArray, setMyArray] = useState([]);
-  const [marks, setMarks] = useState(0);
+  const [question_id, setquestionid] = useState();
 
   // Function to handle updates (to be implemented)
-  const handelupdate = () => {
-    console.log("Update function not yet implemented.");
+  const handelupdate = (question_id) => {
+    console.log("Update function not yet implemented.",question_id);
   };
 
   // Function to handle deletions (to be implemented)
-  const handeldelete = () => {
-    console.log("Delete function not yet implemented.");
+  const handeldelete = async(question_id) => {
+    //we can use delete
+   const data={question_id}
+    await axios.post("http://localhost:5000/delete",data)
+    console.log("Delete function not yet implemented.",question_id);
     
   };
 
@@ -30,9 +34,10 @@ const Createquizquestion = () => {
     <>
       <div className='container mx-auto p-6'>
         {question.map((item) => {
-          const { question_id, question, options1, options2, options3, options4, answer, discription, image,file_type,file_url} = item;
+          const { question_id, question, options1, options2, options3, options4, answer, discription, image,file_type,file_url,quizname} = item;
           return (
             <div key={question_id} className='bg-white p-4 rounded-lg shadow-md mb-6'>
+            <h4>{quizname}</h4>
               <h2 className='text-xl font-bold mb-2'>{question_id}. {question}</h2>
               {image && (
                 <img
@@ -96,10 +101,10 @@ const Createquizquestion = () => {
                 )}
               </div>
               <div className='flex justify-end space-x-4'>
-                <button onClick={handelupdate} className='flex items-center text-blue-500 hover:text-blue-700'>
+                <button onClick={()=>handelupdate(question_id)} className='flex items-center text-blue-500 hover:text-blue-700'>
                   <FaEdit className='mr-1' /> Edit
                 </button>
-                <button onClick={handeldelete} className='flex items-center text-red-500 hover:text-red-700'>
+                <button onClick={()=> handeldelete(question_id)} className='flex items-center text-red-500 hover:text-red-700'>
                   <FaTrashAlt className='mr-1' /> Delete
                 </button>
               </div>

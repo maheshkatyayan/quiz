@@ -23,7 +23,7 @@ const Adminlogin = () => {
     }
     else if(roomId && Username){
       if(Username==='mahesh' && roomId==='91990')
-      navigate(`/Controlpage`,
+      navigate(`/Dashboard`,
         {
           state:{
             Username

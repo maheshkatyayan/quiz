@@ -29,7 +29,7 @@ app.use(cors({
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: '' });
 
 
 // Database configuration
@@ -63,22 +63,11 @@ const firebaseConfig = {
 
   const firebaseApp = initializeApp(firebaseConfig);
 
-var testname;
-console.log("test",testname)
-app.post("/addquizname",async(req,res)=>{
-  try{
-    testname=req.body.data
-    console.log(testname)
-    res.status(200).send('name successfully added');
-  }catch(e){
-    console.log(e)
-    res.status(500).json({ error: "Failed to add name" });
-  }
-})
 
 // Route to add a question
 app.post("/addquestion", async (req, res) => {
   const receivedData1 = req.body.data;
+  console.log(receivedData1)
   try {
     const result = await db.query('SELECT question_id FROM quiz_question WHERE question_id=$1',[receivedData1.questionId]);
     if(result.rows.length===0){
@@ -94,7 +83,7 @@ app.post("/addquestion", async (req, res) => {
       receivedData1.answer,
       receivedData1.description,
       receivedData1.imgSrc,
-      testname,
+      receivedData1.quizName,
       receivedData1.questionId
     ]);
     res.status(200).send('Data updated successfully');
@@ -106,16 +95,61 @@ app.post("/addquestion", async (req, res) => {
 
 
 // Route to get all questions
-app.get("/getquestion", async (req, res) => {
-  try {
-    const result = await db.query('SELECT * FROM quiz_question');
-   // console.log(result.rows);
-    res.json(result.rows);
-  } catch (err) {
+// app.get("/getquestion", async (req, res) => {
+//   try {
+//     const result = await db.query('SELECT * FROM quiz_question');
+//     console.log(result.rows)
+//     res.send(result.rows)
+//     res.status(200).send('Data updated successfully');
+//   } catch (err) {
+//     console.error('Error getting questions:', err);
+//     res.status(500).json({ error: 'Failed to get questions' });
+//   }
+// });
+
+app.post("/delete",async(req,res)=>{
+  console.log(req.body.question_id)
+  try{
+    await db.query("DELETE FROM quiz_question WHERE question_id=$1",[req.body.question_id])
+    res.status(200).send('Data updated successfully');
+  }catch (err) {
     console.error('Error getting questions:', err);
     res.status(500).json({ error: 'Failed to get questions' });
   }
-});
+})
+
+
+app.post("/addquizname",async(req,res)=>{
+console.log(req.body.data.name);
+await db.query("INSERT INTO quiz_setup(name) VALUES ($1)", [req.body.data.name]);
+})
+
+app.post("/addSaveTimer",async(req,res)=>{
+  const receivedData=req.body
+  console.log(receivedData)
+  await db.query("UPDATE quiz_setup SET time=$1, date=$2 WHERE name=$3",[receivedData.quizTime,receivedData.quizDate,receivedData.saveTimerquizname])
+  res.send(req.body)
+})
+app.get("/getSaveTimer",async(req,res)=>{
+ try{
+  const result= await db.query("SELECT * FROM quiz_setup");
+  console.log(result.rows)
+  res.send(result.rows)
+} catch (err) {
+  console.error('Error getting questions:', err);
+  res.status(500).json({ error: 'Failed to get questions' });
+}
+})
+
+app.post("/delete_quiz_setup",async(req,res)=>{
+  console.log(req.body)
+  try{
+    await db.query("DELETE FROM quiz_setup WHERE name=$1",[req.body.data])
+} catch (err) {
+    console.error('Error getting questions:', err);
+    res.status(500).json({ error: 'Failed to get questions' });
+  }
+})
 
 
 app.get("/readtoken", (req, res) => {
@@ -124,6 +158,55 @@ app.get("/readtoken", (req, res) => {
     return res.status(401).json({ error: 'No token provided' });
   } else {
     res.json({ success: true, token: token });
+  }
+});
+
+
+// Audio file upload and retrieval
+//storage in multer
+
+app.post('/upload', upload.single('file'), async (req, res) => {
+  const file = req.file;
+  const mediaType=req.body.mediaType;
+  const questionId=req.body.questionId;
+  console.log(questionId)
+  var fileUrl;
+  if (!file) {
+    return res.status(400).send('No file uploaded.');
+  }
+  try {
+    // Read the file and convert it to a buffer
+    const fileBuffer = fs.readFileSync(file.path);
+    // Firebase storage reference
+     const storage = getStorage();
+    if(mediaType==='image'){
+      console.log("image")
+     const storageRef = ref(storage, `image/${file.originalname}`);
+     await uploadBytes(storageRef, fileBuffer);
+     fileUrl = await getDownloadURL(storageRef);
+    }
+    else if(mediaType==='audio'){
+    console.log("audio")
+    const storageRef = ref(storage, `audio/${file.originalname}`);
+    await uploadBytes(storageRef, fileBuffer);
+    fileUrl = await getDownloadURL(storageRef);
+    }
+    else if(mediaType==='video'){
+      const storageRef = ref(storage, `video/${file.originalname}`);
+     await uploadBytes(storageRef, fileBuffer);
+     fileUrl = await getDownloadURL(storageRef);
+    }
+    console.log("file",fileUrl)
+    // Insert file reference into the database
+    await db.query('INSERT INTO quiz_question(question_id,file_type,file_url) VALUES ($1, $2,$3)', [questionId,mediaType,fileUrl]);
+    // Clean up the uploaded file
+    fs.unlinkSync(file.path);
+
+    res.status(200).json({ message: 'File uploaded successfully.' });// getting error
+    //file ko gip me kar ke save kar sakte hai
+  } catch (err) {
+    console.error('Error uploading file:', err);
+    res.status(500).send('Error uploading file.');
   }
 });
 
@@ -183,57 +266,6 @@ app.post("/logout", (req, res) => {
   console.log("logout successful");
 });
 
-
-// Audio file upload and retrieval
-//storage in multer
-
-app.post('/upload', upload.single('file'), async (req, res) => {
-  const file = req.file;
-  const mediaType=req.body.mediaType;
-  const questionId=req.body.questionId;
-  console.log(questionId)
-  var fileUrl;
-  if (!file) {
-    return res.status(400).send('No file uploaded.');
-  }
-  try {
-    // Read the file and convert it to a buffer
-    const fileBuffer = fs.readFileSync(file.path);
-    // Firebase storage reference
-     const storage = getStorage();
-    if(mediaType==='image'){
-      console.log("image")
-     const storageRef = ref(storage, `image/${file.originalname}`);
-     await uploadBytes(storageRef, fileBuffer);
-     fileUrl = await getDownloadURL(storageRef);
-    }
-    else if(mediaType==='audio'){
-    console.log("audio")
-    const storageRef = ref(storage, `audio/${file.originalname}`);
-    await uploadBytes(storageRef, fileBuffer);
-    fileUrl = await getDownloadURL(storageRef);
-    }
-    else if(mediaType==='video'){
-      const storageRef = ref(storage, `video/${file.originalname}`);
-     await uploadBytes(storageRef, fileBuffer);
-     fileUrl = await getDownloadURL(storageRef);
-    }
-    console.log("file",fileUrl)
-    // Insert file reference into the database
-    await db.query('INSERT INTO quiz_question(question_id,file_type,file_url) VALUES ($1, $2,$3)', [questionId,mediaType,fileUrl]);
-    // Clean up the uploaded file
-    fs.unlinkSync(file.path);
-
-    res.status(200).json({ message: 'File uploaded successfully.' });// getting error
-    //file ko gip me kar ke save kar sakte hai
-  } catch (err) {
-    console.error('Error uploading file:', err);
-    res.status(500).send('Error uploading file.');
-  }
-});
-
-
-
 // Start the server
 app.listen(port, () => {
   console.log(`Backend is running on http://localhost:${port}`);
@@ -241,7 +273,8 @@ app.listen(port, () => {
 
 // Database table creation for reference
 // CREATE TABLE quiz_question (
-//   question_id INT UNIQUE ,
+// id serial primary key,
+//   question_id INT ,
 //   question VARCHAR(400) ,
 //   options1 VARCHAR(100) ,
 //   options2 VARCHAR(100) ,
@@ -251,7 +284,7 @@ app.listen(port, () => {
 //   description VARCHAR(400),
 //   image TEXT,
 //   quizname VARCHAR(40),
-//   file_name VARCHAR(255),
+//   file_type VARCHAR(255),
 //   file_url TEXT
 // );
 
@@ -262,6 +295,13 @@ app.listen(port, () => {
 // email varchar(255),
 // password_hash varchar(255)
 // );
+
+// CREATE TABLE Quiz_setup(
+//   id serial primary key,
+//   name varchar(255),
+//   time TIME,
+//   date DATE
+//   );
 
 // import express from "express";
 // import bodyParser from "body-parser";

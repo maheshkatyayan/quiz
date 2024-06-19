@@ -26,13 +26,13 @@ const MessagePage = () => {
     socket.on('permission', (data) => {
       console.log("got the permission");
       setIsSwitchVisible(true);
-      toast.success('Permission granted'); // Added success toast for permission
+      toast.success('Permission granted');
     });
 
     socket.on('arraydata', (data) => {
       console.log("array wala data", data);
       setArrayData(data);
-      toast.success(`First click by ${data[0]}`); // Added error toast for array data
+      toast.success(`First click by ${data[0]}`);
       console.log(`Buzzer first click by ${data[0]}`);
     });
 
@@ -54,10 +54,10 @@ const MessagePage = () => {
         socket.emit('send_message', newMessage);
         setMessages([...messages, newMessage]);
         setNewMessage('');
-        toast.success('Message sent successfully'); // Added success toast for message sent
+        toast.success('Message sent successfully');
       } catch (e) {
         console.log(e);
-        toast.error('Failed to send message'); // Added error toast for message failure
+        toast.error('Failed to send message');
       }
     }
   };
@@ -79,57 +79,75 @@ const MessagePage = () => {
       await axios.post('http://localhost:8000/sendmessage', messageData);
       socket.emit('send_message', currentTime);
       setMessages([...messages, currentTime]);
-      toast.success('Switch toggled and message sent'); // Added success toast for switch toggle and message sent
+      toast.success('Switch toggled and message sent');
     } catch (e) {
       console.log(e);
-      toast.error('Failed to toggle switch and send message'); // Added error toast for switch toggle and message failure
+      toast.error('Failed to toggle switch and send message');
     }
   };
 
   // Handler for team name input
   const handleTeamName = () => {
     setIsNameVisible(false);
-    toast.success(`Team name set to ${teamName}`); // Added success toast for team name set
+    toast.success(`Team name set to ${teamName}`);
   }
 
   return (
-    <>
-      <div className="message-page">
+    <div className="min-h-screen bg-customDark p-4">
+      <div className="message-page max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
         <div className="message-card">
-          <div className="message-list">
-            {messages.map((message, index) => (
-              <div key={index} className="message">
-                {message}
+          <div className="message-list space-y-4">
+            {arrayData.map((team, index) => (
+              <div key={index} className="bg-gray-200 p-4 rounded-lg shadow-md">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold">{team}</h3>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-gray-600">Points:</span>
+                    <input
+                      type="number"
+                      className="w-16 border border-gray-300 rounded p-1 text-center"
+                      placeholder="0"
+                    />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="message-input-container">
+        <div className="message-input-container mt-6">
           {isNameVisible && (
-            <div>
+            <div className="flex items-center space-x-2">
               <input
                 type="text"
-                className="message-input"
+                className="message-input border border-gray-300 p-2 rounded flex-grow"
                 placeholder='Enter team name'
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
               />
-              <button className="send-button" onClick={handleTeamName}>
+              <button
+                className="send-button bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                onClick={handleTeamName}
+              >
                 Send
               </button>
             </div>
           )}
         </div>
-      </div>
 
-      <div>
-        {isSwitchVisible && (
-          <button className="time-button" onClick={handleSwitchToggle}>hello</button>
-        )}
+        <div className="mt-6">
+          {isSwitchVisible && (
+            <button
+              className="time-button bg-green-500 text-white p-2 rounded hover:bg-green-600"
+              onClick={handleSwitchToggle}
+            >
+              Buzzer
+            </button>
+          )}
+        </div>
+        <Toaster /> {/* Toaster component for displaying toast notifications */}
       </div>
-      <Toaster /> {/* Toaster component for displaying toast notifications */}
-    </>
+    </div>
   );
 };
 

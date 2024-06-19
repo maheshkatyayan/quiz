@@ -11,7 +11,7 @@ import Buzzer from "./component/buzzer.js"
 import Adminebuzzer from "./component/adminebuzzer.js";
 import Notlogin from "./component/notlogin.js";
 import Createquizquestion from "./component/createquizquestion.js"
-import Controlpage from './component/controlpage.js'
+import Dashboard from './component/Dashboard.js'
 
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
          path="/CreatequizQuestiondemo" element={<Createquizquestion/>}
         ></Route>
         <Route 
-         path="/Controlpage" element={<Controlpage/>}
+         path="/Dashboard" element={<Dashboard/>}
         ></Route>
         </Routes>
       </BrowserRouter>

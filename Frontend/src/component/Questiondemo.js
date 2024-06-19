@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IoMdAddCircle, IoMdAdd } from "react-icons/io";
-import { FaDeleteLeft } from "react-icons/fa6";
+import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import axios from "axios";
 import Nav from './Nav.js';
 import toast, { Toaster } from 'react-hot-toast';
@@ -19,11 +19,11 @@ const Questiondemo = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedMediaType, setSelectedMediaType] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadsection, setUploadsection] = useState(true);
+  const [uploadSection, setUploadSection] = useState(true);
+  const [showQuizName, setShowQuizName] = useState(true);
+  const [quizName, setQuizName] = useState('');
 
-  const handleQuestionChange = (e) => {
-    setQuestion(e.target.value);
-  };
+  const handleQuestionChange = (e) => setQuestion(e.target.value);
 
   const handleOptionChange = (index, value) => {
     const newOptions = [...options];
@@ -31,94 +31,67 @@ const Questiondemo = () => {
     setOptions(newOptions);
   };
 
-  const handleAddOption = () => {
-    const newOptions = [...options, ''];
-    setOptions(newOptions);
-  };
+  const handleAddOption = () => setOptions([...options, '']);
 
-  const handleRemoveOption = (index) => {
-    const newOptions = [...options];
-    newOptions.splice(index, 1);
-    setOptions(newOptions);
-  };
+  const handleRemoveOption = (index) => setOptions(options.filter((_, i) => i !== index));
 
   const handleFinalQuestion = async () => {
-    if(questionId){
-    const data = { questionId, question, options, description, imgSrc, answer };
-    console.log(data);
-    try {
-      const responsesend = await axios.post("http://localhost:5000/addquestion", { data });
-      //response galat aaya to kuch display kara do
-      console.log("resadd", responsesend.status);
-      if (responsesend.status === 200) {
-        // Clear all inputs if the response is successful
-        setQuestion('');
-        setQuestionID('');
-        setOptions(['']);
-        setDescription('');
-        setImgSrc('');
-        setAnswer('');
-        setShowImageInput(false);
-        setShowDescriptionInput(false);
-        toast.success("Question added successfully!");
-      } else {
-        toast.error("Something went wrong!");
+    if(!questionId || !question || !quizName || !answer){
+      toast.error("pls fill all input")
+    } else{
+      const data = { questionId, question, options, description, imgSrc, answer, quizName };
+      console.log(data);
+      try {
+        const response = await axios.post("http://localhost:5000/addquestion", { data });
+        if (response.status === 200) {
+          setQuestion('');
+          setQuestionID('');
+          setOptions(['']);
+          setDescription('');
+          setImgSrc('');
+          setAnswer('');
+          setShowImageInput(false);
+          setShowDescriptionInput(false);
+          toast.success("Question added successfully!");
+        } else {
+          toast.error("Something went wrong!");
+        }
+      } catch (e) {
+        console.log(e);
+        toast.error("Failed to add question!");
       }
-    } catch (e) {
-      console.log(e);
-      toast.error("Failed to add question!");
-    }
-  }
-  else{
-    toast.error("pls enter question id!");
-  }
+    } 
   };
 
-  const handleAddImageClick = () => {
-    setShowImageInput(true);
-  };
+  const handleAddImageClick = () => setShowImageInput(true);
 
-  const handleRemoveImage = () => {
-    setShowImageInput(false);
-  };
+  const handleRemoveImage = () => setShowImageInput(false);
 
-  const handleAddDescriptionClick = () => {
-    setShowDescriptionInput(true);
-  };
+  const handleAddDescriptionClick = () => setShowDescriptionInput(true);
 
-  const handleRemoveDescription = () => {
-    setShowDescriptionInput(false);
-  };
+  const handleRemoveDescription = () => setShowDescriptionInput(false);
 
-  const handleImgSrcChange = (e) => {
-    setImgSrc(e.target.value);
-  };
+  const handleImgSrcChange = (e) => setImgSrc(e.target.value);
 
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
+  const handleDescriptionChange = (e) => setDescription(e.target.value);
 
-  const handleAnswerChange = (e) => {
-    setAnswer(e.target.value);
-  };
+  const handleAnswerChange = (e) => setAnswer(e.target.value);
 
-  const handleTypeSelect = (type) => {
-    setQuestionType(type);
-    setDropdownVisible(false);
-  };
 
   const handleMediaTypeChange = (e) => {
     setSelectedMediaType(e.target.value);
     setSelectedFile(null);
   };
 
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
+  const handleFileChange = (e) => setSelectedFile(e.target.files[0]);
 
-  const handleQuestionIdChange = (e) => {
-    setQuestionID(e.target.value);
-  };
+  const handleQuestionIdChange = (e) => setQuestionID(e.target.value);
+
+  const handleQuizNameChange = (e) => setQuizName(e.target.value);
+
+  const handleShowQuizName = () => setShowQuizName(false);
+
+  const handleEditQuizName = () => setShowQuizName(true);
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -129,17 +102,15 @@ const Questiondemo = () => {
       formData.append('questionId', questionId);
 
       try {
-        const responsesend = await axios.post("http://localhost:5000/upload", formData, {
+        const response = await axios.post("http://localhost:5000/upload", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
-        console.log("res", responsesend.status);
-        if (responsesend.status === 200) {
-          setUploadsection(false)
+        if (response.status === 200) {
+          setUploadSection(false);
           toast.success("File uploaded successfully!");
         } else {
           toast.error("Something went wrong!");
         }
-        console.log("Upload successful", formData);
       } catch (error) {
         console.log("Error uploading file:", error);
         toast.error("Failed to upload file!");
@@ -153,54 +124,77 @@ const Questiondemo = () => {
     <>
       <Nav />
       <div className="card p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4 mt-8">
-        <div>
-          <div className="flex flex-col space-y-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg space-y-4">
+          {showQuizName ? (
             <div>
-              <label htmlFor="questionId" className="block text-gray-700 font-semibold mb-2">Question ID:</label>
+              <label className="block text-gray-700 font-semibold mb-2">Quiz Name</label>
               <input
                 type="text"
-                id="questionId"
-                className="form-control border border-gray-300 p-2 rounded-md w-full"
-                value={questionId}
-                onChange={handleQuestionIdChange}
+                className="border border-gray-300 p-2 rounded-md w-full"
+                value={quizName}
+                onChange={handleQuizNameChange}
               />
-            </div>
-            <div>
-              <label htmlFor="question" className="block text-gray-700 font-semibold mb-2">Question:</label>
-              <input
-                type="text"
-                id="question"
-                className="form-control border border-gray-300 p-2 rounded-md w-full"
-                value={question}
-                onChange={handleQuestionChange}
-              />
-            </div>
-            <div>
-              <button onClick={handleAddImageClick} className="flex items-center text-blue-500">
-                Click here to add image <IoMdAdd className="ml-1" />
+              <button onClick={handleShowQuizName} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Add Quiz Name
               </button>
-              {showImageInput && (
-                <div className="flex items-center space-x-2 mt-2">
-                  <input
-                    type="text"
-                    id="imgSrc"
-                    placeholder='Enter image address'
-                    value={imgSrc}
-                    onChange={handleImgSrcChange}
-                    className="form-control border border-gray-300 p-2 rounded-md w-full"
-                  />
-                  <button onClick={handleRemoveImage} className="text-red-500"><FaDeleteLeft /></button>
-                </div>
-              )}
             </div>
+          ) : (
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold">QuizName:   {quizName}</h2>
+              <button onClick={handleEditQuizName} className="text-blue-500 hover:underline flex items-center">
+                Edit <FaEdit className="ml-1" />
+              </button>
+            </div>
+          )}
 
-       {uploadsection && <div className="flex flex-col items-center p-4 bg-gray-100 rounded-lg shadow-md mt-8 w-full">
-              <label htmlFor="mediaType" className="text-lg font-semibold mb-2">Select Media Type:</label>
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Question ID</label>
+            <input
+              type="text"
+              className="border border-gray-300 p-2 rounded-md w-full"
+              placeholder='only enter integer'
+              value={questionId}
+              onChange={handleQuestionIdChange}
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Question</label>
+            <input
+              type="text"
+              className="border border-gray-300 p-2 rounded-md w-full"
+              value={question}
+              onChange={handleQuestionChange}
+            />
+          </div>
+
+          <div className="mt-4">
+            <button onClick={handleAddImageClick} className="text-blue-500 hover:underline flex items-center">
+              Click here to add image <IoMdAdd className="ml-1" />
+            </button>
+            {showImageInput && (
+              <div className="flex items-center space-x-2 mt-2">
+                <input
+                  type="text"
+                  placeholder='Enter image address'
+                  value={imgSrc}
+                  onChange={handleImgSrcChange}
+                  className="border border-gray-300 p-2 rounded-md w-full"
+                />
+                <button onClick={handleRemoveImage} className="text-red-500">
+                  <FaTrashAlt />
+                </button>
+              </div>
+            )}
+          </div>
+
+          {uploadSection && (
+            <div className="bg-gray-100 p-4 rounded-lg shadow-md mt-8 w-full">
+              <label className="block text-gray-700 font-semibold mb-2">Select Media Type</label>
               <select
-                id="mediaType"
                 value={selectedMediaType}
                 onChange={handleMediaTypeChange}
-                className="mb-4 p-2 border border-gray-300 rounded w-full"
+                className="border border-gray-300 p-2 rounded-md w-full"
               >
                 <option value="">-- Select --</option>
                 <option value="image">Image</option>
@@ -209,142 +203,85 @@ const Questiondemo = () => {
               </select>
 
               {selectedMediaType && (
-                <div className="mb-4 w-full">
-                  <form>
-                    <label htmlFor="mediaFile" className="text-lg font-semibold mb-2">Upload {selectedMediaType}:</label>
-                    <input
-                      type="file"
-                      id="mediaFile"
-                      accept={`${selectedMediaType}/*`}
-                      onChange={handleFileChange}
-                      className="p-2 border border-gray-300 rounded w-full"
-                    />
-                  </form>
+                <div className="mt-4">
+                  <label className="block text-gray-700 font-semibold mb-2">Upload {selectedMediaType}</label>
+                  <input
+                    type="file"
+                    accept={`${selectedMediaType}/*`}
+                    onChange={handleFileChange}
+                    className="border border-gray-300 p-2 rounded-md w-full"
+                  />
                 </div>
               )}
 
               <button
                 onClick={handleUpload}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
                 Upload
               </button>
             </div>
-       }
-            <div>
-              <button onClick={handleAddDescriptionClick} className="flex items-center text-blue-500 mt-4">
-                Click here to add Description <IoMdAdd className="ml-1" />
-              </button>
-              {showDescriptionInput && (
-                <div className="flex items-center space-x-2 mt-2">
-                  <input
-                    type="text"
-                    id="description"
-                    value={description}
-                    onChange={handleDescriptionChange}
-                    className="form-control border border-gray-300 p-2 rounded-md w-full"
-                  />
-                  <button onClick={handleRemoveDescription} className="text-red-500"><FaDeleteLeft /></button>
-                </div>
-              )}
-            </div>
-          </div>
+          )}
 
-          <div className="relative mt-4">
-            <label htmlFor="questionType" className="block text-gray-700 font-semibold mb-2">Question Type:</label>
-            <button
-              onClick={() => setDropdownVisible(!dropdownVisible)}
-              className="form-control border border-gray-300 p-2 rounded-md w-full text-left flex justify-between items-center"
-            >
-              {questionType}
-              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
+          <div className="mt-4">
+            <button onClick={handleAddDescriptionClick} className="text-blue-500 hover:underline flex items-center">
+              Click here to add Description <IoMdAdd className="ml-1" />
             </button>
-            {dropdownVisible && (
-              <div className="absolute mt-1 bg-white border border-gray-300 rounded-md shadow-lg w-full z-10">
-                <div
-                  onClick={() => handleTypeSelect('Single line')}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  Single Line
-                </div>
-                <div
-                  onClick={() => handleTypeSelect('Short answer')}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  Short Answer
-                </div>
-                <div
-                  onClick={() => handleTypeSelect('Multiple choice')}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  Multiple Choice
-                </div>
-                <div
-                  onClick={() => handleTypeSelect('File upload')}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                >
-                  File Upload
-                </div>
+            {showDescriptionInput && (
+              <div className="flex items-center space-x-2 mt-2">
+                <input
+                  type="text"
+                  value={description}
+                  onChange={handleDescriptionChange}
+                  className="border border-gray-300 p-2 rounded-md w-full"
+                />
+                <button onClick={handleRemoveDescription} className="text-red-500">
+                  <FaTrashAlt />
+                </button>
               </div>
             )}
           </div>
 
-          {questionType === 'Multiple choice' && (
-            <div className="form-group mt-4">
-              <label htmlFor="options" className="block text-gray-700 font-semibold mb-2">Options:</label>
-              <div>
-                {options.map((option, index) => (
-                  <div key={index} className="flex items-center space-x-2 mt-2">
-                    <input
-                      type="text"
-                      value={option}
-                      onChange={(e) => handleOptionChange(index, e.target.value)}
-                      placeholder={`Option ${index + 1}`}
-                      className="form-control border border-gray-300 p-2 rounded-md w-full"
-                    />
-                    <button onClick={() => handleRemoveOption(index)} className="text-red-500"><FaDeleteLeft /></button>
-                  </div>
-                ))}
-                <button onClick={handleAddOption} className="flex items-center text-blue-500 mt-2">
-                  Add Option <IoMdAddCircle className="ml-1" />
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Answer</label>
+            <input
+              type="text"
+              value={answer}
+              onChange={handleAnswerChange}
+              className="border border-gray-300 p-2 rounded-md w-full"
+            />
+          </div>
+
+          <div className="mt-4">
+            <h3 className="text-lg font-semibold mb-2">Options</h3>
+            {options.map((option, index) => (
+              <div key={index} className="flex items-center space-x-2 mb-2">
+                <input
+                  type="text"
+                  value={option}
+                  onChange={(e) => handleOptionChange(index, e.target.value)}
+                  className="border border-gray-300 p-2 rounded-md w-full"
+                />
+                <button onClick={() => handleRemoveOption(index)} className="text-red-500">
+                  <FaTrashAlt />
                 </button>
               </div>
-            </div>
-          )}
+            ))}
+            <button onClick={handleAddOption} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center">
+              Add Option <IoMdAddCircle className="ml-1" />
+            </button>
+          </div>
 
-          {questionType === 'Short answer' && (
-            <div className="form-group mt-4">
-              <label htmlFor="shortAnswer2" className="block text-gray-700 font-semibold mb-2">Short Answer:</label>
-              <input type="text" id="shortAnswer2" className="border-b border-gray-300 focus:outline-none focus:border-blue-500 w-full" />
-            </div>
-          )}
-
-          {questionType === 'Single line' && (
-            <div className="form-group mt-4">
-              <label htmlFor="singleLineAnswer" className="block text-gray-700 font-semibold mb-2">Single Line Answer:</label>
-              <input type="text" id="singleLineAnswer" className="form-control border border-gray-300 p-2 rounded-md w-full" />
-            </div>
-          )}
+          <button
+            onClick={handleFinalQuestion}
+            className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Add Question
+          </button>
         </div>
-
-        <div className="mt-4">
-          <label htmlFor="answer" className="block text-gray-700 font-semibold mb-2">Answer:</label>
-          <input
-            type="text"
-            id="answer"
-            value={answer}
-            onChange={handleAnswerChange}
-            className="form-control border border-gray-300 p-2 rounded-md w-full"
-          />
-        </div>
-        <button onClick={handleFinalQuestion} className="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 w-full">
-          ADD question
-        </button>
       </div>
       <Toaster />
-      <Createquizquestion />
+      <div className="card p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4 mt-8"><Createquizquestion /></div>  
     </>
   );
 };

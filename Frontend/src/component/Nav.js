@@ -22,7 +22,7 @@ const NavBar = () => {
         checkAuth();
     }, []);
 
-    const handlecreatequizquestion = () => {
+    const About_us = () => {
         navigate("/CreatequizQuestiondemo");
     };
 
@@ -63,7 +63,7 @@ const NavBar = () => {
                 </div>
             </div>
             <ul className="flex space-x-4">
-                <li><button onClick={handlecreatequizquestion} className="text-black">Create Quiz</button></li>
+                <li><button onClick={About_us} className="text-black">About us</button></li>
                 <li><button onClick={handleQuizroom} className="text-black">Quiz Room</button></li>
                 <li><button onClick={handleAdminLogin} className="text-black">Admin</button></li>
                 <li><button onClick={() => window.location.href = '#myprofile'} className="text-black">My Profile</button></li>
