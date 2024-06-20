@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
 import toast, { Toaster } from 'react-hot-toast';
+import NavBar from './Nav.js';
 
 const socket = io('http://localhost:8000');
 
@@ -93,7 +94,8 @@ const MessagePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-customDark p-4">
+    <><NavBar />
+    <div className="min-h-screen bg-gradient-to-r from-[#2e1a47] to-[#624a82] p-4">
       <div className="message-page max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
         <div className="message-card">
           <div className="message-list space-y-4">
@@ -148,6 +150,7 @@ const MessagePage = () => {
         <Toaster /> {/* Toaster component for displaying toast notifications */}
       </div>
     </div>
+    </>
   );
 };
 

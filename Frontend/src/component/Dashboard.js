@@ -46,6 +46,10 @@ const Dashboard = () => {
     setQuizTime(e.target.value);
   };
 
+  const QuizBank=()=>{
+    navigate("/Questiondemo")
+  }
+
   const sendQuizName = async () => {
     if (quizName) {
       toast.success("Quiz saved successfully");
@@ -96,7 +100,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] min-h-screen bg-gray-900 text-white p-8">
       <div className="container mx-auto">
         <h1 className="text-4xl font-bold mb-8 text-center">Admin Dashboard</h1>
         {console.log('quizzes',quizzes)}
@@ -128,7 +132,7 @@ const Dashboard = () => {
                       )}
                       {quiz.date && quiz.time && (
                         <>
-                          <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors">Set Quiz</button>
+                          <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => QuizBank()}>Go to Quiz bank</button>
                           <button className="mt-4 w-full py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition-colors" onClick={() => handleSetQuiz(index)}>Update</button>
                         </>
                       )}

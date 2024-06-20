@@ -40,7 +40,7 @@ function Timer() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center text-white">
+    <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] h-screen flex items-center justify-center text-white">
       <div className='formwapper'>
         <p>
           {formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}

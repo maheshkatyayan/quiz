@@ -32,7 +32,7 @@ const Createquizquestion = () => {
 
   return (
     <>
-      <div className='container mx-auto p-6'>
+      <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82] container mx-auto p-6'>
         {question.map((item) => {
           const { question_id, question, options1, options2, options3, options4, answer, discription, image,file_type,file_url,quizname} = item;
           return (

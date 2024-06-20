@@ -123,7 +123,7 @@ const Questiondemo = () => {
   return (
     <>
       <Nav />
-      <div className="card p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4 mt-8">
+      <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] card p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4 mt-8">
         <div className="bg-white p-6 rounded-lg shadow-lg space-y-4">
           {showQuizName ? (
             <div>

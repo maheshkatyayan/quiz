@@ -2,7 +2,7 @@ import React from 'react';
 
 const Notlogin = () => {
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-center text-white">
+    <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] min-h-screen bg-gray-900 flex flex-col items-center justify-center text-center text-white">
       <h1 className="text-6xl font-bold">Noooo</h1>
       <h2 className="text-4xl font-semibold mt-4">You are not login/signin</h2>
       <div className="mt-8">

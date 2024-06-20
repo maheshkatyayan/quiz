@@ -4,22 +4,18 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 
 const Sign = () => {
-  // State variables for email, password, and confirm password
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
+
   const navigate = useNavigate();
 
-  // Function to navigate to the login page
   const navigateToLogin = (e) => {
     e.preventDefault();
     navigate("/Clientlogin");
   };
 
-  // Function to handle sign-in action
   const handleSignIn = async () => {
-    // Basic validation
     if (!email || !password || !confirmPassword) {
       toast.error("Please fill in all fields");
       return;
@@ -30,15 +26,12 @@ const Sign = () => {
       return;
     }
 
-    // Data to send to the server
     const data = { email, password };
     console.log("Signing in with data:", data);
 
     try {
-      // Send the data to the server
       await axios.post("http://localhost:5000/addpassword", { data });
       toast.success("Signed in successfully!");
-      // Navigate to the next page if needed
       // navigate("/nextPage");
     } catch (error) {
       console.error("Error signing in:", error);
@@ -46,7 +39,6 @@ const Sign = () => {
     }
   };
 
-  // Function to handle key press for Enter key
   const handleKeyPress = (e) => {
     if (e.code === "Enter") {
       handleSignIn();
@@ -54,15 +46,15 @@ const Sign = () => {
   };
 
   return (
-    <div className='homepage'>
-      <div className="formwapper">
-        <h3>Client Page</h3>
-        <h4 className='paste'>Enter Your Details</h4>
+    <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82] flex items-center justify-center h-screen text-white'>
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
+        <h3 className="text-2xl font-bold mb-6 text-center">Client Page</h3>
+        <h4 className='text-lg mb-4 text-center'>Enter Your Details</h4>
 
-        <div className='inputgroup'>
+        <div className='flex flex-col space-y-4'>
           <input
             type='text'
-            className='inputbox'
+            className='w-full px-4 py-2 rounded-lg text-black font-bold'
             placeholder='Enter your Email id'
             value={email}
             onKeyUp={handleKeyPress}
@@ -70,7 +62,7 @@ const Sign = () => {
           />
           <input
             type='password'
-            className='inputbox'
+            className='w-full px-4 py-2 rounded-lg text-black font-bold'
             placeholder='Password'
             value={password}
             onKeyUp={handleKeyPress}
@@ -78,23 +70,29 @@ const Sign = () => {
           />
           <input
             type='password'
-            className='inputbox'
+            className='w-full px-4 py-2 rounded-lg text-black font-bold'
             placeholder='Confirm Password'
             value={confirmPassword}
             onKeyUp={handleKeyPress}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <button className='btn' id='Join' onClick={handleSignIn}>Join</button>
+          <button
+            className="w-full px-4 py-2 bg-green-500 text-white rounded-lg font-bold transition duration-300 ease-in-out hover:bg-green-600"
+            id='Join'
+            onClick={handleSignIn}
+          >
+            Join
+          </button>
 
-          <span className='span'>
+          <span className='text-center'>
             If you have an ID? Click &nbsp;
-            <Toaster />
-            <a href='#' className='createnewbtn' onClick={navigateToLogin}>Login</a>
+            <a href='#' className='text-green-400 font-bold' onClick={navigateToLogin}>Login</a>
           </span>
+          <Toaster />
         </div>
       </div>
-      <footer>
-        Created with <a href='https://github.com/maheshkatyayan'>mahesh</a>
+      <footer className="fixed bottom-0 w-full text-center mt-4">
+        Created with <a href="https://github.com/maheshkatyayan" className="text-green-400 font-bold">codecraftmen</a>
       </footer>
     </div>
   );

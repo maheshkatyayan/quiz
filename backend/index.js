@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import  Pg  from "pg";
+import Pg from "pg";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -11,7 +11,6 @@ import multer from "multer";
 import dotenv from "dotenv";
 import { getStorage, ref,uploadBytes,getDownloadURL} from "firebase/storage";
 import { initializeApp } from "firebase/app";
-
 
 dotenv.config();
 
@@ -23,191 +22,184 @@ const port = process.env.PORT || 5000;
 app.use(cookieParser());
 app.use(express.static("public"));
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  credentials: true
+origin: process.env.FRONTEND_URL,
+methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+credentials: true
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const upload = multer({ dest: '' });
 
-
 // Database configuration
 // const db = new Pg.Client({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: { rejectUnauthorized: false } // Ensure SSL connection
+// connectionString: process.env.DATABASE_URL,
+// ssl: { rejectUnauthorized: false } // Ensure SSL connection
 // });
 
 const dbConfig = {
-  user: "postgres",
-  host: "localhost",
-  database: "world",
-  password: "Mahesh@1802",
-  port: 4000,
+user: "postgres",
+host: "localhost",
+database: "world",
+password: "Mahesh@1802",
+port: 4000,
 };
 
 const db = new Pg.Client(dbConfig);
 db.connect()
-  .then(() => console.log("Connected to the database"))
-  .catch(err => console.error("Error connecting to database:", err));
+.then(() => console.log("Connected to the database"))
+.catch(err => console.error("Error connecting to database:", err));
 //firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCwQcCNFhv2pjZctwh0mmO4lcTFN6sDHrc",
-  authDomain: "quizmaster-b0faf.firebaseapp.com",
-  projectId: "quizmaster-b0faf",
-  storageBucket: "gs://quizmaster-b0faf.appspot.com",
-  messagingSenderId: "620399637174",
-  appId: "1:620399637174:web:11397e200c8fc4c7866c17",
-  measurementId: "G-6MD1EF1R78"
+apiKey: "AIzaSyCwQcCNFhv2pjZctwh0mmO4lcTFN6sDHrc",
+authDomain: "quizmaster-b0faf.firebaseapp.com",
+projectId: "quizmaster-b0faf",
+storageBucket: "gs://quizmaster-b0faf.appspot.com",
+messagingSenderId: "620399637174",
+appId: "1:620399637174:web:11397e200c8fc4c7866c17",
+measurementId: "G-6MD1EF1R78"
 };
 
-  const firebaseApp = initializeApp(firebaseConfig);
-
+const firebaseApp = initializeApp(firebaseConfig);
 
 // Route to add a question
 app.post("/addquestion", async (req, res) => {
-  const receivedData1 = req.body.data;
-  console.log(receivedData1)
-  try {
-    const result = await db.query('SELECT question_id FROM quiz_question WHERE question_id=$1',[receivedData1.questionId]);
-    if(result.rows.length===0){
-      console.log(" null")
-      await db.query("INSERT INTO quiz_question(question_id) VALUES ($1) ",[receivedData1.questionId])
-    }
-    await db.query("UPDATE quiz_question SET question = $1, options1 = $2, options2 = $3, options3 = $4, options4 = $5, answer = $6, description = $7, image = $8, quizname = $9 WHERE question_id = $10", [
-      receivedData1.question,
-      receivedData1.options[0],
-      receivedData1.options[1],
-      receivedData1.options[2],
-      receivedData1.options[3], 
-      receivedData1.answer,
-      receivedData1.description,
-      receivedData1.imgSrc,
-      receivedData1.quizName,
-      receivedData1.questionId
-    ]);
-    res.status(200).send('Data updated successfully');
-  } catch (err) {
-    console.error("Error updating question:", err);
-    res.status(500).json({ error: "Failed to update question" });
-  }
+const receivedData1 = req.body.data;
+console.log("addquestion",receivedData1)
+try {
+const result = await db.query('SELECT question_id FROM quiz_question WHERE question_id=$1',[receivedData1.questionId]);
+if(result.rows.length===0){
+console.log(" null")
+await db.query("INSERT INTO quiz_question(question_id) VALUES ($1) ",[receivedData1.questionId])
+}
+await db.query("UPDATE quiz_question SET question = $1, options1 = $2, options2 = $3, options3 = $4, options4 = $5, answer = $6, description = $7, image = $8, quizname = $9 WHERE question_id = $10", [
+receivedData1.question,
+receivedData1.options[0],
+receivedData1.options[1],
+receivedData1.options[2],
+receivedData1.options[3],
+receivedData1.answer,
+receivedData1.description,
+receivedData1.imgSrc,
+receivedData1.quizName,
+receivedData1.questionId
+]);
+res.status(200).send('Data updated successfully');
+} catch (err) {
+console.error("Error updating question:", err);
+res.status(500).json({ error: "Failed to update question" });
+}
 });
 
-
 // Route to get all questions
-// app.get("/getquestion", async (req, res) => {
-//   try {
-//     const result = await db.query('SELECT * FROM quiz_question');
-//     console.log(result.rows)
-//     res.send(result.rows)
-//     res.status(200).send('Data updated successfully');
-//   } catch (err) {
-//     console.error('Error getting questions:', err);
-//     res.status(500).json({ error: 'Failed to get questions' });
-//   }
-// });
+app.get("/getquestion", async (req, res) => {
+try {
+const result = await db.query('SELECT * FROM quiz_question');
+// console.log(result.rows);
+res.json(result.rows);
+} catch (err) {
+console.error('Error getting questions:', err);
+res.status(500).json({ error: 'Failed to get questions' });
+}
+});
 
 app.post("/delete",async(req,res)=>{
-  console.log(req.body.question_id)
-  try{
-    await db.query("DELETE FROM quiz_question WHERE question_id=$1",[req.body.question_id])
-    res.status(200).send('Data updated successfully');
-  }catch (err) {
-    console.error('Error getting questions:', err);
-    res.status(500).json({ error: 'Failed to get questions' });
-  }
+console.log("delete",req.body.question_id)
+try{
+await db.query("DELETE FROM quiz_question WHERE question_id=$1",[req.body.question_id])
+res.status(200).send('Data updated successfully');
+}catch (err) {
+console.error('Error getting questions:', err);
+res.status(500).json({ error: 'Failed to get questions' });
+}
+
 })
 
-
 app.post("/addquizname",async(req,res)=>{
-console.log(req.body.data.name);
+console.log("addquizname",req.body.data.name);
 await db.query("INSERT INTO quiz_setup(name) VALUES ($1)", [req.body.data.name]);
 })
 
 app.post("/addSaveTimer",async(req,res)=>{
-  const receivedData=req.body
-  console.log(receivedData)
-  await db.query("UPDATE quiz_setup SET time=$1, date=$2 WHERE name=$3",[receivedData.quizTime,receivedData.quizDate,receivedData.saveTimerquizname])
-  res.send(req.body)
+const receivedData=req.body
+console.log("addSaveTimer",receivedData)
+await db.query("UPDATE quiz_setup SET time=$1, date=$2 WHERE name=$3",[receivedData.quizTime,receivedData.quizDate,receivedData.saveTimerquizname])
+res.send(req.body)
 })
 app.get("/getSaveTimer",async(req,res)=>{
- try{
-  const result= await db.query("SELECT * FROM quiz_setup");
-  console.log(result.rows)
-  res.send(result.rows)
-} catch (err) {
-  console.error('Error getting questions:', err);
-  res.status(500).json({ error: 'Failed to get questions' });
-}
+  try{
+    const result= await db.query("SELECT * FROM quiz_setup");
+    console.log("getsavetimer",result.rows);
+    res.json(result.rows);
+  }catch(e){
+    console.log(e)
+  }
+
 })
 
 app.post("/delete_quiz_setup",async(req,res)=>{
-  console.log(req.body)
-  try{
-    await db.query("DELETE FROM quiz_setup WHERE name=$1",[req.body.data])
+console.log("deletequizname",req.body)
+try{
+await db.query("DELETE FROM quiz_setup WHERE name=$1",[req.body.data])
 } catch (err) {
-    console.error('Error getting questions:', err);
-    res.status(500).json({ error: 'Failed to get questions' });
-  }
+console.error('Error getting questions:', err);
+res.status(500).json({ error: 'Failed to get questions' });
+}
 })
 
-
 app.get("/readtoken", (req, res) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ error: 'No token provided' });
-  } else {
-    res.json({ success: true, token: token });
-  }
+const token = req.cookies.token;
+if (!token) {
+return res.status(401).json({ error: 'No token provided' });
+} else {
+res.json({ success: true, token: token });
+}
 });
-
 
 // Audio file upload and retrieval
 //storage in multer
 
 app.post('/upload', upload.single('file'), async (req, res) => {
-  const file = req.file;
-  const mediaType=req.body.mediaType;
-  const questionId=req.body.questionId;
-  console.log(questionId)
-  var fileUrl;
-  if (!file) {
-    return res.status(400).send('No file uploaded.');
-  }
-  try {
-    // Read the file and convert it to a buffer
-    const fileBuffer = fs.readFileSync(file.path);
-    // Firebase storage reference
-     const storage = getStorage();
-    if(mediaType==='image'){
-      console.log("image")
-     const storageRef = ref(storage, `image/${file.originalname}`);
-     await uploadBytes(storageRef, fileBuffer);
-     fileUrl = await getDownloadURL(storageRef);
-    }
-    else if(mediaType==='audio'){
-    console.log("audio")
-    const storageRef = ref(storage, `audio/${file.originalname}`);
-    await uploadBytes(storageRef, fileBuffer);
-    fileUrl = await getDownloadURL(storageRef);
-    }
-    else if(mediaType==='video'){
-      const storageRef = ref(storage, `video/${file.originalname}`);
-     await uploadBytes(storageRef, fileBuffer);
-     fileUrl = await getDownloadURL(storageRef);
-    }
-    console.log("file",fileUrl)
-    // Insert file reference into the database
-    await db.query('INSERT INTO quiz_question(question_id,file_type,file_url) VALUES ($1, $2,$3)', [questionId,mediaType,fileUrl]);
-    // Clean up the uploaded file
-    fs.unlinkSync(file.path);
-
-    res.status(200).json({ message: 'File uploaded successfully.' });// getting error
-    //file ko gip me kar ke save kar sakte hai
-  } catch (err) {
-    console.error('Error uploading file:', err);
-    res.status(500).send('Error uploading file.');
-  }
+const file = req.file;
+const mediaType=req.body.mediaType;
+const questionId=req.body.questionId;
+console.log("upload",questionId)
+var fileUrl;
+if (!file) {
+return res.status(400).send('No file uploaded.');
+}
+try {
+// Read the file and convert it to a buffer
+const fileBuffer = fs.readFileSync(file.path);
+// Firebase storage reference
+const storage = getStorage();
+if(mediaType==='image'){
+console.log("image")
+const storageRef = ref(storage, `image/${file.originalname}`);
+await uploadBytes(storageRef, fileBuffer);
+fileUrl = await getDownloadURL(storageRef);
+}
+else if(mediaType==='audio'){
+console.log("audio")
+const storageRef = ref(storage, `audio/${file.originalname}`);
+await uploadBytes(storageRef, fileBuffer);
+fileUrl = await getDownloadURL(storageRef);
+}
+else if(mediaType==='video'){
+const storageRef = ref(storage, `video/${file.originalname}`);
+await uploadBytes(storageRef, fileBuffer);
+fileUrl = await getDownloadURL(storageRef);
+}
+console.log("file",fileUrl)
+// Insert file reference into the database
+await db.query('INSERT INTO quiz_question(question_id,file_type,file_url) VALUES ($1, $2,$3)', [questionId,mediaType,fileUrl]);
+// Clean up the uploaded file
+fs.unlinkSync(file.path);
+res.status(200).json({ message: 'File uploaded successfully.' });// getting error
+//file ko gip me kar ke save kar sakte hai
+} catch (err) {
+console.error('Error uploading file:', err);
+res.status(500).send('Error uploading file.');
+}
 });
 
 // Auth sections
@@ -215,60 +207,76 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 // bcrypt salt generation
 const salt = bcrypt.genSaltSync(10);
 app.post("/addpassword", async (req, res) => {
-  const { email, password } = req.body.data;
-  
-  if (validator.isEmail(email) && email.endsWith('@iiitdwd.ac.in')) {
-    try {
-      const hash = await bcrypt.hash(password, salt);
-      await db.query("INSERT INTO auth(username, email, password_hash) VALUES ($1, $2, $3)", [
-        password,
-        email,
-        hash,
-      ]);
-      res.status(200).json({ message: 'Data received successfully' });
-    } catch (err) {
-      console.error("Error adding password:", err);
-      res.status(500).json({ error: "Failed to add password" });
-    }
-  } else {
-    console.log("Invalid email");
-    res.status(400).json({ error: "Invalid email format or domain" });
-  }
+const { email, password } = req.body.data;
+
+if (validator.isEmail(email) && email.endsWith('@iiitdwd.ac.in')) {
+try {
+const hash = await bcrypt.hash(password, salt);
+await db.query("INSERT INTO auth(username, email, password_hash) VALUES ($1, $2, $3)", [
+password,
+email,
+hash,
+]);
+res.status(200).json({ message: 'Data received successfully' });
+} catch (err) {
+console.error("Error adding password:", err);
+res.status(500).json({ error: "Failed to add password" });
+}
+} else {
+console.log("Invalid email");
+res.status(400).json({ error: "Invalid email format or domain" });
+}
 });
 
 app.post("/loginpassword", async (req, res) => {
-  const { email, password } = req.body.data;
-  try {
-    const result = await db.query('SELECT password_hash FROM auth WHERE email = $1', [email]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+const { email, password } = req.body.data;
+try {
+const result = await db.query('SELECT password_hash FROM auth WHERE email = $1', [email]);
+if (result.rows.length === 0) {
+return res.status(404).json({ error: 'User not found' });
+}
 
-    const hash = result.rows[0].password_hash;
-    const matchingPassword = await bcrypt.compare(password, hash);
+const hash = result.rows[0].password_hash;
+const matchingPassword = await bcrypt.compare(password, hash);
 
-    if (matchingPassword) {
-      const token = jwt.sign({ email }, secretKey);
-      res.cookie("token", token, { httpOnly: true, sameSite: 'Lax' });
-      res.json({ success1: true, token });
-    } else {
-      res.status(401).json({ error: "Invalid password" });
-    }
-  } catch (err) {
-    console.error("Error logging in:", err);
-    res.status(500).json({ error: "Failed to log in" });
-  }
+if (matchingPassword) {
+  const token = jwt.sign({ email }, secretKey);
+  res.cookie("token", token, { httpOnly: true, sameSite: 'Lax' });
+  res.json({ success1: true, token });
+} else {
+  res.status(401).json({ error: "Invalid password" });
+}
+} catch (err) {
+console.error("Error logging in:", err);
+res.status(500).json({ error: "Failed to log in" });
+}
 });
 
 app.post("/logout", (req, res) => {
-  res.cookie("token", "", { httpOnly: true, sameSite: 'Lax' });
-  res.send("logout successful postman");
-  console.log("logout successful");
+res.cookie("token", "", { httpOnly: true, sameSite: 'Lax' });
+res.send("logout successful postman");
+console.log("logout successful");
 });
+
+//Block user
+app.post("/blockuser",(req,res)=>{
+  
+})
+//member
+app.get("/membersDetail",async(req,res)=>{
+    try {
+    const result = await db.query('SELECT * FROM member');
+     console.log(result.rows);
+    res.json(result.rows);
+    } catch (err) {
+    console.error('Error getting questions:', err);
+    res.status(500).json({ error: 'Failed to get questions' });
+    }
+})
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Backend is running on http://localhost:${port}`);
+console.log(`Backend is running on http://localhost:${port}`);
 });
 
 // Database table creation for reference
@@ -301,6 +309,17 @@ app.listen(port, () => {
 //   name varchar(255),
 //   time TIME,
 //   date DATE
+//   );
+
+// CREATE TABLE member(
+//   id serial primary key,
+// 	image TEXT,
+//   name varchar(40),
+//   roll/role varchar(40),
+//   about varchar(100),
+// 	instagram TEXT,
+// 	linkedin TEXT,
+// 	github TEXT
 //   );
 
 // import express from "express";

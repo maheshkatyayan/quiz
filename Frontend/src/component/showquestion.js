@@ -26,7 +26,7 @@ function Showquestion() {
 console.log(question)
   return (
     <>
-      <div className=''>
+      <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82]'>
         {question.map((item) => {
           const { id, question, options1, options2, options3, options4, answer, discription, image,file_type,file_url } = item;
           return (
