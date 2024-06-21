@@ -116,6 +116,7 @@ res.status(500).json({ error: 'Failed to get questions' });
 
 app.post("/addquizname",async(req,res)=>{
 console.log("addquizname",req.body.data.name);
+
 await db.query("INSERT INTO quiz_setup(name) VALUES ($1)", [req.body.data.name]);
 })
 
@@ -259,8 +260,24 @@ console.log("logout successful");
 });
 
 //Block user
-app.post("/blockuser",(req,res)=>{
-  
+app.post("/blockuser",async(req,res)=>{
+  try{
+  await db.query("INSERT INTO blocked_gmail(gmail) VALUES ($1)", [
+    req.body
+    ]);
+    res.status(200).json({ message: 'Data received successfully' });
+    } catch (err) {
+    console.error("Error adding password:", err);
+    res.status(500).json({ error: "Failed to add password" });
+    }
+})
+app.post("/unblockuser",async(req,res)=>{
+  try{
+    await db.query("DELETE FROM blocked_gmail WHERE gmail=$1",[req.body.data])
+    } catch (err) {
+    console.error('Error getting questions:', err);
+    res.status(500).json({ error: 'Failed to get questions' });
+    }
 })
 //member
 app.get("/membersDetail",async(req,res)=>{
