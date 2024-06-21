@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import logo from '../imageeee/Club_logo.JPG.png'; // Adjust the path according to your project structure
+import logo from '../image/Club_logo.JPG.png'; // Adjust the path according to your project structure
 
 const NavBar = () => {
     const navigate = useNavigate();
@@ -57,7 +57,7 @@ const NavBar = () => {
         <nav className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] container mx-auto p-6 flex justify-between items-center">
         <div className="flex items-center">
         <img src={logo} alt="InQuizitive Logo" className="w-12 h-13 " />
-              <span className="ml-4 font-bold text-2xl">InQuizitive</span>
+              <span className="ml-4 font-bold text-3xl">InQuizitive</span>
             </div>
           <div className="space-x-6">
             <ul className="flex space-x-4">

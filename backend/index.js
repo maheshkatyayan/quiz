@@ -30,11 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const upload = multer({ dest: '' });
 
-// Database configuration
-// const db = new Pg.Client({
-// connectionString: process.env.DATABASE_URL,
-// ssl: { rejectUnauthorized: false } // Ensure SSL connection
-// });
+
 
 const dbConfig = {
 user: "postgres",
@@ -61,6 +57,17 @@ measurementId: "G-6MD1EF1R78"
 
 const firebaseApp = initializeApp(firebaseConfig);
 
+let quizName = null;
+const quizNameFilePath = "./quizname.txt";
+
+if (fs.existsSync(quizNameFilePath)) {
+  quizName = fs.readFileSync(quizNameFilePath, "utf8");
+}
+console.log(quizName)
+const saveQuizNameToFile = (name) => {
+  fs.writeFileSync(quizNameFilePath, name, "utf8");
+}
+
 // Route to add a question
 app.post("/addquestion", async (req, res) => {
 const receivedData1 = req.body.data;
@@ -80,7 +87,7 @@ receivedData1.options[3],
 receivedData1.answer,
 receivedData1.description,
 receivedData1.imgSrc,
-receivedData1.quizName,
+quizName,
 receivedData1.questionId
 ]);
 res.status(200).send('Data updated successfully');
@@ -92,8 +99,9 @@ res.status(500).json({ error: "Failed to update question" });
 
 // Route to get all questions
 app.get("/getquestion", async (req, res) => {
+  console.log(quizName)
 try {
-const result = await db.query('SELECT * FROM quiz_question');
+const result = await db.query('SELECT * FROM quiz_question WHERE quizname=$1',[quizName]);
 // console.log(result.rows);
 res.json(result.rows);
 } catch (err) {
@@ -116,20 +124,28 @@ res.status(500).json({ error: 'Failed to get questions' });
 
 app.post("/addquizname",async(req,res)=>{
 console.log("addquizname",req.body.data.name);
-
+quizName = req.body.data.name;
+saveQuizNameToFile(quizName);
 await db.query("INSERT INTO quiz_setup(name) VALUES ($1)", [req.body.data.name]);
 })
+
+app.post("/GoToQuizSetUp",async(req,res)=>{
+  console.log(req.body.data)
+  quizName = req.body.data;
+})
+
 
 app.post("/addSaveTimer",async(req,res)=>{
 const receivedData=req.body
 console.log("addSaveTimer",receivedData)
-await db.query("UPDATE quiz_setup SET time=$1, date=$2 WHERE name=$3",[receivedData.quizTime,receivedData.quizDate,receivedData.saveTimerquizname])
+await db.query("UPDATE quiz_setup SET time=$1, date=$2 WHERE name=$3",[receivedData.quizTime,receivedData.quizDate,quizName])
 res.send(req.body)
 })
+
 app.get("/getSaveTimer",async(req,res)=>{
   try{
     const result= await db.query("SELECT * FROM quiz_setup");
-    console.log("getsavetimer",result.rows);
+    //console.log("getsavetimer",result.rows);
     res.json(result.rows);
   }catch(e){
     console.log(e)

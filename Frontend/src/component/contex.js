@@ -1,44 +1,51 @@
-import React,{useContext,useReducer,useEffect} from "react";
+import React, { useContext, useReducer, useEffect } from "react";
 import reducer from "./reducer.js";
-const initialstate={
-  question:[]
-}
 
-const AppContext=React.createContext();
-const AppProvider=({children})=>{
-const [state,dispatch]=useReducer(reducer,initialstate)
-let Api1="http://localhost:5000/getquestion"
-//console.log(state)
-const fetchApidata=async (url)=>{
+const initialState = {
+  questions: [],
+  members: [],
+  timer: null
+};
+
+const AppContext = React.createContext();
+
+const AppProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const Api1 = "http://localhost:5000/getquestion";
+  const Api2 = "http://localhost:5000/membersDetail";
+  const Api3 = "http://localhost:5000/getSaveTimer";
+
+  const fetchApiData = async (url, type) => {
     try {
-      const response1 = await fetch(url, {
+      const response = await fetch(url, {
         method: 'GET',
         credentials: 'include', // This enables cookies to be sent with the request
       });
-      const data1 = await response1.json();
+      const data = await response.json();
+      //console.log("data",data)
+      dispatch({
+        type: type,
+        payload: data
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-dispatch({
-  type:"GET_Question",
-  payload:{
-    question:data1, 
-    // nbpages:data.nbpages
-  }
-})
-
-  } catch(e){
-    console.log(e)
-  }
-}
-
-useEffect(()=>{
-fetchApidata(`${Api1}`)
-},[])
-
+  useEffect(() => {
+    fetchApiData(Api1, "GET_QUESTION");
+    fetchApiData(Api2, "GET_MEMBERS");
+    fetchApiData(Api3, "GET_TIMER");
+  }, []);
 console.log(state)
-return <AppContext.Provider value={{...state}}>{children}</AppContext.Provider>
-}
+  return <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>;
+};
 
-const useGlobalcontext=()=>{
-       return useContext(AppContext);
-   }
-export {AppContext,AppProvider,useGlobalcontext}
+const useGlobalcontext = () => {
+  return useContext(AppContext);
+};
+
+export { AppContext, AppProvider, useGlobalcontext };
+
+// reducer.js

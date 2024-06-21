@@ -36,7 +36,7 @@ const Questiondemo = () => {
   const handleRemoveOption = (index) => setOptions(options.filter((_, i) => i !== index));
 
   const handleFinalQuestion = async () => {
-    if(!questionId || !question || !quizName || !answer){
+    if(!questionId || !question || !answer){
       toast.error("pls fill all input")
     } else{
       const data = { questionId, question, options, description, imgSrc, answer, quizName };
@@ -87,11 +87,7 @@ const Questiondemo = () => {
 
   const handleQuestionIdChange = (e) => setQuestionID(e.target.value);
 
-  const handleQuizNameChange = (e) => setQuizName(e.target.value);
 
-  const handleShowQuizName = () => setShowQuizName(false);
-
-  const handleEditQuizName = () => setShowQuizName(true);
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -125,28 +121,6 @@ const Questiondemo = () => {
       <Nav />
       <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] card p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4 mt-8">
         <div className="bg-white p-6 rounded-lg shadow-lg space-y-4">
-          {showQuizName ? (
-            <div>
-              <label className="block text-gray-700 font-semibold mb-2">Quiz Name</label>
-              <input
-                type="text"
-                className="border border-gray-300 p-2 rounded-md w-full"
-                value={quizName}
-                onChange={handleQuizNameChange}
-              />
-              <button onClick={handleShowQuizName} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                Add Quiz Name
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold">QuizName:   {quizName}</h2>
-              <button onClick={handleEditQuizName} className="text-blue-500 hover:underline flex items-center">
-                Edit <FaEdit className="ml-1" />
-              </button>
-            </div>
-          )}
-
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Question ID</label>
             <input

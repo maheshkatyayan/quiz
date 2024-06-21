@@ -3,6 +3,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import toast, { Toaster } from 'react-hot-toast';
 import NavBar from './Nav.js';
+import sound from '../image/buzzer-4-183895.mp3'
 
 const socket = io('http://localhost:8000');
 
@@ -66,6 +67,8 @@ const MessagePage = () => {
   // Handler for the switch toggle
   const handleSwitchToggle = async () => {
     setIsSwitchVisible(false);
+    var audio =new Audio(sound)
+    audio.play();
     console.log("teamName", teamName);
     socket.emit('send_name', teamName);
     console.log('Switch toggled');

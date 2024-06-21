@@ -4,19 +4,23 @@ import axios from 'axios';
 const Card = () => {
   const [mem,setmember]=useState()
   useEffect(()=>{
-  const set = async () => {
-      try {
-          const result=await axios.get("http://localhost:5000/getSaveTimer")
-          setmember(result.data)
-          console.log(result.data)
-          // if (response.data.success) {
-          // }
-      } catch (error) {
-          console.error("Error checking auth:", error);
-      }
-  };
-  set()
- },[])
+    const set = async () => {
+        try {
+            const result=await axios.get("http://localhost:5000/membersDetail")
+            setmember(result.data)
+            console.log(result.data)
+            // if (response.data.success) {
+            // }
+        } catch (error) {
+            console.error("Error checking auth:", error);
+        }
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    };
+    set()
+   },[])
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">

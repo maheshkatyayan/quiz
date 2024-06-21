@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [quizDate, setQuizDate] = useState('');
   const [quizTime, setQuizTime] = useState('');
   const [saveTimerquizname,setTimerqizname]=useState('')
+  const [blockedusergmail,setblockedusergmail]=useState()
   
 
   useEffect(()=>{
@@ -46,8 +47,21 @@ const Dashboard = () => {
     setQuizTime(e.target.value);
   };
 
-  const QuizBank=()=>{
+  const QuizBank=async(hello)=>{
+    const data=hello;
+    // try {
+    //   const response = await axios.post("http://localhost:5000/GoToQuizSetUp", { data });
+    //   if (response.status === 200) {
+        
+    //   }
+    // } catch (error) {
+    //   toast.error("Error saving quiz");
+    // }
     navigate("/Questiondemo")
+  }
+  const blockeduser=(e)=>{
+console.log(e.target.value);
+setblockedusergmail(e.target.value);
   }
 
   const sendQuizName = async () => {
@@ -117,7 +131,7 @@ const Dashboard = () => {
                     <div>
                       <div className="mb-4">
                         <label className="block text-sm font-medium mb-2" htmlFor="QuizDate">Quiz Date</label>
-                        <input className="w-full px-4 py-2 bg-gray-700 rounded" type="date" id="QuizDate" value={quizDate} onChange={handleQuizDateChange} />
+                        <input className="w-full px-4 py-2 bg-gray-700 rounded" type="date" id="QuizDate" pattern="\d{4}-\d{2}-\d{2}" value={quizDate} onChange={handleQuizDateChange} />
                       </div>
                       <div className="mb-4">
                         <label className="block text-sm font-medium mb-2" htmlFor="QuizTime">Quiz Time</label>
@@ -132,7 +146,7 @@ const Dashboard = () => {
                       )}
                       {quiz.date && quiz.time && (
                         <>
-                          <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => QuizBank()}>Go to Quiz bank</button>
+                          <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => QuizBank(quiz.name)}>Go to Quiz bank</button>
                           <button className="mt-4 w-full py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition-colors" onClick={() => handleSetQuiz(index)}>Update</button>
                         </>
                       )}
@@ -189,9 +203,9 @@ const Dashboard = () => {
             <form>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2" htmlFor="userEmail">User Email</label>
-                <input className="w-full px-4 py-2 bg-gray-700 rounded" type="email" id="userEmail" placeholder="Enter user email" />
+                <input className="w-full px-4 py-2 bg-gray-700 rounded" type="email" id="userEmail" placeholder="Enter user email" value={blockedusergmail} />
               </div>
-              <button className="w-full py-2 bg-red-600 rounded hover:bg-red-700 transition-colors">Block User</button>
+              <button className="w-full py-2 bg-red-600 rounded hover:bg-red-700 transition-colors" onClick={blockeduser}>Block User</button>
             </form>
           </SectionCard>
         </div>

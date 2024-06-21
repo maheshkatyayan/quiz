@@ -4,7 +4,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import axios from 'axios';
 
 const Createquizquestion = () => {
-  const { question } = useGlobalcontext();
+  const { questions } = useGlobalcontext();
   const [myArray, setMyArray] = useState([]);
   const [question_id, setquestionid] = useState();
 
@@ -25,7 +25,7 @@ const Createquizquestion = () => {
 
   // Function to handle option changes
   const handleOptionChange = (question_id, optionValue, answer) => {
-    const selectedQuestion = question.find(q => q.question_id === question_id);
+    const selectedQuestion = questions.find(q => q.question_id === question_id);
     console.log("Answer of the question:", answer, optionValue);
     setMyArray(prevArray => [...prevArray, { question_id, selectedOption: optionValue }]);
   };
@@ -33,7 +33,7 @@ const Createquizquestion = () => {
   return (
     <>
       <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82] container mx-auto p-6'>
-        {question.map((item) => {
+        {questions.map((item) => {
           const { question_id, question, options1, options2, options3, options4, answer, discription, image,file_type,file_url,quizname} = item;
           return (
             <div key={question_id} className='bg-white p-4 rounded-lg shadow-md mb-6'>
