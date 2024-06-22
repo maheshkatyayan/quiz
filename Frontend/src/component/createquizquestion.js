@@ -9,7 +9,12 @@ const Createquizquestion = ({ onQuestionsChange }) => {
   const [questionList, setQuestionList] = useState(questions);
 
   useEffect(() => {
-    setQuestionList(questions);
+    const result= async ()=>{
+     const getdata= await axios.get("http://localhost:5000/questionForonequiz")
+     console.log('d',getdata.data)
+     setQuestionList(getdata.data);
+    }
+    result();
   }, [questions]);
 
   const handleUpdate = (question_id) => {

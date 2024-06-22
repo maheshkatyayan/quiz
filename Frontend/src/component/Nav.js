@@ -47,7 +47,7 @@ const NavBar = () => {
         try {
             await axios.post("http://localhost:5000/logout", {}, { withCredentials: true });
             setUser(null);
-            navigate("/home");
+            navigate("/");
         } catch (error) {
             console.error("Error logging out:", error);
         }

@@ -30,8 +30,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const upload = multer({ dest: '' });
 
+//   const dbConfig = {
+//     user: "postgres",
+//     host: "localhost",
+//     database: "world",
+//     password: "Mahesh@1802",
+//     port: 4000,
+//   };;
+// const db = new Pg.Client(dbConfig)
   const db = new Pg.Client({
-    connectionString: 'postgresql://mahesh:i8hW0vNCuZan89BvMbzCAA@droll-egret-5007.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/quiz?sslmode=disable',
+    connectionString: 'postgresql://mahesh:i8hW0vNCuZan89BvMbzCAA@droll-egret-5007.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/quiz?sslmode=verify-full',
     // ssl: {
     //   ca: fs.readFileSync(path.resolve(__dirname, 'path/to/your/cockroachdb-ca.crt')).toString(),
     // },
@@ -58,7 +66,7 @@ const quizNameFilePath = "./quizname.txt";
 if (fs.existsSync(quizNameFilePath)) {
   quizName = fs.readFileSync(quizNameFilePath, "utf8");
 }
-console.log(quizName)
+//console.log(quizName)
 const saveQuizNameToFile = (name) => {
   fs.writeFileSync(quizNameFilePath, name, "utf8");
 }
@@ -66,14 +74,14 @@ const saveQuizNameToFile = (name) => {
 // Route to add a question
 app.post("/addquestion", async (req, res) => {
 const receivedData1 = req.body.data;
-console.log("addquestion",receivedData1)
+//console.log("addquestion",receivedData1)
 try {
 const result = await db.query('SELECT question_id FROM quiz_question WHERE question_id=$1',[receivedData1.questionId]);
 if(result.rows.length===0){
-console.log(" null")
+//console.log(" null")
 await db.query("INSERT INTO quiz_question(question_id) VALUES ($1) ",[receivedData1.questionId])
 }
-await db.query("UPDATE quiz_question SET question = $1, options1 = $2, options2 = $3, options3 = $4, options4 = $5, answer = $6, description = $7, image = $8, quizname = $9 WHERE question_id = $10", [
+await db.query("UPDATE quiz_question SET question = $1, options1 = $2, options2 = $3, options3 = $4, options4 = $5, answer = $6, description = $7, image = $8, quizname = $9 WHERE question_id = $10 ", [
 receivedData1.question,
 receivedData1.options[0],
 receivedData1.options[1],
@@ -97,8 +105,9 @@ app.get("/getquestion", async (req, res) => {
   //console.log(quizName)
 try {
 const result = await db.query('SELECT * FROM quiz_question');
-// console.log(result.rows);
+ //console.log(result.rows);
 res.json(result.rows);
+//res.status(200).send('Data updated successfully');
 } catch (err) {
 console.error('Error getting questions:', err);
 res.status(500).json({ error: 'Failed to get questions' });
@@ -106,7 +115,7 @@ res.status(500).json({ error: 'Failed to get questions' });
 });
 
 app.post("/delete",async(req,res)=>{
-console.log("delete",req.body.question_id)
+//console.log("delete",req.body.question_id)
 try{
 await db.query("DELETE FROM quiz_question WHERE question_id=$1",[req.body.question_id])
 res.status(200).send('Data updated successfully');
@@ -114,18 +123,43 @@ res.status(200).send('Data updated successfully');
 console.error('Error getting questions:', err);
 res.status(500).json({ error: 'Failed to get questions' });
 }
-
 })
+
+app.get("/questionForonequiz",async(req,res)=>{
+  try {
+    console.log(quizName)
+    const result = await db.query('SELECT * FROM quiz_question WHERE quizname=$1',[quizName]);
+     res.json(result.rows);
+    } catch (err) {
+    console.error('Error getting questions:', err);
+    res.status(500).json({ error: 'Failed to get questions' });
+    }
+})
+
 
 app.post("/addquizname",async(req,res)=>{
 console.log("addquizname",req.body.data.name);
 quizName = req.body.data.name;
 saveQuizNameToFile(quizName);
-await db.query("INSERT INTO quiz_setup(name) VALUES ($1)", [req.body.data.name]);
+try{
+  await db.query("INSERT INTO quiz_setup(name) VALUES ($1)", [req.body.data.name]);
+  res.status(200).send('Data updated successfully');
+}catch(err){
+  //console.log("your err is",err)
+}
 })
 
+app.post("/Questionbankname",async(req,res)=>{
+  console.log("addquizname",req.body.data.name);
+  quizName = req.body.data.name;
+  saveQuizNameToFile(quizName);
+  res.status(200).send('Data updated successfully');
+  })
+
+
+
 app.post("/GoToQuizSetUp",async(req,res)=>{
-  console.log(req.body.data)
+  //console.log(req.body.data)
   quizName = req.body.data;
 })
 
@@ -140,16 +174,16 @@ res.send(req.body)
 app.get("/getSaveTimer",async(req,res)=>{
   try{
     const result= await db.query("SELECT * FROM quiz_setup");
-    //console.log("getsavetimer",result.rows);
+  //console.log("getsavetimer",result.rows);
     res.json(result.rows);
   }catch(e){
-    console.log(e)
+    //console.log(e)
   }
 
 })
 
 app.post("/delete_quiz_setup",async(req,res)=>{
-console.log("deletequizname",req.body)
+//console.log("deletequizname",req.body)
 try{
 await db.query("DELETE FROM quiz_setup WHERE name=$1",[req.body.data])
 } catch (err) {
@@ -185,13 +219,13 @@ const fileBuffer = fs.readFileSync(file.path);
 // Firebase storage reference
 const storage = getStorage();
 if(mediaType==='image'){
-console.log("image")
+//console.log("image")
 const storageRef = ref(storage, `image/${file.originalname}`);
 await uploadBytes(storageRef, fileBuffer);
 fileUrl = await getDownloadURL(storageRef);
 }
 else if(mediaType==='audio'){
-console.log("audio")
+//console.log("audio")
 const storageRef = ref(storage, `audio/${file.originalname}`);
 await uploadBytes(storageRef, fileBuffer);
 fileUrl = await getDownloadURL(storageRef);
@@ -201,7 +235,7 @@ const storageRef = ref(storage, `video/${file.originalname}`);
 await uploadBytes(storageRef, fileBuffer);
 fileUrl = await getDownloadURL(storageRef);
 }
-console.log("file",fileUrl)
+//console.log("file",fileUrl)
 // Insert file reference into the database
 await db.query('INSERT INTO quiz_question(question_id,file_type,file_url) VALUES ($1, $2,$3)', [questionId,mediaType,fileUrl]);
 // Clean up the uploaded file
@@ -224,18 +258,24 @@ const { email, password } = req.body.data;
 if (validator.isEmail(email) && email.endsWith('@iiitdwd.ac.in')) {
 try {
 const hash = await bcrypt.hash(password, salt);
+const userAlredyexit=await db.query("SELECT email FROM auth WHERE email=$1",[email])
+//console.log(userAlredyexit.rows.length)
+if(userAlredyexit.rows.length===0){
 await db.query("INSERT INTO auth(username, email, password_hash) VALUES ($1, $2, $3)", [
 password,
 email,
 hash,
 ]);
 res.status(200).json({ message: 'Data received successfully' });
+}else{
+  res.status(401).json({ message: 'user already exits' });
+}
 } catch (err) {
 console.error("Error adding password:", err);
 res.status(500).json({ error: "Failed to add password" });
 }
 } else {
-console.log("Invalid email");
+//console.log("Invalid email");
 res.status(400).json({ error: "Invalid email format or domain" });
 }
 });
@@ -267,7 +307,7 @@ res.status(500).json({ error: "Failed to log in" });
 app.post("/logout", (req, res) => {
 res.cookie("token", "", { httpOnly: true, sameSite: 'Lax' });
 res.send("logout successful postman");
-console.log("logout successful");
+//console.log("logout successful");
 });
 
 //Block user
@@ -294,11 +334,30 @@ app.post("/unblockuser",async(req,res)=>{
 app.get("/membersDetail",async(req,res)=>{
     try {
     const result = await db.query('SELECT * FROM member');
-     console.log(result.rows);
+     //console.log(result.rows);
     res.json(result.rows);
     } catch (err) {
     console.error('Error getting questions:', err);
     res.status(500).json({ error: 'Failed to get questions' });
+    }
+})
+
+app.post("/addMember",async(req,res)=>{
+  //console.log(req.body)
+  try{
+  await db.query("INSERT INTO member(image,name,role,about,instagram,linkedin,github) VALUES ($1,$2,$3,$4,$5,$6,$7)", [
+    req.body.image,
+    req.body.name,
+    req.body.role,
+    req.body.about,
+    req.body.instagram,
+    req.body.linkedin,
+    req.body.github
+    ]);
+    res.status(200).json({ message: 'Data received successfully' });
+    } catch (err) {
+    console.error("Error adding password:", err);
+    res.status(500).json({ error: "Failed to add password" });
     }
 })
 
@@ -380,7 +439,7 @@ console.log(`Backend is running on http://localhost:${port}`);
 // app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.json());
 // const upload = multer({ dest: 'uploads/' });
-// console.log(upload)
+// //console.log(upload)
 
 // // Database configuration
 // const dbConfig = {
@@ -393,7 +452,7 @@ console.log(`Backend is running on http://localhost:${port}`);
 
 // // const db = new pg.Client(dbConfig);
 // // db.connect()
-// //   .then(() => console.log("Connected to the database"))
+// //   .then(() => //console.log("Connected to the database"))
 // //   .catch(err => console.error("Error connecting to database:", err));
 //   const db = new Pg.client({
 //     connectionString: 'postgresql://mahesh:i8hW0vNCuZan89BvMbzCAA@droll-egret-5007.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/quiz?sslmode=verify-full',
@@ -415,7 +474,7 @@ console.log(`Backend is running on http://localhost:${port}`);
 // // Route to add a question
 // app.post("/addquestion", async (req, res) => {
 //   const receivedData1 = req.body.data;
-//   console.log(receivedData1.description)
+//   //console.log(receivedData1.description)
 //   try {
 //     await db.query("INSERT INTO quiz(question, options1, options2, options3, options4, answer, discription, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [
 //       receivedData1.question,
@@ -438,7 +497,7 @@ console.log(`Backend is running on http://localhost:${port}`);
 // app.post("/logout", (req, res) => {
 //   res.cookie("token", "", { httpOnly: true, sameSite: 'Lax' });
 //   res.send("logout successful postman");
-//   console.log("logout successful");
+//   //console.log("logout successful");
 // });
 
 // app.get("/readtoken", (req, res) => {
@@ -469,7 +528,7 @@ console.log(`Backend is running on http://localhost:${port}`);
 //       res.status(500).json({ error: "Failed to add password" });
 //     }
 //   } else {
-//     console.log("Invalid email");
+//     //console.log("Invalid email");
 //     res.status(400).json({ error: "Invalid email format or domain" });
 //   }
 // });
@@ -549,7 +608,7 @@ console.log(`Backend is running on http://localhost:${port}`);
 
 // // Start the server
 // app.listen(port, () => {
-//   console.log(`Backend is running on http://localhost:${port}`);
+//   //console.log(`Backend is running on http://localhost:${port}`);
 // });
 
 // // Database table creation for reference

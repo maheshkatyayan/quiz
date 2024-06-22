@@ -24,7 +24,7 @@ const Clientlogin = () => {
         console.log(response.data);
         if (response.data) {
           toast.success("Signed in successfully!");
-          navigate(`/home`, {
+          navigate(`/`, {
             state: {
               password
             },

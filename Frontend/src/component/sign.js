@@ -32,7 +32,7 @@ const Sign = () => {
     try {
       await axios.post("http://localhost:5000/addpassword", { data });
       toast.success("Signed in successfully!");
-      // navigate("/nextPage");
+       navigate("/Clientlogin");
     } catch (error) {
       console.error("Error signing in:", error);
       toast.error("Failed to sign in. Please try again.");

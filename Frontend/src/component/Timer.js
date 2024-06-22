@@ -4,7 +4,7 @@ import { useGlobalcontext } from '../component/contex.js';
 import axios from 'axios'
 
 function Timer() {
-  const [hours, setHours] = useState(1);
+  const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(2);
   const [isActive, setIsActive] = useState(true);
