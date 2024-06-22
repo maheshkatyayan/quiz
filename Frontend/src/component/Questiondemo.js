@@ -4,9 +4,9 @@ import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import axios from "axios";
 import Nav from './Nav.js';
 import toast, { Toaster } from 'react-hot-toast';
-import Createquizquestion from "./createquizquestion.js";
+import CreateQuizQuestion from "./createquizquestion.js";
 
-const Questiondemo = () => {
+const QuestionDemo = () => {
   const [question, setQuestion] = useState('');
   const [questionId, setQuestionID] = useState('');
   const [questionType, setQuestionType] = useState('Multiple choice');
@@ -22,6 +22,7 @@ const Questiondemo = () => {
   const [uploadSection, setUploadSection] = useState(true);
   const [showQuizName, setShowQuizName] = useState(true);
   const [quizName, setQuizName] = useState('');
+  const [questions, setQuestions] = useState([]);
 
   const handleQuestionChange = (e) => setQuestion(e.target.value);
 
@@ -36,14 +37,14 @@ const Questiondemo = () => {
   const handleRemoveOption = (index) => setOptions(options.filter((_, i) => i !== index));
 
   const handleFinalQuestion = async () => {
-    if(!questionId || !question || !answer){
-      toast.error("pls fill all input")
-    } else{
+    if (!questionId || !question || !answer) {
+      toast.error("Please fill all inputs");
+    } else {
       const data = { questionId, question, options, description, imgSrc, answer, quizName };
-      console.log(data);
       try {
         const response = await axios.post("http://localhost:5000/addquestion", { data });
         if (response.status === 200) {
+          setQuestions([...questions, data]);
           setQuestion('');
           setQuestionID('');
           setOptions(['']);
@@ -60,7 +61,7 @@ const Questiondemo = () => {
         console.log(e);
         toast.error("Failed to add question!");
       }
-    } 
+    }
   };
 
   const handleAddImageClick = () => setShowImageInput(true);
@@ -77,7 +78,6 @@ const Questiondemo = () => {
 
   const handleAnswerChange = (e) => setAnswer(e.target.value);
 
-
   const handleMediaTypeChange = (e) => {
     setSelectedMediaType(e.target.value);
     setSelectedFile(null);
@@ -86,8 +86,6 @@ const Questiondemo = () => {
   const handleFileChange = (e) => setSelectedFile(e.target.files[0]);
 
   const handleQuestionIdChange = (e) => setQuestionID(e.target.value);
-
-
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -255,9 +253,11 @@ const Questiondemo = () => {
         </div>
       </div>
       <Toaster />
-      <div className="card p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4 mt-8"><Createquizquestion /></div>  
+      <div className="card p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4 mt-8">
+        <CreateQuizQuestion onQuestionsChange={() => setQuestions([...questions])} />
+      </div>
     </>
   );
 };
 
-export default Questiondemo;
+export default QuestionDemo;

@@ -30,17 +30,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const upload = multer({ dest: '' });
 
-
-
-const dbConfig = {
-user: "postgres",
-host: "localhost",
-database: "world",
-password: "Mahesh@1802",
-port: 4000,
-};
-
-const db = new Pg.Client(dbConfig);
+  const db = new Pg.Client({
+    connectionString: 'postgresql://mahesh:i8hW0vNCuZan89BvMbzCAA@droll-egret-5007.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/quiz?sslmode=disable',
+    // ssl: {
+    //   ca: fs.readFileSync(path.resolve(__dirname, 'path/to/your/cockroachdb-ca.crt')).toString(),
+    // },
+  });
 db.connect()
 .then(() => console.log("Connected to the database"))
 .catch(err => console.error("Error connecting to database:", err));
@@ -99,9 +94,9 @@ res.status(500).json({ error: "Failed to update question" });
 
 // Route to get all questions
 app.get("/getquestion", async (req, res) => {
-  console.log(quizName)
+  //console.log(quizName)
 try {
-const result = await db.query('SELECT * FROM quiz_question WHERE quizname=$1',[quizName]);
+const result = await db.query('SELECT * FROM quiz_question');
 // console.log(result.rows);
 res.json(result.rows);
 } catch (err) {
@@ -179,7 +174,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 const file = req.file;
 const mediaType=req.body.mediaType;
 const questionId=req.body.questionId;
-console.log("upload",questionId)
+//console.log("upload",questionId)
 var fileUrl;
 if (!file) {
 return res.status(400).send('No file uploaded.');
@@ -347,8 +342,8 @@ console.log(`Backend is running on http://localhost:${port}`);
 // CREATE TABLE member(
 //   id serial primary key,
 // 	image TEXT,
-//   name varchar(40),
-//   roll/role varchar(40),
+//   name_ varchar(40),
+//   role_ varchar(40),
 //   about varchar(100),
 // 	instagram TEXT,
 // 	linkedin TEXT,
@@ -400,7 +395,7 @@ console.log(`Backend is running on http://localhost:${port}`);
 // // db.connect()
 // //   .then(() => console.log("Connected to the database"))
 // //   .catch(err => console.error("Error connecting to database:", err));
-//   const db = new Pool({
+//   const db = new Pg.client({
 //     connectionString: 'postgresql://mahesh:i8hW0vNCuZan89BvMbzCAA@droll-egret-5007.7s5.aws-ap-south-1.cockroachlabs.cloud:26257/quiz?sslmode=verify-full',
 //     ssl: {
 //       ca: fs.readFileSync(path.resolve(__dirname, 'path/to/your/cockroachdb-ca.crt')).toString(),

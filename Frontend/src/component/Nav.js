@@ -55,10 +55,20 @@ const NavBar = () => {
 
     return (
         <nav className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] container mx-auto p-6 flex justify-between items-center">
-        <div className="flex items-center">
-        <img src={logo} alt="InQuizitive Logo" className="w-12 h-13 " />
-              <span className="ml-4 font-bold text-3xl">InQuizitive</span>
-            </div>
+       <div className="flex items-center space-x-4  text-white p-4">
+      <div className="relative">
+        {/* Adding a div around the image for the shadow effect */}
+        <div className="w-16 h-16 rounded-full  flex items-center justify-center ">
+          <img src={logo} alt="InQuizitive Logo" className="" />
+        </div>
+        {/* Adding the purple glow effect */}
+        <div className="absolute top-0 left-0 w-full h-full rounded-full border-0 border-transparent border-opacity-75" style={{ boxShadow: '0 0 15px 10px #5a3d78' }}></div>
+      </div>
+      <div className="border-l-2 border-white pl-4">
+        <span className="block font-bold text-3xl">InQuizitive</span>
+        <span className="block text-xl">IIIT Dharwad</span>
+      </div>
+    </div>
           <div className="space-x-6">
             <ul className="flex space-x-4">
               <li><button onClick={About_us} className="mx-5 text-gray-300 hover:text-white ">About us</button></li>
