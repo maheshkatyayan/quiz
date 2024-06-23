@@ -8,6 +8,7 @@ import EventEmitter from 'events';
 const eventemitter = new EventEmitter();
 var receiveddata = null;
 const array=['']
+const port = process.env.PORT || 8000;
 
 const app = express();
 const server = createServer(app);
@@ -72,6 +73,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(8000, () => {
+server.listen(port, () => {
   console.log('server running at http://localhost:8000');
 });
