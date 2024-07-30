@@ -30,12 +30,12 @@ const AboutUs = () => {
 
     return (
         <div>
-            <header className="bg-teal-500 text-white py-8">
+            <header className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] text-white py-8">
                 <div className="container mx-auto px-4">
                     <h1 className="text-3xl font-bold">About Us</h1>
                 </div>
             </header>
-            <div className="container mx-auto px-4 py-8">
+            <div className=" bg-gradient-to-r from-[#2e1a47] to-[#624a82] container mx-auto px-4 py-8">
                 <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
                     <h1 className="text-2xl font-bold mb-4">Welcome to Our Application</h1>
                     <p className="mb-4">Our application is designed to help users manage quizzes efficiently. Whether you are a teacher looking to create quizzes for your students or a learner wanting to test your knowledge, our platform has got you covered.</p>
