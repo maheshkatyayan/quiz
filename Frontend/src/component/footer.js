@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import logo from '../image/Club_logo.JPG.png'; // Assuming you have the logo image
 
 const Footer = () => {
@@ -38,6 +38,10 @@ const Footer = () => {
           <a href="#" className="flex items-center space-x-2 hover:text-gray-400 transition-colors">
             <FaInstagram className="text-2xl" />
             <span>Instagram</span>
+          </a>
+          <a href="#" className="flex items-center space-x-2 hover:text-gray-400 transition-colors">
+            <FaLinkedin className="text-2xl" />
+            <span>Linkedin</span>
           </a>
         </div>
       </div>

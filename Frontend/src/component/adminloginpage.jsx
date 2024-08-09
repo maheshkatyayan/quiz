@@ -42,7 +42,7 @@ const Adminlogin = () => {
   return (
     <>
       <NavBar />
-      <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82] flex items-center justify-center h-screen text-white'>
+      <div className='bg-gray-900 flex items-center justify-center h-screen text-white'>
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
           <h3 className="text-2xl font-bold mb-6 text-center">Admin Page</h3>
           <div className='flex flex-col space-y-4'>
@@ -63,7 +63,7 @@ const Adminlogin = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
             <button
-              className="w-full px-4 py-2 bg-green-500 text-white rounded-lg font-bold transition duration-300 ease-in-out hover:bg-green-600"
+              className="bg-gradient-to-r from-teal-700 to-teal-500 w-full px-4 py-2 bg-green-500 text-white rounded-lg font-bold transition duration-300 ease-in-out hover:bg-green-600"
             id="Join"
               onClick={Join}
             >
@@ -72,13 +72,13 @@ const Adminlogin = () => {
             <span className='text-center'>
               If you don't have a Key, create &nbsp;
               <Toaster />
-              <a href='#' className='text-green-400 font-bold' onClick={createNewRoom}>new room Key</a>
+              <a href='#' className='text-teal-400 font-bold' onClick={createNewRoom}>new room Key</a>
             </span>
           </div>
         </div>
       </div>
-      <footer className="fixed bottom-0 w-full text-center mt-4">
-        Created with <a href="https://github.com/maheshkatyayan" className="text-green-400 font-bold">codecraftmen</a>
+      <footer className="fixed bottom-0 w-full text-center text-white mt-4">
+        Created with <a href="https://github.com/maheshkatyayan" className="text-teal-400 font-bold">codecraftmen</a>
       </footer>
     </>
   );
