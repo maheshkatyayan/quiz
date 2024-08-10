@@ -15,7 +15,7 @@ import { initializeApp } from "firebase/app";
 dotenv.config();
 
 const secretKey = process.env.SECRET_KEY;
-const app = express();
+const app = express(); 
 const port = process.env.PORT || 5000;
 
 // Middleware setup
