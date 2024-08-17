@@ -13,6 +13,8 @@ import Notlogin from "./component/notlogin.js";
 import Createquizquestion from "./component/createquizquestion.js"
 import Dashboard from './component/Dashboard.js'
 import AboutUs from "./component/About_us.js";
+import Event from "./component/event.js"
+import VerifyEmail from './component/verifymail.js'
 
 
 function App() {
@@ -32,6 +34,8 @@ function App() {
           </Route>
           <Route  path="/Adminlogin" element={<Adminlogin/>}>
           </Route>
+          <Route  path="/event" element={<Event/>}>
+          </Route>
           <Route  path="/Clientlogin" element={<Clientlogin/>}>
           </Route>
           <Route  path="/Timer" element={<Timer/>}>
@@ -45,6 +49,8 @@ function App() {
           <Route  path="/adminebuzzer" element={<Adminebuzzer/>}>
           </Route>
           <Route  path="/About_us" element={<AboutUs/>}>
+          </Route>
+          <Route  path="/verifyemail" element={<VerifyEmail/>}>
           </Route>
           <Route 
          path="/notlogin" element={<Notlogin/>}

@@ -7,6 +7,8 @@ const Sign = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [name, setName] = useState('');
 
   const navigate = useNavigate();
 
@@ -16,7 +18,7 @@ const Sign = () => {
   };
 
   const handleSignIn = async () => {
-    if (!email || !password || !confirmPassword) {
+    if (!email || !password || !confirmPassword || !phoneNumber || !name) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -26,13 +28,13 @@ const Sign = () => {
       return;
     }
 
-    const data = { email, password };
+    const data = { email, password, phone_number: phoneNumber, name };
     console.log("Signing in with data:", data);
 
     try {
-      await axios.post("http://localhost:5000/addpassword", { data });
+      await axios.post("http://localhost:5000/users/signin", { data }, { withCredentials: true });
       toast.success("Signed in successfully!");
-       navigate("/Clientlogin");
+      navigate("/Clientlogin");
     } catch (error) {
       console.error("Error signing in:", error);
       toast.error("Failed to sign in. Please try again.");
@@ -40,7 +42,7 @@ const Sign = () => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.code === "Enter") {
+    if ( e.key === "Enter") {
       handleSignIn();
     }
   };
@@ -53,12 +55,20 @@ const Sign = () => {
 
         <div className='flex flex-col space-y-4'>
           <input
-            type='text'
+            type='email'
             className='w-full px-4 py-2 rounded-lg text-black font-bold'
             placeholder='Enter your Email id'
             value={email}
             onKeyUp={handleKeyPress}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type='text'
+            className='w-full px-4 py-2 rounded-lg text-black font-bold'
+            placeholder='Enter your name'
+            value={name}
+            onKeyUp={handleKeyPress}
+            onChange={(e) => setName(e.target.value)}
           />
           <input
             type='password'
@@ -76,6 +86,14 @@ const Sign = () => {
             onKeyUp={handleKeyPress}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          <input
+            type='text'
+            className='w-full px-4 py-2 rounded-lg text-black font-bold'
+            placeholder='Enter your Phone Number'
+            value={phoneNumber}
+            onKeyUp={handleKeyPress}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
           <button
             className="w-full px-4 py-2 bg-green-500 text-white rounded-lg font-bold transition duration-300 ease-in-out hover:bg-green-600"
             id='Join'
@@ -85,7 +103,7 @@ const Sign = () => {
           </button>
 
           <span className='text-center'>
-            If you have an ID? Click &nbsp;
+            Already have an account? Click &nbsp;
             <a href='#' className='text-green-400 font-bold' onClick={navigateToLogin}>Login</a>
           </span>
           <Toaster />

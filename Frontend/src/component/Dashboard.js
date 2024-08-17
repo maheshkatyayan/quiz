@@ -27,7 +27,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get('http://localhost:5000/getSaveTimer');
+        const result = await axios.get('http://localhost:5000/quizsetup/getSaveTimer');
         setQuizzes(result.data);
       } catch (error) {
         console.error('Error fetching data:', error);
