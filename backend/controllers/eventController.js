@@ -48,3 +48,4 @@ export const getDetails = async (req, res) => {
   }
 };
 console.log("mahesh")
+ssh-ed25519 
