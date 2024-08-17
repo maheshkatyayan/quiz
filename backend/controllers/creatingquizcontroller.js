@@ -1,7 +1,7 @@
 import db from "../config.js";
 import multer from "multer";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCwQcCNFhv2pjZctwh0mmO4lcTFN6sDHrc",
@@ -13,7 +13,7 @@ const firebaseConfig = {
   measurementId: "G-6MD1EF1R78",
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
+//const firebaseApp = initializeApp(firebaseConfig);
 const upload = multer({ dest: "" });
 
 export const addquestion_to_quiz = async (req, res) => {

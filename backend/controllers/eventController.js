@@ -47,6 +47,5 @@ export const getDetails = async (req, res) => {
     res.status(400).json({ error: error.message }); // Respond with error message if retrieval fails
   }
 };
-console.log("mahesh")
 //ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8HpMHyEjOI/mVbZ2/yV8RXVniBrYTVcqQ8TRAjnz7I inquizitive@iiitdwd.ac.in
 

@@ -5,52 +5,37 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 //import backgroundvideo from '../image/video1.mp4';
 
-const Clientlogin = () => {
+const Resetpassword = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const createNewSignIn = (e) => {
-    navigate('/sign');
-  };
-  const forgotpassword = (e) => {
-    navigate('/Resetpassword');
-  };
   
 
-  const LogIn = async (e) => {
-    if (!email || !password) {
-      toast.error("Please enter both email and password");
-    } else if (email && password) {
+  const verify = async () => {
+    console.log(email)
+    if (!email) {
+      toast.error("Please enter both email");
+    } else if (email) {
       try {
-        const data = { email: email, password: password };
+        const data = { email: email };
         console.log(data);
-        const response = await axios.post("http://localhost:5000/users/login", { data }, { withCredentials: true });
+        const response = await axios.post("http://localhost:5000/users/forgot_password", { data }, { withCredentials: true });
+        console.log(response)
         console.log(response.data);
         if (response.data) {
-          toast.success("Signed in successfully!");
-          navigate('/', {
-            state: {
-              password
-            },
-          });
+          toast.success("Verification successfully!");
+         // navigate('/enternewpassword');
         } else {
           setEmail('');
-          setPassword('');
-          toast.error("Failed to login");
+          toast.error("Failed to verify");
         }
       } catch (error) {
-        console.error("Error logging in:", error);
-        toast.error("Failed to log in. Please try again.");
+        console.error("Error verify :", error);
+        toast.error("Failed to verify. Please try again.");
       }
     }
   };
 
-  const handleKey = (e) => {
-    if (e.code === "Enter") {
-      LogIn();
-    }
-  };
+ 
 
   return (
     <>
@@ -68,34 +53,17 @@ const Clientlogin = () => {
               className="w-full px-4 py-2 rounded-lg text-black font-bold"
               placeholder="Enter the Email ID"
               value={email}
-              onKeyUp={handleKey}
+            //   onKeyUp={handleKey}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <input
-              type="password"
-              className="w-full px-4 py-2 rounded-lg text-black font-bold"
-              placeholder="Password"
-              value={password}
-              onKeyUp={handleKey}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+           
             <button
               className="w-full px-4 py-2 bg-green-500 text-white rounded-lg font-bold transition duration-300 ease-in-out hover:bg-green-600"
               id="Join"
-              onClick={LogIn}
+              onClick={verify}
             >
-              Login
+              Verify
             </button>
-
-            <span className="text-center">
-              If you don't have an ID, click &nbsp;
-              <Toaster />
-              <a href="#" className="text-green-400 font-bold" onClick={createNewSignIn}>sign in</a>
-            </span>
-            <span className="text-center">
-             &nbsp;
-              <a href="#" className="text-green-400 font-bold" onClick={forgotpassword}>Forgot_password</a>
-            </span>
           </div>
         </div>
         <footer className="fixed bottom-0 w-full text-center mt-4 z-10">
@@ -106,4 +74,4 @@ const Clientlogin = () => {
   );
 };
 
-export default Clientlogin;
+export default Resetpassword;

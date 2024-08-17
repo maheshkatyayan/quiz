@@ -49,6 +49,7 @@ const Sign = () => {
 
   return (
     <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82] flex items-center justify-center h-screen text-white'>
+    
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
         <h3 className="text-2xl font-bold mb-6 text-center">Client Page</h3>
         <h4 className='text-lg mb-4 text-center'>Enter Your Details</h4>

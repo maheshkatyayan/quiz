@@ -112,7 +112,8 @@ export const logout= (req, res) => {
   }
 
 export const forgot_password1=async (req,res)=>{
-  const {email}=req.body;
+  const {email}=req.body.data;
+  console.log("email",email);
  const link=await forgot_password(email);
  if(link==='User not found'){//not good practices
   res.status(404).json(`you entering the wrong gmail`)
@@ -201,7 +202,7 @@ const forgot_password=async (email)=>{
     const user = result.rows[0];
     const key=process.env.JWT_SECRET+user.password_hash;
     const token=jwt.sign(user.email,key);//add here timer for token expires
-    const link=`http://localhost:5000/users/reset_password/${user.id}/${token}`;
+    const link=`http://localhost:3000/users/reset_password/${user.id}/${token}`;
     return link;
   }
 }

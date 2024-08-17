@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -19,6 +20,7 @@ export const sendVerificationEmail = async (email, verificationLink) => {
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
             console.log('Error sending email', error);
+            throw new error(error)
         } else {
             console.log('Email sent: ' + info.response);
             console.log('Sending email to:', email);
