@@ -48,4 +48,5 @@ export const getDetails = async (req, res) => {
   }
 };
 console.log("mahesh")
-ssh-ed25519 
+//ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8HpMHyEjOI/mVbZ2/yV8RXVniBrYTVcqQ8TRAjnz7I inquizitive@iiitdwd.ac.in
+
