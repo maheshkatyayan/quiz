@@ -13,9 +13,10 @@ import Notlogin from "./component/notlogin.js";
 import Createquizquestion from "./component/createquizquestion.js"
 import Dashboard from './component/Dashboard.js'
 import AboutUs from "./component/About_us.js";
-import Event from "./component/event.js"
+import EventRegistration from "./component/event.js"
 import VerifyEmail from './component/verifymail.js'
- import Resetpassword from './component/Resetpassword.js'
+import Resetpassword from './component/Resetpassword.js'
+import Enternewpassword from "./component/enternewpassword.js";
 
 
 function App() {
@@ -36,9 +37,12 @@ function App() {
           </Route>
           <Route  path="/Resetpassword" element={<Resetpassword/>}>
           </Route>
+          <Route  path="/enternewpassword" element={<Enternewpassword/>}>
+          </Route>
+          
           <Route  path="/Adminlogin" element={<Adminlogin/>}>
           </Route>
-          <Route  path="/event" element={<Event/>}>
+          <Route  path="/EventRegistration" element={<EventRegistration/>}>
           </Route>
           <Route  path="/Clientlogin" element={<Clientlogin/>}>
           </Route>

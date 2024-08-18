@@ -12,9 +12,9 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const Api1 = "http://localhost:5000/quiz/getquestion";
-  const Api2 = "http://localhost:5000/membersDetail";
-  const Api3 = "http://localhost:5000/getSaveTimer";
+  const Api1 = "http://localhost:5000/createquiz/getquestion";
+  const Api2 = "http://localhost:5000/admine/membersDetail";
+  const Api3 = "http://localhost:5000/quizsetup/getSaveTimer";
 
   const fetchApiData = async (url, type) => {
     try {

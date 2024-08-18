@@ -1,3 +1,4 @@
+import db from "../config.js";
 export const blockuser=  async(req,res)=>{
     try{
     await db.query("INSERT INTO blocked_gmail(gmail) VALUES ($1)", [
@@ -19,6 +20,7 @@ export const blockuser=  async(req,res)=>{
   }
   //member
   export const membersDetail =async(req,res)=>{
+    console.log('membersDetail')
       try {
       const result = await db.query('SELECT * FROM member');
        //console.log(result.rows);

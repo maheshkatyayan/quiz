@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
-
+//http://localhost:5000/quizsetup/getSaveTimer
+//http://localhost:5000/quizsetup/Questionbankname
+//http://localhost:5000/quizsetup/addquizname
+//http://localhost:5000/quizsetup/delete_quiz_setup
+//http://localhost:5000/quizsetup/addSaveTimer
 const Dashboard = () => {
   const navigate = useNavigate();
   const [quizName, setQuizName] = useState('');
@@ -28,6 +32,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const result = await axios.get('http://localhost:5000/quizsetup/getSaveTimer');
+        console.log(result)
         setQuizzes(result.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -55,7 +60,7 @@ const Dashboard = () => {
   const QuizBank =async (hello) => {
     const data = { name: hello };
       try {
-        const response = await axios.post('http://localhost:5000/Questionbankname', { data });
+        const response = await axios.post('http://localhost:5000/quizsetup/Questionbankname', { data });
         if (response.status === 200) {
           navigate('/Questiondemo');
         }
@@ -79,8 +84,9 @@ const Dashboard = () => {
       setQuizName('');
       const data = { name: quizName };
       try {
-        const response = await axios.post('http://localhost:5000/addquizname', { data });
+        const response = await axios.post('http://localhost:5000/quizsetup/addquizname', { data });
         if (response.status === 200) {
+          console.log("quiz is added to database")
         }
       } catch (error) {
         toast.error('Error saving quiz');
@@ -94,7 +100,7 @@ const Dashboard = () => {
     setQuizzes(newQuizzes);
     try {
       const data = quizname;
-      const response = await axios.post('http://localhost:5000/delete_quiz_setup', { data });
+      const response = await axios.post('http://localhost:5000/quizsetup/delete_quiz_setup', { data });
     } catch (error) {
       toast.error('Error deleting quiz');
     }
@@ -110,7 +116,7 @@ const Dashboard = () => {
     const data = { saveTimerquizname, quizDate, quizTime };
     console.log(data);
     try{
-    const response = await axios.post('http://localhost:5000/addSaveTimer', data);
+    const response = await axios.post('http://localhost:5000/quizsetup/addSaveTimer', data);
     const updatedQuizzes = quizzes.map((quiz, index) =>
       index === editingQuizIndex ? { ...quiz, date: quizDate, time: quizTime } : quiz
     );
@@ -133,7 +139,7 @@ const Dashboard = () => {
   const handleAddMember = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/addMember', memberDetails);
+      const response = await axios.post('http://localhost:5000/admine/addMember', memberDetails);
       if (response.status === 200) {
         toast.success('Member added successfully');
         setMemberDetails({

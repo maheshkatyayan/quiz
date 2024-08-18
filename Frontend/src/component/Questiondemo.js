@@ -42,7 +42,7 @@ const QuestionDemo = () => {
     } else {
       const data = { questionId, question, options, description, imgSrc, answer, quizName };
       try {
-        const response = await axios.post("http://localhost:5000/addquestion", { data });
+        const response = await axios.post("http://localhost:5000/createquiz/addquestion_to_quiz", { data });
         if (response.status === 200) {
           setQuestions([...questions, data]);
           setQuestion('');
@@ -94,9 +94,9 @@ const QuestionDemo = () => {
       formData.append('mediaType', selectedMediaType);
       formData.append('file', selectedFile);
       formData.append('questionId', questionId);
-
+      console.log("maa chudaie",selectedMediaType,selectedFile,questionId)
       try {
-        const response = await axios.post("http://localhost:5000/upload", formData, {
+        const response = await axios.post("http://localhost:5000/createquiz/uploadMediaQuestion", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         });
         if (response.status === 200) {

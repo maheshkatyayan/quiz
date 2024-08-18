@@ -10,7 +10,7 @@ const Createquizquestion = ({ onQuestionsChange }) => {
 
   useEffect(() => {
     const result= async ()=>{
-     const getdata= await axios.get("http://localhost:5000/questionForonequiz")
+     const getdata= await axios.get("http://localhost:5000/quizsetup/questionForonequiz")
      console.log('d',getdata.data)
      setQuestionList(getdata.data);
     }

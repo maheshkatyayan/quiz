@@ -7,7 +7,7 @@ import notificationRoutes from './routes/notifications.js';
 import admine from './routes/admine.js'
 import userRoutes from './routes/user.js';
 import createquiz from './routes/creatingquiz.js';
-import { GoToQuizSetUp } from './controllers/quizsetupController.js';
+import QuizSetUp  from './routes/quizsetup.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -28,8 +28,8 @@ app.use('/admine', admine);
 app.use('/users', userRoutes);
 app.use('/events', eventRoutes);
 app.use('/notifications', notificationRoutes);
-app.use("/quiz",createquiz);
-app.use('/quizsetup',GoToQuizSetUp)
+app.use("/createquiz",createquiz);
+app.use('/quizsetup',QuizSetUp)
 
 // Start server
 const PORT = process.env.PORT || 5000;

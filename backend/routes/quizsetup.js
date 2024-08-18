@@ -9,6 +9,6 @@ router.post("/Questionbankname",Questionbankname);
 router.post("/GoToQuizSetUp",GoToQuizSetUp);
 router.post("/addSaveTimer",addSaveTimer);
 router.post("/delete_quiz_setup",delete_quiz_setup);
-router.post("/getSaveTimer",getSaveTimer);
+router.get("/getSaveTimer",getSaveTimer);
 
 export default router;
