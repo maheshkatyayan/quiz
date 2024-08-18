@@ -28,7 +28,7 @@ app.use('/admine', admine);
 app.use('/users', userRoutes);
 app.use('/events', eventRoutes);
 app.use('/notifications', notificationRoutes);
-app.use("/createquiz",createquiz);
+app.use("/quiz",createquiz);
 app.use('/quizsetup',QuizSetUp)
 
 // Start server

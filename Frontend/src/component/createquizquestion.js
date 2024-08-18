@@ -23,7 +23,7 @@ const Createquizquestion = ({ onQuestionsChange }) => {
 
   const handleDelete = async (question_id) => {
     try {
-      await axios.post("http://localhost:5000/delete", { question_id });
+      await axios.post("http://localhost:5000/quiz/deletequestion", { question_id });
       setQuestionList(questionList.filter(q => q.question_id !== question_id));
       onQuestionsChange();
     } catch (error) {

@@ -24,7 +24,6 @@ export const addquizname =async(req,res)=>{
 
 export const questionForonequiz=async(req,res)=>{
   try {
-    console.log(quizName)
     const result = await db.query('SELECT * FROM quiz_question WHERE quizname=$1',[quizName]);
      res.json(result.rows);
     } catch (err) {
@@ -33,7 +32,57 @@ export const questionForonequiz=async(req,res)=>{
     }
 }
   
-  
+export const addquestion_to_quiz = async (req, res) => {
+  const quizName123 = fs.readFileSync(quizNameFilePath, "utf8");
+  console.log("quizName",quizName123)
+  const {
+    questionId,
+    question,
+    options,
+    answer,
+    description,
+    imgSrc,
+  } = req.body.data;
+  console.log(req.body.data);
+  try {
+    // Check if the question already exists in the quiz
+    const result = await db.query(
+      "SELECT question_id FROM quiz_question WHERE question_id = $1",
+      [questionId]
+    );
+
+    if (result.rows.length === 0) {
+      // If the question doesn't exist, insert it
+      await db.query("INSERT INTO quiz_question (question_id) VALUES ($1)", [
+        questionId,
+      ]);
+    }
+
+    // Update or insert the question details
+    await db.query(
+      `UPDATE quiz_question 
+       SET question = $1, options1 = $2, options2 = $3, options3 = $4, options4 = $5, answer = $6, description = $7, image = $8, quizname = $9 
+       WHERE question_id = $10`,
+      [
+        question,
+        options[0],
+        options[1],
+        options[2],
+        options[3],
+        answer,
+        description,
+        imgSrc,
+        quizName123,
+        questionId,
+      ]
+    );
+
+    res.status(200).send("Data updated successfully");
+  } catch (err) {
+    console.error("Error updating question:", err);
+    res.status(500).json({ error: "Failed to update question" });
+  }
+};
   
 
   export const Questionbankname= async(req,res)=>{
@@ -61,7 +110,6 @@ export const GoToQuizSetUp=async(req,res)=>{
       console.log("getsavetimer")
       try{
         const result= await db.query("SELECT * FROM quiz_setup");
-      console.log("getsavetimer",result.rows);
         res.status(200).json(result.rows);
       }catch(e){
         console.log(e)
@@ -73,6 +121,8 @@ export const GoToQuizSetUp=async(req,res)=>{
     console.log("deletequizname",req.body.data)
     try{
     await db.query("DELETE FROM quiz_setup WHERE name=$1",[req.body.data])
+    await db.query("DELETE FROM quiz_question WHERE quizname=$1",[req.body.data])
+    res.status(200)
     } catch (err) {
     console.error('Error getting questions:', err);
     res.status(500).json({ error: 'Failed to get questions' });

@@ -1,10 +1,11 @@
 import express from 'express';
-import {addquizname, questionForonequiz,Questionbankname,GoToQuizSetUp,addSaveTimer,delete_quiz_setup,getSaveTimer} from '../controllers/quizsetupController.js';
+import {addquizname,addquestion_to_quiz, questionForonequiz,Questionbankname,GoToQuizSetUp,addSaveTimer,delete_quiz_setup,getSaveTimer} from '../controllers/quizsetupController.js';
 
 const router = express.Router();
 
 router.post("/addquizname",addquizname);
 router.get("/questionForonequiz",questionForonequiz);
+router.post("/addquestion_to_quiz",addquestion_to_quiz);
 router.post("/Questionbankname",Questionbankname);
 router.post("/GoToQuizSetUp",GoToQuizSetUp);
 router.post("/addSaveTimer",addSaveTimer);

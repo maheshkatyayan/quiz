@@ -5,6 +5,7 @@ import axios from "axios";
 import Nav from './Nav.js';
 import toast, { Toaster } from 'react-hot-toast';
 import CreateQuizQuestion from "./createquizquestion.js";
+import Showquestion from './showquestion.js';
 
 const QuestionDemo = () => {
   const [question, setQuestion] = useState('');
@@ -42,7 +43,7 @@ const QuestionDemo = () => {
     } else {
       const data = { questionId, question, options, description, imgSrc, answer, quizName };
       try {
-        const response = await axios.post("http://localhost:5000/createquiz/addquestion_to_quiz", { data });
+        const response = await axios.post("http://localhost:5000/quizsetup/addquestion_to_quiz", { data });
         if (response.status === 200) {
           setQuestions([...questions, data]);
           setQuestion('');
@@ -122,7 +123,7 @@ const QuestionDemo = () => {
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Question ID</label>
             <input
-              type="text"
+              type="number"
               className="border border-gray-300 p-2 rounded-md w-full"
               placeholder='only enter integer'
               value={questionId}
