@@ -12,7 +12,7 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const Api1 = "http://localhost:5000/createquiz/getquestion";
+  const Api1 = "http://localhost:5000/quiz/getQuestion";
   const Api2 = "http://localhost:5000/admine/membersDetail";
   const Api3 = "http://localhost:5000/quizsetup/getSaveTimer";
 

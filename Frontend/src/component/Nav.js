@@ -6,12 +6,12 @@ import logo from '../image/Club_logo.JPG.png';
 const NavBar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
+  const [showVerification, setShowVerification] = useState(false); // state to control popup
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const response = await axios.get('http://localhost:5000/users/readtoken', { withCredentials: true });
-        console.log(response)
         if (response.data.success) {
           setUser(true);
         }
@@ -26,10 +26,24 @@ const NavBar = () => {
     setUser(true);
     navigate(path);
   };
+
+  const handleQuizRoomClick = () => {
+    setShowVerification(true); // show the verification popup
+  };
+
   const handleNavigation2 = async (path) => {
     await axios.get('http://localhost:5000/users/logout', { withCredentials: true });
     setUser(false);
     navigate(path);
+  };
+
+  const handleVerificationSubmit = async (e) => {
+    e.preventDefault(); // prevent default form submission
+    navigate('/Timer'); // navigate to Timer page
+  };
+
+  const togglePopup = () => {
+    setShowVerification(!showVerification);
   };
 
   return (
@@ -45,7 +59,7 @@ const NavBar = () => {
       </div>
       <div className="space-x-6">
         <ul className="flex space-x-10">
-          <li><button onClick={() => handleNavigation('/Timer')} className="text-gray-200 hover:text-white">Quiz Room</button></li>
+          <li><button onClick={handleQuizRoomClick} className="text-gray-200 hover:text-white">Quiz Room</button></li>
           <li><button onClick={() => handleNavigation('/Adminlogin')} className="text-gray-200 hover:text-white">Admin</button></li>
           <li><button onClick={() => handleNavigation('/EventRegistration')} className="text-gray-200 hover:text-white">Event</button></li>
           <li><button onClick={() => handleNavigation('/About_us')} className="text-gray-200 hover:text-white">About us</button></li>
@@ -66,6 +80,45 @@ const NavBar = () => {
           </ul>
         )}
       </div>
+
+      {/* Render the verification popup if needed */}
+      {showVerification && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-black p-6 rounded-lg w-full max-w-md relative">
+            <button
+              className="absolute top-0 right-0 m-3 text-gray-500 hover:text-gray-700"
+              onClick={togglePopup}
+            >
+              &times;
+            </button>
+            <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+            <form className="space-y-4" onSubmit={handleVerificationSubmit}>
+              <div>
+                <label className="block font-semibold mb-2">Team Name</label>
+                <input
+                  type="text"
+                  className="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div>
+                <label className=" block font-semibold mb-2">Enter Team lead_Mail_Id</label>
+                <input
+                  type="text"
+                  className="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter your class"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

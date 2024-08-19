@@ -1,4 +1,5 @@
 import db from "../config.js";
+import fs from "fs";
 import multer from "multer";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -8,7 +9,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyCwQcCNFhv2pjZctwh0mmO4lcTFN6sDHrc",
   authDomain: "quizmaster-b0faf.firebaseapp.com",
   projectId: "quizmaster-b0faf",
-  storageBucket: "quizmaster-b0faf.appspot.com", // Correctly formatted
+  storageBucket: "quizmaster-b0faf.appspot.com",
   messagingSenderId: "620399637174",
   appId: "1:620399637174:web:11397e200c8fc4c7866c17",
   measurementId: "G-6MD1EF1R78",
@@ -18,23 +19,23 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseStorage = getStorage(firebaseApp);
 
-// Multer setup
- const storage = multer.diskStorage({
+// Multer setup for file uploads
+const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Specify the directory to save uploaded files
+    cb(null, 'uploads/'); // Directory to save uploaded files
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname); // Use original file name
   }
-}); // Store files in memory
+});
 const upload = multer({ storage });
 
-// Express route handler
+// Express route handler for uploading media questions
 export const uploadMediaQuestion = upload.single('file', async (req, res) => {
   const file = req.file;
   const mediaType = req.body.mediaType;
   const questionId = req.body.questionId;
-console.log(mediaType,questionId,file)
+
   if (!file) {
     return res.status(400).send("No file uploaded.");
   }
@@ -42,17 +43,20 @@ console.log(mediaType,questionId,file)
   try {
     // Read the file and convert it to a buffer
     const fileBuffer = fs.readFileSync(file.path);
-    const storage = getStorage();
 
     let storageRef;
-    if (mediaType === 'image') {
-      storageRef = ref(storage, `images/${file.originalname}`);
-    } else if (mediaType === 'audio') {
-      storageRef = ref(storage, `audio/${file.originalname}`);
-    } else if (mediaType === 'video') {
-      storageRef = ref(storage, `videos/${file.originalname}`);
-    } else {
-      return res.status(400).send("Invalid media type.");
+    switch (mediaType) {
+      case 'image':
+        storageRef = ref(firebaseStorage, `images/${file.originalname}`);
+        break;
+      case 'audio':
+        storageRef = ref(firebaseStorage, `audio/${file.originalname}`);
+        break;
+      case 'video':
+        storageRef = ref(firebaseStorage, `videos/${file.originalname}`);
+        break;
+      default:
+        return res.status(400).send("Invalid media type.");
     }
 
     await uploadBytes(storageRef, fileBuffer);
@@ -64,7 +68,7 @@ console.log(mediaType,questionId,file)
       [questionId, mediaType, fileUrl]
     );
 
-    // Clean up the uploaded file
+    // Clean up the uploaded file from the server
     fs.unlinkSync(file.path);
 
     res.status(200).json({ message: "File uploaded successfully." });
@@ -74,68 +78,50 @@ console.log(mediaType,questionId,file)
   }
 });
 
+// File to store quiz name
+const quizNameFilePath = "./quizname2.txt";
 
-
-// export const uploadmediaquestion = async (req, res) => {
-//   const file = req.file;
-//   const mediaType = req.body.mediaType;
-//   const questionId = req.body.questionId;
-
-//   if (!file) {
-//     return res.status(400).send("No file uploaded.");
-//   }
-
-//   try {
-//     // Create a reference to the storage location
-//     let storageRef;
-//     if (mediaType === 'image') {
-//       storageRef = ref(firebaseStorage, `images/${file.originalname}`);
-//     } else if (mediaType === 'audio') {
-//       storageRef = ref(firebaseStorage, `audio/${file.originalname}`);
-//     } else if (mediaType === 'video') {
-//       storageRef = ref(firebaseStorage, `videos/${file.originalname}`);
-//     } else {
-//       return res.status(400).send("Invalid media type.");
-//     }
-
-//     // Upload the file to Firebase Storage
-//     await uploadBytes(storageRef, file.buffer);
-//     const fileUrl = await getDownloadURL(storageRef);
-
-//     // Insert file reference into the database
-//     await db.query(
-//       "INSERT INTO quiz_question(question_id, file_type, file_url) VALUES ($1, $2, $3)",
-//       [questionId, mediaType, fileUrl]
-//     );
-
-//     res.status(200).json({ message: "File uploaded successfully." });
-//   } catch (err) {
-//     console.error("Error uploading file:", err);
-//     res.status(500).send("Error uploading file.");
-//   }
-// };
-
-
-  export const getquestion = async (req, res) => {
-    //console.log(quizName)
-  try {
-  const result = await db.query('SELECT * FROM quiz_question');
-   //console.log(result.rows);
-  res.json(result.rows);
-  res.status(200).send('Data updated successfully');
-  } catch (err) {
-  console.error('Error getting questions:', err);
-  res.status(500).json({ error: 'Failed to get questions' });
+// Function to set quiz name to a file
+export const setQuizNameToFile = (req, res) => {
+  const quizName = req.body.name;
+  if (!quizName) {
+    return res.status(400).json({ message: "Quiz name is required" });
   }
-  };
 
-  export const deletequestion=async(req,res)=>{
-    console.log("delete",req.body.question_id)
-    try{
-    await db.query("DELETE FROM quiz_question WHERE question_id=$1",[req.body.question_id])
-    res.status(200).send('question deleted successfully');
-    }catch (err) {
-    console.error('Error delete questions:', err);
-    res.status(500).json({ error: 'Failed to get delete' });
+  fs.writeFileSync(quizNameFilePath, quizName, "utf8");
+  res.status(200).json({ message: 'Quiz set  successfully' });
+};
+
+// Function to get questions based on the quiz name
+export const getQuestion = async (req, res) => {
+  try {
+    if (!fs.existsSync(quizNameFilePath)) {
+      return res.status(400).json({ message: "Quiz name file not found" });
     }
-    }
+
+    const quizName = fs.readFileSync(quizNameFilePath, "utf8");
+    const result = await db.query('SELECT * FROM quiz_question WHERE quizname = $1', [quizName]);
+    
+    res.status(200).json(result.rows);
+  } catch (err) {
+    console.error('Error getting questions:', err);
+    res.status(500).json({ error: 'Failed to get questions' });
+  }
+};
+
+// Function to delete a question
+export const deleteQuestion = async (req, res) => {
+  const questionId = req.body.question_id;
+
+  if (!questionId) {
+    return res.status(400).json({ error: "Question ID is required" });
+  }
+
+  try {
+    await db.query("DELETE FROM quiz_question WHERE question_id = $1", [questionId]);
+    res.status(200).json({ message: 'Question deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting question:', err);
+    res.status(500).json({ error: 'Failed to delete question' });
+  }
+};

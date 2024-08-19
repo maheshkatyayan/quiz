@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalcontext } from './contex.js';
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 
 const Createquizquestion = ({ onQuestionsChange }) => {
   const { questions } = useGlobalcontext();
   const [myArray, setMyArray] = useState([]);
   const [questionList, setQuestionList] = useState(questions);
+  const [quiznameforconformation, setQuizNameForConformation]=useState('')
 
   useEffect(() => {
-    const result= async ()=>{
-     const getdata= await axios.get("http://localhost:5000/quizsetup/questionForonequiz")
-     console.log('d',getdata.data)
-     setQuestionList(getdata.data);
-    }
-    result();
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/quizsetup/questionForonequiz");
+        setQuestionList(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [questions]);
 
   const handleUpdate = (question_id) => {
@@ -32,9 +38,22 @@ const Createquizquestion = ({ onQuestionsChange }) => {
   };
 
   const handleOptionChange = (question_id, optionValue, answer) => {
-    const selectedQuestion = questions.find(q => q.question_id === question_id);
     console.log("Answer of the question:", answer, optionValue);
     setMyArray(prevArray => [...prevArray, { question_id, selectedOption: optionValue }]);
+  };
+
+  const setQuizForExam = async () => {
+    try {
+      const name = quiznameforconformation;
+      const response=await axios.post("http://localhost:5000/quiz/setQuizNameToFile", { name });
+      console.log("Quiz name set for the exam:", response.status);
+      if(response.status===200){
+        setQuizNameForConformation('')
+        toast.success(response.data.message)
+      }
+    } catch (error) {
+      console.error("Error setting quiz name for exam:", error);
+    }
   };
 
   return (
@@ -52,7 +71,7 @@ const Createquizquestion = ({ onQuestionsChange }) => {
                 className="w-full h-auto max-w-md mb-4 border rounded shadow-md"
               />
             )}
-            {file_type === 'image' && (<img src={file_url} className="w-full h-auto max-w-md mb-4 border rounded shadow-md" />)}
+            {file_type === 'image' && (<img src={file_url} className="w-full h-auto max-w-md mb-4 border rounded shadow-md" alt="file related to the question" />)}
             {file_type === 'audio' && <audio src={file_url} controls autoPlay />}
             {file_type === 'video' && <video width="750" height="500" controls><source src={file_url} type="video/mp4" /></video>}
             {discription && <p className='text-gray-700 mb-4'>{discription}</p>}
@@ -117,6 +136,19 @@ const Createquizquestion = ({ onQuestionsChange }) => {
           </div>
         );
       })}
+      <input
+        placeholder='Enter quiz name for confirmation'
+        value={quiznameforconformation}
+        onChange={(e) => setQuizNameForConformation(e.target.value)}
+        required
+        className="w-full px-4 py-2 mt-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        className='mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700'
+        onClick={setQuizForExam}
+      >
+        Set Quiz for Exam
+      </button>
     </div>
   );
 };

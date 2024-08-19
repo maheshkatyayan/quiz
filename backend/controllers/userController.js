@@ -36,7 +36,7 @@ export const register = async (req, res) => {
       const verification_token = jwt.sign({ email }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-
+      console.log(password_hash)
       // Create a new user record
       await db.query(
         "INSERT INTO users ( email, phone_number, password_hash, user_name, verification_token) VALUES ($1, $2, $3, $4, $5)",
@@ -60,19 +60,29 @@ export const register = async (req, res) => {
 
 export const verifyEmail = async (req, res) => {
   const token = req.params.token;
-  console.log(token);
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const email = decoded.email;
-  const user = await db.query("SELECT * FROM users WHERE email = $1", [email]);
   try {
-    await db.query("UPDATE users SET verified = TRUE WHERE email = $1", [
-      email,
-    ]);
-    res.status(200).json({ message: "Email verified successfully." });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email;
+
+    const userResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const user = userResult.rows[0];
+
+    if (user.verified) {
+      return res.status(400).json({ message: "Email is already verified" });
+    }
+    await db.query("UPDATE users SET verified = TRUE WHERE email = $1", [email]);
+    return res.redirect(`${process.env.FRONTEND_URL}/Clientlogin`);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error verifying email:", error);
+    return res.status(400).json({ error: error.message });
   }
 };
+
 
 // User Login
 export const login = async (req, res) => {
