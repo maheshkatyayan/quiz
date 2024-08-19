@@ -61,8 +61,6 @@ export const eventRegistration=async (req,res)=>{
        console.log(e);
      }
  
-   
- 
  };
 
  export default eventRegistration;

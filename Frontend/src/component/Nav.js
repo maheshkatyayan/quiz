@@ -61,7 +61,7 @@ const NavBar = () => {
         <ul className="flex space-x-10">
           <li><button onClick={handleQuizRoomClick} className="text-gray-200 hover:text-white">Quiz Room</button></li>
           <li><button onClick={() => handleNavigation('/Adminlogin')} className="text-gray-200 hover:text-white">Admin</button></li>
-          <li><button onClick={() => handleNavigation('/EventRegistration')} className="text-gray-200 hover:text-white">Event</button></li>
+          <li><button onClick={() => handleNavigation('/Event')} className="text-gray-200 hover:text-white">Event</button></li>
           <li><button onClick={() => handleNavigation('/About_us')} className="text-gray-200 hover:text-white">About us</button></li>
           <li><button onClick={() => window.location.href = '#myprofile'} className="text-gray-200 hover:text-white">My Profile</button></li>
         </ul>

@@ -17,6 +17,7 @@ import EventRegistration from "./component/event.js"
 import VerifyEmail from './component/verifymail.js'
 import Resetpassword from './component/Resetpassword.js'
 import Enternewpassword from "./component/enternewpassword.js";
+import Event from './component/event.js'
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
         ></Route> */}
         
           <Route  path="/Questiondemo" element={<Questiondemo/>}>
+          </Route>
+          <Route  path="/Event" element={<Event/>}>
           </Route>
           <Route  path="/Resetpassword" element={<Resetpassword/>}>
           </Route>
