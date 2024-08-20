@@ -1,6 +1,4 @@
 import db from "../config.js"
-import express from 'express';
-
 
 export const eventRegistration=async (req,res)=>{
   console.log("got it")
@@ -62,6 +60,67 @@ export const eventRegistration=async (req,res)=>{
      }
  
  };
+ export const accessingquizroom = async (req, res) => {
+  try {
+    const { teamleademailid } = req.body.data;
+    console.log(teamleademailid)
+    // Check if the team lead email is registered for the event
+    const result = await db.query(
+      'SELECT * FROM eventregistration WHERE  leadmailid=$1',
+      [teamleademailid]
+    );
+    console.log(result.rows[0])
+    if (result.rows.length === 0) {
+      console.log("You are not registered for the quiz");
+      return res.status(400).json({ error: 'You are not registered' });
+    }
 
- export default eventRegistration;
+    // Generate a random 4-digit OTP (or any other logic you prefer)
+    const otp = Math.floor(1000 + Math.random() * 9000);
+
+    // Update the team key in the quiz_setup table
+    const updateResult = await db.query(
+      'UPDATE eventregistration SET teamkey=$1 WHERE leadmailid=$2',
+      [otp, teamleademailid]
+    );
+    console.log(updateResult.rowCount)
+    if (updateResult.rowCount === 0) {
+      console.log("No matching record found in eventregistration");
+      return res.status(400).json({ error: 'Something went wrong, no matching record found' });
+    }
+
+    res.status(200).json({ error: 'Key is generated successfully', otp });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+export const accessingquizroombykey = async (req, res) => {
+  try {
+    // Destructure the key from the request body
+    const { key } = req.body;
+
+    // Query the database to find a matching record in the eventregistration table
+    const result = await db.query(
+      'SELECT * FROM eventregistration WHERE teamkey = $1',
+      [key]
+    );
+
+    // Check if a record was found
+    if (result.rows.length > 0) {
+      console.log("Key found:", result.rows[0]);
+      res.status(200).json(result.rows[0]);
+    } else {
+      console.log("No matching key found");
+      res.status(404).json({ message: "No matching key found" });
+    }
+  } catch (error) {
+    // Handle any errors that occur during the query
+    console.error("Error accessing quiz room by key:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
 

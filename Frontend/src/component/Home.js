@@ -66,7 +66,7 @@ const Home = () => {
               onClick={() => handleNavigation('/classroom')}
               className="bg-white text-black px-6 py-3 rounded-lg transition transform duration-300 hover:bg-gray-300 hover:scale-105"
             >
-              Class Room
+              Fact Room
             </button>
           </div>
         </div>
