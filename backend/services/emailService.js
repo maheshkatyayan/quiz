@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
 });
 //I have to change it when I got frontend. means the mails will send to open frontend page where there will button for verify which will call this verification link(api endpoint) 
 export const sendVerificationEmail = async (email, verificationLink) => {
-  console.log('email is sending');
+  console.log('email is sending',email);
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to:email,
