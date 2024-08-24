@@ -78,26 +78,27 @@ const NavBar = () => {
   
 
   return (
-    <nav className="bg-transparent p-6 flex justify-between items-center">
-      <div className="flex items-center space-x-4 text-white">
-        <div className="relative w-16 h-16 rounded-full overflow-hidden">
-          <img src={logo} alt="InQuizitive Logo" className="w-full h-full object-cover" />
-        </div>
-        <div className="border-l-2 border-white pl-4">
-          <span className="block font-bold text-3xl">InQuizitive</span>
-          <span className="block text-xl">IIIT Dharwad</span>
-        </div>
+    <nav className="bg-transparent container mx-auto p-6 flex justify-between items-center p-6 flex justify-between items-center">
+    <div className="flex items-center space-x-4 text-white">
+      <div className="relative w-16 h-16 rounded-full overflow-hidden">
+        <img src={logo} alt="InQuizitive Logo" className="w-full h-full object-cover" />
       </div>
-      <div className="space-x-6">
-        <ul className="flex space-x-10">
-          <li><button onClick={handleQuizRoomClick} className="text-gray-300 hover:text-white">Quiz Room</button></li>
-          <li><button onClick={() => handleNavigation('/Adminlogin')} className="text-gray-300 hover:text-white">Admin</button></li>
-          <li><button onClick={() => handleNavigation('/Event')} className="text-gray-300 hover:text-white">Event</button></li>
-          <li><button onClick={() => handleNavigation('/About_us')} className="text-gray-300 hover:text-white">About us</button></li>
-          <li><button onClick={() => window.location.href = '#myprofile'} className="text-gray-200 hover:text-white">My Profile</button></li>
-        </ul>
+      <div className="border-l-2 border-white pl-4">
+        <span className="block font-bold text-3xl">InQuizitive</span>
+        <span className="block text-xl">IIIT Dharwad</span>
       </div>
-      <div className="space-x-2">
+    </div>
+    <div className="space-x-6">
+      <ul className="flex space-x-10">
+        <li><button onClick={() => handleNavigation('/')} className="text-gray-200 hover:text-white">Home</button></li>
+        <li><button onClick={handleQuizRoomClick} className="text-gray-200 hover:text-white">Quiz Room</button></li>
+        <li><button onClick={() => handleNavigation('/Adminlogin')} className="text-gray-200 hover:text-white">Admin</button></li>
+        <li><button onClick={() => handleNavigation('/event')} className="text-gray-200 hover:text-white">Event</button></li>
+        <li><button onClick={() => handleNavigation('/About_us')} className="text-gray-200 hover:text-white">About us</button></li>
+        <li><button onClick={() => window.location.href = '#myprofile'} className="text-gray-200 hover:text-white">My Profile</button></li>
+      </ul>
+    </div>
+    <div className="space-x-2">
         {user ? (
           <ul className="flex items-center space-x-2">
             <span>{user.email}</span>
@@ -112,18 +113,18 @@ const NavBar = () => {
 
       {/* Render the verification popup if needed */}
       {showVerification && (
-        <div className="bg-transparent fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-transparent p-6 rounded-lg w-full max-w-md relative bg-white">
+        <div className="bg-black bg-opacity-80 fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-transparent  p-6 rounded-lg w-full max-w-md relative">
             <button
               className="absolute top-0 right-0 m-3 text-gray-500 hover:text-gray-700"
               onClick={togglePopup}
             >
               &times;
             </button>
-            <h2 className="text-2xl font-bold mb-4 text-center">Quiz Room</h2>
+            <h2 className="text-4xl text-white font-bold mb-4 text-center">Quiz Room</h2>
             <form className="space-y-4"  onSubmit={accessingQuizRoom}>
               <div>
-                <label className="block font-semibold mb-2">Team Name</label>
+                <label className="text-white text-xl block font-semibold mb-2">Team Name</label>
                 <input
                   type="text"
                   value={teamname}
@@ -133,7 +134,7 @@ const NavBar = () => {
                 />
               </div>
               <div>
-                <label className="block font-semibold mb-2">Enter Team Lead Email ID</label>
+                <label className="text-white text-xl block font-semibold mb-2">Enter Team Lead Email ID</label>
                 <input
                   type="text"
                   value={teamleademailid}
@@ -144,7 +145,7 @@ const NavBar = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                className="w-full bg-black text-gray-300 px-4 py-2 rounded-md hover:text-white"
               >
                 Submit
               </button>

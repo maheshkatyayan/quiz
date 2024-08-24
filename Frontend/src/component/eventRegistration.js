@@ -196,7 +196,7 @@ const EventRegistration = () => {
                 id="btn"
                 type="button"
                 onClick={register}
-                className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+                className="w-full bg-black text-gray-300 py-2 rounded-md hover:text-white"
               >
                 Submit
               </button>

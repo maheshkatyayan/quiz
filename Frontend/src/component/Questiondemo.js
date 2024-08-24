@@ -100,7 +100,7 @@ const QuestionDemo = () => {
             <label className="block text-gray-700 font-semibold mb-2">Question ID</label>
             <input
               type="number"
-              className="border border-gray-300 p-2 rounded-md w-full"
+              className="border border-gray-300 p-2 text-black rounded-md w-full"
               placeholder='only enter integer'
               value={questionId}
               onChange={handleChange(setQuestionID)}
@@ -111,7 +111,7 @@ const QuestionDemo = () => {
             <label className="block text-gray-700 font-semibold mb-2">Question</label>
             <input
               type="text"
-              className="border border-gray-300 p-2 rounded-md w-full"
+              className="border border-gray-300 p-2 text-black rounded-md w-full"
               value={question}
               onChange={handleChange(setQuestion)}
             />
@@ -128,7 +128,7 @@ const QuestionDemo = () => {
                   placeholder='Enter image address'
                   value={imgSrc}
                   onChange={handleChange(setImgSrc)}
-                  className="border border-gray-300 p-2 rounded-md w-full"
+                  className="border border-gray-300 text-black p-2 rounded-md w-full"
                 />
                 <button onClick={() => setShowImageInput(false)} className="text-red-500">
                   <FaTrashAlt />
@@ -158,7 +158,7 @@ const QuestionDemo = () => {
                     type="file"
                     accept={`${selectedMediaType}/*`}
                     onChange={(e) => setSelectedFile(e.target.files[0])}
-                    className="border border-gray-300 p-2 rounded-md w-full"
+                    className="border border-gray-300 text-black p-2 rounded-md w-full"
                   />
                 </div>
               )}
@@ -182,7 +182,7 @@ const QuestionDemo = () => {
                   type="text"
                   value={description}
                   onChange={handleChange(setDescription)}
-                  className="border border-gray-300 p-2 rounded-md w-full"
+                  className="border border-gray-300 text-black p-2 rounded-md w-full"
                 />
                 <button onClick={() => setShowDescriptionInput(false)} className="text-red-500">
                   <FaTrashAlt />
@@ -197,7 +197,7 @@ const QuestionDemo = () => {
               type="text"
               value={answer}
               onChange={handleChange(setAnswer)}
-              className="border border-gray-300 p-2 rounded-md w-full"
+              className="border border-gray-300 p-2 text-black rounded-md w-full"
             />
           </div>
 
@@ -209,7 +209,7 @@ const QuestionDemo = () => {
                   type="text"
                   value={option}
                   onChange={handleOptionChange(index)}
-                  className="border border-gray-300 p-2 rounded-md w-full"
+                  className="border border-gray-300 text-black p-2 rounded-md w-full"
                 />
                 <button onClick={() => handleRemoveOption(index)} className="text-red-500">
                   <FaTrashAlt />

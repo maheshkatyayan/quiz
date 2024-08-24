@@ -61,9 +61,9 @@ const Createquizquestion = ({ onQuestionsChange }) => {
       {questionList.map((item) => {
         const { question_id, question, options1, options2, options3, options4, answer, discription, image, file_type, file_url, quizname } = item;
         return (
-          <div key={question_id} className='bg-white p-4 rounded-lg shadow-md mb-6'>
+          <div key={question_id} className='bg-white p-20 rounded-lg shadow-md mb-6'>
             <h4>{quizname}</h4>
-            <h2 className='text-xl font-bold mb-2'>{question_id}. {question}</h2>
+            <h2 className='text-xl text-black font-bold mb-2'>{question_id}. {question}</h2>
             {image && (
               <img
                 src={image}
@@ -141,7 +141,7 @@ const Createquizquestion = ({ onQuestionsChange }) => {
         value={quiznameforconformation}
         onChange={(e) => setQuizNameForConformation(e.target.value)}
         required
-        className="w-full px-4 py-2 mt-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className=" px-4 py-2 mt-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         className='mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700'
