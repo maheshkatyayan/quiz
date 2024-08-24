@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import Nav from './Nav.js';
 //import backgroundvideo from '../image/video1.mp4';
 
 const Clientlogin = () => {
@@ -54,13 +55,10 @@ const Clientlogin = () => {
 
   return (
     <>
-      <video autoPlay muted loop className="fixed right-0 left-0 min-w-full min-h-full -z-1 ">
-        <source src="https://firebasestorage.googleapis.com/v0/b/quizmaster-b0faf.appspot.com/o/video%2F5453622-uhd_3840_2160_24fps.mp4?alt=media&token=c71e9ee2-8b59-4e79-bf9c-050c88a49032" type="video/mp4" />
-      </video>
-      <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] flex items-center justify-center h-screen text-white">
-        <div className="bg-transparent p-8 rounded-lg shadow-lg w-96 max-w-full z-10">
-          <h3 className="text-2xl font-bold mb-6 text-center">Client Page</h3>
-          <h4 className="text-lg mb-4 text-center">Enter your email id</h4>
+      <Nav/>
+      <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] flex items-center justify-center h-screen text-white" >
+        <div className="bg-[#2e1a47] p-8 rounded-lg shadow-2xl w-96 max-w-full z-10 -mt-20">
+          <h3 className="text-3xl font-bold mb-9 text-center">Login</h3>
 
           <div className="flex flex-col space-y-4">
             <input
@@ -80,7 +78,7 @@ const Clientlogin = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <button
-              className="w-full px-4 py-2 bg-green-500 text-white rounded-lg font-bold transition duration-300 ease-in-out hover:bg-green-600"
+              className="w-full px-4 py-2 bg-green-600 text-white rounded-lg font-bold transition duration-300 ease-in-out hover:bg-green-600"
               id="Join"
               onClick={LogIn}
             >
@@ -90,7 +88,7 @@ const Clientlogin = () => {
             <span className="text-center">
               If you don't have an ID, click &nbsp;
               <Toaster />
-              <a href="#" className="text-green-400 font-bold" onClick={createNewSignIn}>sign in</a>
+              <a href="#" className="text-green-400 font-bold" onClick={createNewSignIn}>sign up</a>
             </span>
             <span className="text-center">
              &nbsp;

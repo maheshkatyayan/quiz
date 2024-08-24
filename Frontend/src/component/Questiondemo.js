@@ -1,117 +1,93 @@
 import React, { useState } from 'react';
 import { IoMdAddCircle, IoMdAdd } from "react-icons/io";
-import { FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import axios from "axios";
 import Nav from './Nav.js';
 import toast, { Toaster } from 'react-hot-toast';
 import CreateQuizQuestion from "./createquizquestion.js";
-import Showquestion from './showquestion.js';
 
 const QuestionDemo = () => {
   const [question, setQuestion] = useState('');
   const [questionId, setQuestionID] = useState('');
-  const [questionType, setQuestionType] = useState('Multiple choice');
   const [options, setOptions] = useState(['']);
   const [showImageInput, setShowImageInput] = useState(false);
   const [showDescriptionInput, setShowDescriptionInput] = useState(false);
   const [answer, setAnswer] = useState('');
   const [description, setDescription] = useState('');
   const [imgSrc, setImgSrc] = useState('');
-  const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedMediaType, setSelectedMediaType] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadSection, setUploadSection] = useState(true);
-  const [showQuizName, setShowQuizName] = useState(true);
-  const [quizName, setQuizName] = useState('');
   const [questions, setQuestions] = useState([]);
 
-  const handleQuestionChange = (e) => setQuestion(e.target.value);
-
-  const handleOptionChange = (index, value) => {
+  const handleChange = (setter) => (e) => setter(e.target.value);
+  const handleOptionChange = (index) => (e) => {
     const newOptions = [...options];
-    newOptions[index] = value;
+    newOptions[index] = e.target.value;
     setOptions(newOptions);
   };
-
   const handleAddOption = () => setOptions([...options, '']);
-
   const handleRemoveOption = (index) => setOptions(options.filter((_, i) => i !== index));
 
   const handleFinalQuestion = async () => {
     if (!questionId || !question || !answer) {
       toast.error("Please fill all inputs");
-    } else {
-      const data = { questionId, question, options, description, imgSrc, answer, quizName };
-      try {
-        const response = await axios.post("http://localhost:5000/quizsetup/addquestion_to_quiz", { data });
-        if (response.status === 200) {
-          setQuestions([...questions, data]);
-          setQuestion('');
-          setQuestionID('');
-          setOptions(['']);
-          setDescription('');
-          setImgSrc('');
-          setAnswer('');
-          setShowImageInput(false);
-          setShowDescriptionInput(false);
-          toast.success("Question added successfully!");
-        } else {
-          toast.error("Something went wrong!");
-        }
-      } catch (e) {
-        console.log(e);
-        toast.error("Failed to add question!");
+      return;
+    }
+
+    const data = { questionId, question, options, description, imgSrc, answer };
+    try {
+      const response = await axios.post("http://localhost:5000/quizsetup/addquestion_to_quiz", { data });
+      if (response.status === 200) {
+        setQuestions([...questions, data]);
+        resetForm();
+        toast.success("Question added successfully!");
+      } else {
+        toast.error("Something went wrong!");
       }
+    } catch (e) {
+      console.log(e);
+      toast.error("Failed to add question!");
     }
   };
 
-  const handleAddImageClick = () => setShowImageInput(true);
-
-  const handleRemoveImage = () => setShowImageInput(false);
-
-  const handleAddDescriptionClick = () => setShowDescriptionInput(true);
-
-  const handleRemoveDescription = () => setShowDescriptionInput(false);
-
-  const handleImgSrcChange = (e) => setImgSrc(e.target.value);
-
-  const handleDescriptionChange = (e) => setDescription(e.target.value);
-
-  const handleAnswerChange = (e) => setAnswer(e.target.value);
-
-  const handleMediaTypeChange = (e) => {
-    setSelectedMediaType(e.target.value);
-    setSelectedFile(null);
+  const resetForm = () => {
+    setQuestion('');
+    setQuestionID('');
+    setOptions(['']);
+    setDescription('');
+    setImgSrc('');
+    setAnswer('');
+    setShowImageInput(false);
+    setShowDescriptionInput(false);
   };
-
-  const handleFileChange = (e) => setSelectedFile(e.target.files[0]);
-
-  const handleQuestionIdChange = (e) => setQuestionID(e.target.value);
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append('mediaType', selectedMediaType);
-      formData.append('file', selectedFile);
-      formData.append('questionId', questionId);
-      console.log("maa chudaie",selectedMediaType,selectedFile,questionId)
-      try {
-        const response = await axios.post("http://localhost:5000/createquiz/uploadMediaQuestion", formData, {
-          headers: { "Content-Type": "multipart/form-data" }
-        });
-        if (response.status === 200) {
-          setUploadSection(false);
-          toast.success("File uploaded successfully!");
-        } else {
-          toast.error("Something went wrong!");
-        }
-      } catch (error) {
-        console.log("Error uploading file:", error);
-        toast.error("Failed to upload file!");
-      }
-    } else {
+    if (!selectedFile) {
       alert('Please select a file to upload');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('mediaType', selectedMediaType);
+    formData.append('file', selectedFile);
+    formData.append('questionId', questionId);
+
+    try {
+      const response = await axios.post("http://localhost:5000/quiz/uploadMediaQuestion", formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+
+      if (response.status === 200) {
+        setUploadSection(false);
+        toast.success("File uploaded successfully!");
+      } else {
+        toast.error("Something went wrong!");
+      }
+    } catch (error) {
+      console.log("Error uploading file:", error);
+      toast.error("Failed to upload file!");
     }
   };
 
@@ -127,7 +103,7 @@ const QuestionDemo = () => {
               className="border border-gray-300 p-2 rounded-md w-full"
               placeholder='only enter integer'
               value={questionId}
-              onChange={handleQuestionIdChange}
+              onChange={handleChange(setQuestionID)}
             />
           </div>
 
@@ -137,12 +113,12 @@ const QuestionDemo = () => {
               type="text"
               className="border border-gray-300 p-2 rounded-md w-full"
               value={question}
-              onChange={handleQuestionChange}
+              onChange={handleChange(setQuestion)}
             />
           </div>
 
           <div className="mt-4">
-            <button onClick={handleAddImageClick} className="text-blue-500 hover:underline flex items-center">
+            <button onClick={() => setShowImageInput(true)} className="text-blue-500 hover:underline flex items-center">
               Click here to add image <IoMdAdd className="ml-1" />
             </button>
             {showImageInput && (
@@ -151,10 +127,10 @@ const QuestionDemo = () => {
                   type="text"
                   placeholder='Enter image address'
                   value={imgSrc}
-                  onChange={handleImgSrcChange}
+                  onChange={handleChange(setImgSrc)}
                   className="border border-gray-300 p-2 rounded-md w-full"
                 />
-                <button onClick={handleRemoveImage} className="text-red-500">
+                <button onClick={() => setShowImageInput(false)} className="text-red-500">
                   <FaTrashAlt />
                 </button>
               </div>
@@ -166,7 +142,7 @@ const QuestionDemo = () => {
               <label className="block text-gray-700 font-semibold mb-2">Select Media Type</label>
               <select
                 value={selectedMediaType}
-                onChange={handleMediaTypeChange}
+                onChange={handleChange(setSelectedMediaType)}
                 className="border border-gray-300 p-2 rounded-md w-full"
               >
                 <option value="">-- Select --</option>
@@ -181,7 +157,7 @@ const QuestionDemo = () => {
                   <input
                     type="file"
                     accept={`${selectedMediaType}/*`}
-                    onChange={handleFileChange}
+                    onChange={(e) => setSelectedFile(e.target.files[0])}
                     className="border border-gray-300 p-2 rounded-md w-full"
                   />
                 </div>
@@ -197,7 +173,7 @@ const QuestionDemo = () => {
           )}
 
           <div className="mt-4">
-            <button onClick={handleAddDescriptionClick} className="text-blue-500 hover:underline flex items-center">
+            <button onClick={() => setShowDescriptionInput(true)} className="text-blue-500 hover:underline flex items-center">
               Click here to add Description <IoMdAdd className="ml-1" />
             </button>
             {showDescriptionInput && (
@@ -205,10 +181,10 @@ const QuestionDemo = () => {
                 <input
                   type="text"
                   value={description}
-                  onChange={handleDescriptionChange}
+                  onChange={handleChange(setDescription)}
                   className="border border-gray-300 p-2 rounded-md w-full"
                 />
-                <button onClick={handleRemoveDescription} className="text-red-500">
+                <button onClick={() => setShowDescriptionInput(false)} className="text-red-500">
                   <FaTrashAlt />
                 </button>
               </div>
@@ -220,7 +196,7 @@ const QuestionDemo = () => {
             <input
               type="text"
               value={answer}
-              onChange={handleAnswerChange}
+              onChange={handleChange(setAnswer)}
               className="border border-gray-300 p-2 rounded-md w-full"
             />
           </div>
@@ -232,7 +208,7 @@ const QuestionDemo = () => {
                 <input
                   type="text"
                   value={option}
-                  onChange={(e) => handleOptionChange(index, e.target.value)}
+                  onChange={handleOptionChange(index)}
                   className="border border-gray-300 p-2 rounded-md w-full"
                 />
                 <button onClick={() => handleRemoveOption(index)} className="text-red-500">
@@ -249,14 +225,12 @@ const QuestionDemo = () => {
             onClick={handleFinalQuestion}
             className="mt-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
           >
-            Add Question
+            Submit Question
           </button>
         </div>
       </div>
-      <Toaster />
-      <div className="card p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4 mt-8">
-        <CreateQuizQuestion onQuestionsChange={() => setQuestions([...questions])} />
-      </div>
+      <Toaster position="top-center" />
+      <CreateQuizQuestion />
     </>
   );
 };

@@ -121,6 +121,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import Nav from './Nav.js'
+
 
 const Sign = () => {
   const [email, setEmail] = useState('');
@@ -161,10 +163,11 @@ const Sign = () => {
   };
 
   return (
+    <><Nav />
     <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82] flex items-center justify-center h-screen text-white'>
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-bold mb-6 text-center">Client Page</h3>
-        <h4 className='text-lg mb-4 text-center'>Enter Your Details</h4>
+    
+      <div className="bg-[#2e1a47] p-8 rounded-lg shadow-2xl -mt-15">
+        <h3 className="text-4xl font-bold mb-6 text-center">SignUp</h3>
 
         {verificationSent ? (
           <p className="text-center text-green-400">We have sent you a verification email. Please check your inbox.</p>
@@ -217,15 +220,22 @@ const Sign = () => {
             >
               Join
             </button>
+            
           </div>
         )}
 
-        <footer className="fixed bottom-0 w-full text-center mt-4">
+        {/* <footer className="fixed bottom-0 w-full text-center mt-4">
           Created with <a href="https://github.com/maheshkatyayan" className="text-green-400 font-bold">codecraftmen</a>
-        </footer>
+        </footer> */}
+        
+
       </div>
       <Toaster />
+      <footer className="fixed bottom-0 w-full text-center mt-4">
+    Created with <a href="https://github.com/maheshkatyayan" className="text-green-400 font-bold">codecraftmen</a>
+    </footer>
     </div>
+    </>
   );
 };
 

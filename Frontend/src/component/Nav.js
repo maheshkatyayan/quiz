@@ -48,6 +48,7 @@ const NavBar = () => {
   const handleInputChange = (setter) => (e) => {
     setter(e.target.value);
   };
+ 
 
   const accessingQuizRoom = async (e) => {
     e.preventDefault();
@@ -77,7 +78,7 @@ const NavBar = () => {
   
 
   return (
-    <nav className="bg-gradient-to-r from-teal-700 to-teal-500 p-6 flex justify-between items-center">
+    <nav className="bg-transparent p-6 flex justify-between items-center">
       <div className="flex items-center space-x-4 text-white">
         <div className="relative w-16 h-16 rounded-full overflow-hidden">
           <img src={logo} alt="InQuizitive Logo" className="w-full h-full object-cover" />
@@ -89,10 +90,10 @@ const NavBar = () => {
       </div>
       <div className="space-x-6">
         <ul className="flex space-x-10">
-          <li><button onClick={handleQuizRoomClick} className="text-gray-200 hover:text-white">Quiz Room</button></li>
-          <li><button onClick={() => handleNavigation('/Adminlogin')} className="text-gray-200 hover:text-white">Admin</button></li>
-          <li><button onClick={() => handleNavigation('/Event')} className="text-gray-200 hover:text-white">Event</button></li>
-          <li><button onClick={() => handleNavigation('/About_us')} className="text-gray-200 hover:text-white">About us</button></li>
+          <li><button onClick={handleQuizRoomClick} className="text-gray-300 hover:text-white">Quiz Room</button></li>
+          <li><button onClick={() => handleNavigation('/Adminlogin')} className="text-gray-300 hover:text-white">Admin</button></li>
+          <li><button onClick={() => handleNavigation('/Event')} className="text-gray-300 hover:text-white">Event</button></li>
+          <li><button onClick={() => handleNavigation('/About_us')} className="text-gray-300 hover:text-white">About us</button></li>
           <li><button onClick={() => window.location.href = '#myprofile'} className="text-gray-200 hover:text-white">My Profile</button></li>
         </ul>
       </div>
@@ -111,8 +112,8 @@ const NavBar = () => {
 
       {/* Render the verification popup if needed */}
       {showVerification && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="p-6 rounded-lg w-full max-w-md relative bg-white">
+        <div className="bg-transparent fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-transparent p-6 rounded-lg w-full max-w-md relative bg-white">
             <button
               className="absolute top-0 right-0 m-3 text-gray-500 hover:text-gray-700"
               onClick={togglePopup}

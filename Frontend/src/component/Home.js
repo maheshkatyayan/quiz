@@ -13,7 +13,7 @@ const images = [
   'https://tse1.mm.bing.net/th?id=OIP.S2KMMdeWejny18e8ZujPIgHaGK&pid=Api&P=0&h=180',
   'https://tse2.mm.bing.net/th?id=OIP.p7zv9rbBiVUaj_BQQX8C6gHaFx&pid=Api&P=0&h=180',
   'https://tse2.mm.bing.net/th?id=OIP.5GJy56Q2QqCRHp-zjC-2NAHaFj&pid=Api&P=0&h=180',
-  'https://tse3.mm.bing.net/th?id=OIP.CJeJjqEKLIsbfEc8qxa9YQHaHa&pid=Api&P=0&h=180',
+  
 ];
 
 const Home = () => {
@@ -70,7 +70,7 @@ const Home = () => {
             </button>
           </div>
         </div>
-        <div className="lg:w-1/2 mt-8 lg:mt-0 ml-5">
+        {/* <div className="lg:w-1/2 mt-8 lg:mt-0 ml-5">
           <img
             src={clubimg}
             alt="Inquizitive Club"
@@ -80,7 +80,7 @@ const Home = () => {
               borderRadius: '20px',
             }}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Question of the Week Section */}

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 
 function Timer() {
   const [hours, setHours] = useState('00');
@@ -31,14 +33,14 @@ function Timer() {
 
       if (timeDifference <= 0) {
         // Time has reached, navigate to the showquestion page
-        navigate("/showquestion");
+       // navigate("/showquestion");
       } else {
         const hrs = Math.floor(timeDifference / (1000 * 60 * 60));
         const mins = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
         const secs = Math.floor((timeDifference % (1000 * 60)) / 1000);
-        setHours(hrs);
-        setMinutes(mins);
-        setSeconds(secs);
+        setHours(formatTime(hrs));
+        setMinutes(formatTime(mins));
+        setSeconds(formatTime(secs));
       }
     };
 
@@ -48,12 +50,26 @@ function Timer() {
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, [navigate, timer.date, timer.time]);
 
+  const handleKeySubmit = async () => {
+    try {
+        // Show loading or disable the button to prevent multiple submissions
+        const response = await axios.post('http://localhost:5000/events/accessingquizroombykey', { key: roomKey });
+        
+        if (response.status === 200) {
+            navigate('/showquestion', { state: { roomKey } });
+        } else {
+            console.log('Key not found or other error');
+            // Display error message to the user
+        }
+    } catch (error) {
+        console.error('Error accessing quiz room:', error);
+        // Optionally, display error message to the user
+    }
+};
+
+
   const formatTime = (time) => {
     return time < 10 ? `0${time}` : time;
-  };
-
-  const handleKeySubmit = async () => {
-    // Add your key submission logic here
   };
 
   return (
@@ -61,7 +77,7 @@ function Timer() {
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center">
         <h1 className="text-2xl font-bold mb-4 text-gray-800">Quiz Timer</h1>
         <div className="text-5xl font-mono text-gray-800 mb-6">
-          {formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}
+          {hours}:{minutes}:{seconds}
         </div>
         <input
           type="text"
@@ -71,8 +87,8 @@ function Timer() {
           className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
-          onClick={handleKeySubmit}
           className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          onClick={handleKeySubmit}
         >
           Enter Room
         </button>
