@@ -88,6 +88,7 @@ const quizNameFilePath = "./quizname2.txt";
 // Function to set quiz name to a file
 export const setQuizNameToFile = (req, res) => {
   const quizName = req.body.name;
+  console.log("setQuizName",quizName)
   if (!quizName) {
     return res.status(400).json({ message: "Quiz name is required" });
   }
@@ -104,6 +105,7 @@ export const getQuestion = async (req, res) => {
     }
 
     const quizName = fs.readFileSync(quizNameFilePath, "utf8");
+    console.log("qizName getquestion",quizName)
     const result = await db.query('SELECT * FROM quiz_question WHERE quizname = $1', [quizName]);
     
     res.status(200).json(result.rows);

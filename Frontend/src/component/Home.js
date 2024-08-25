@@ -8,18 +8,28 @@ import Footer from './footer.js';
 import Eventregistration from './eventRegistration.js'
 
 
+
 const images = [
   'https://tse2.mm.bing.net/th?id=OIP.5GJy56Q2QqCRHp-zjC-2NAHaFj&pid=Api&P=0&h=180',
   'https://tse1.mm.bing.net/th?id=OIP.S2KMMdeWejny18e8ZujPIgHaGK&pid=Api&P=0&h=180',
   'https://tse2.mm.bing.net/th?id=OIP.p7zv9rbBiVUaj_BQQX8C6gHaFx&pid=Api&P=0&h=180',
   'https://tse2.mm.bing.net/th?id=OIP.5GJy56Q2QqCRHp-zjC-2NAHaFj&pid=Api&P=0&h=180',
-  
+  'https://tse1.mm.bing.net/th?id=OIP.S2KMMdeWejny18e8ZujPIgHaGK&pid=Api&P=0&h=180',
+  'https://tse2.mm.bing.net/th?id=OIP.p7zv9rbBiVUaj_BQQX8C6gHaFx&pid=Api&P=0&h=180',
+  'https://tse2.mm.bing.net/th?id=OIP.5GJy56Q2QqCRHp-zjC-2NAHaFj&pid=Api&P=0&h=180',
+  'https://media2.bollywoodhungama.in/wp-content/uploads/2022/09/Sunny-Leone.jpg'
 ];
 
 const Home = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [flippedIndex, setFlippedIndex] = useState(null);
+  const [speed, setSpeed] = useState(20);
+
+  const handleFlip = (index) => {
+    setFlippedIndex(flippedIndex === index ? null : index);
+  };
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -125,16 +135,70 @@ const Home = () => {
       )}
 
       {/* Image Gallery */}
-      <div className="flex justify-center mt-12 space-x-4 overflow-x-auto px-2 mb-12">
-        {images.map((src, index) => (
-          <img
+      
+      <div
+      className="marquee-container overflow-hidden whitespace-nowrap relative flex items-center h-96"
+      style={{
+        '--marquee-speed': `${speed}s`,
+      }}
+    >
+      <div
+        className="marquee-content flex animate-marquee"
+        onMouseEnter={() => setSpeed(0)}
+        onMouseLeave={() => setSpeed(20)}
+      >
+        {images.map((image, index) => (
+          <div
             key={index}
-            src={src}
-            alt={`Gallery image ${index + 1}`}
-            className="w-60 h-65 object-cover rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
-          />
+            className="marquee-item flex-shrink-0 w-72 h-80 mr-5 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105"
+          >
+            <img
+              src={image}
+              alt={`Slide ${index}`}
+              className="w-full h-full object-cover rounded-xl"
+            />
+          </div>
         ))}
       </div>
+      <div
+        className="marquee-content flex animate-marquee"
+        onMouseEnter={() => setSpeed(0)}
+        onMouseLeave={() => setSpeed(20)}
+      >
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className="marquee-item flex-shrink-0 w-72 h-80 mr-5 rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105"
+          >
+            <img
+              src={image}
+              alt={`Slide ${index}`}
+              className="w-full h-full object-cover rounded-xl"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+
+<div className="flip-card">
+  <div className="flip-card-inner">
+    <div className="flip-card-front">
+      <img src="https://media2.bollywoodhungama.in/wp-content/uploads/2022/09/Sunny-Leone.jpg" alt="Avatar" style={{width:'300px' ,height:'300px'}} />
+    </div>
+    <div className="flip-card-back">
+      <h1>John Doe</h1>
+      <p>Architect & Engineer</p>
+      <p>We love that guy</p>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+  
 
       <Footer />
     </div>

@@ -43,6 +43,7 @@ console.log(state)
 };
 
 const useGlobalcontext = () => {
+  console.log("put something first random thing",AppContext)
   return useContext(AppContext);
 };
 
