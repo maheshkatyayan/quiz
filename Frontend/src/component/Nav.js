@@ -11,13 +11,15 @@ const NavBar = () => {
   const [showVerification, setShowVerification] = useState(false);
   const [teamname, setTeamname] = useState('');
   const [teamleademailid, setTeamleademailid] = useState('');
+  var counter=0;
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const response = await axios.get('http://localhost:5000/users/readtoken', { withCredentials: true });
         if (response.data.success) {
-          setUser(response.data.user); // Assuming response.data.user contains the user info
+          console.log(response.data.success,response.data.user)
+          setUser(response.data.success); // Assuming response.data.user contains the user info
         }
       } catch (error) {
         console.error('Error checking auth:', error);
@@ -52,7 +54,8 @@ const NavBar = () => {
 
   const accessingQuizRoom = async (e) => {
     e.preventDefault();
-    const data = { teamname, teamleademailid };
+    counter=counter+1
+    const data = { teamname, teamleademailid ,counter};
     
     try {
       const response = await axios.post("http://localhost:5000/events/accessingquizroom", { data }, { withCredentials: true });

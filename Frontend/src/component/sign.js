@@ -147,12 +147,12 @@ const Sign = () => {
     console.log("Signing in with data:", data);
 
     try {
-      await axios.post("http://localhost:5000/users/signin", { data }, { withCredentials: true });
-      toast.success("Verification email sent. Please check your email to verify.");
+     const response= await axios.post("http://localhost:5000/users/signin", { data }, { withCredentials: true });
+      toast.success(response.error)
       setVerificationSent(true); // Set this to true to indicate that the verification email has been sent
     } catch (error) {
       console.error("Error signing in:", error);
-      toast.error("Failed to sign in. Please try again.");
+      toast.error("either you have enter wrong code or email already exits.");
     }
   };
 

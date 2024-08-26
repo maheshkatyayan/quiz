@@ -137,15 +137,13 @@ const Home = () => {
       {/* Image Gallery */}
       
       <div
-      className="marquee-container overflow-hidden whitespace-nowrap relative flex items-center h-96"
+      className="marquee-container overflow-hidden whitespace-nowrap relative flex items-center h-96 w-full"
       style={{
         '--marquee-speed': `${speed}s`,
       }}
     >
       <div
         className="marquee-content flex animate-marquee"
-        onMouseEnter={() => setSpeed(0)}
-        onMouseLeave={() => setSpeed(20)}
       >
         {images.map((image, index) => (
           <div
@@ -162,7 +160,6 @@ const Home = () => {
       </div>
       <div
         className="marquee-content flex animate-marquee"
-        onMouseEnter={() => setSpeed(0)}
         onMouseLeave={() => setSpeed(20)}
       >
         {images.map((image, index) => (
@@ -180,25 +177,6 @@ const Home = () => {
       </div>
     </div>
 
-<div className="flip-card">
-  <div className="flip-card-inner">
-    <div className="flip-card-front">
-      <img src="https://media2.bollywoodhungama.in/wp-content/uploads/2022/09/Sunny-Leone.jpg" alt="Avatar" style={{width:'300px' ,height:'300px'}} />
-    </div>
-    <div className="flip-card-back">
-      <h1>John Doe</h1>
-      <p>Architect & Engineer</p>
-      <p>We love that guy</p>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-  
 
       <Footer />
     </div>

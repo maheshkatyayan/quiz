@@ -106,10 +106,17 @@ const Dashboard = () => {
     }
   };
 
-  const handleSetQuiz = (index, quizname) => {
+  // const handleUpdateQuiz=async (index, quizname)=>{
+  //   setEditingQuizIndex(index);
+  //   const data={quizTime,quizDate,quizName}
+  //   const response = await axios.post('http://localhost:5000/quizsetup/updateTimer', data);
+
+  // }
+
+  const handleSetQuiz = async (index) => {
     setEditingQuizIndex(index);
-    setQuizDate(quizzes[index].date || '');
-    setQuizTime(quizzes[index].time || '');
+    setQuizDate(quizzes[index].date);
+    setQuizTime(quizzes[index].time );
   };
 
   const handleSave_Timer = async () => {
@@ -190,7 +197,7 @@ const Dashboard = () => {
                       {quiz.date && quiz.time && (
                         <>
                           <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => QuizBank(quiz.name)}>Go to Quiz bank</button>
-                          <button className="mt-4 w-full py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition-colors" onClick={() => handleSetQuiz(index)}>Update</button>
+                          <button className="mt-4 w-full py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name)}>Update</button>
                         </>
                       )}
                       <button className="mt-4 w-full py-2 bg-red-600 rounded hover:bg-red-700 transition-colors" onClick={() => handleDeleteQuiz(index, quiz.name)}>Delete Quiz</button>

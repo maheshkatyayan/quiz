@@ -53,7 +53,7 @@ const ResetPassword = () => {
     console.log("Setting new password with data:", data);
 
     try {
-      const response = await axios.post("http://localhost:5000/users/reset_password", { data }, { withCredentials: true });
+      const response = await axios.post("http://localhost:5000/users/reset_password", { data }, { withCredentials: true,headers:token });
       console.log('response2',response);
       if (response.data.result === 'TRUE'){
       toast.success("Password reset successfully!");

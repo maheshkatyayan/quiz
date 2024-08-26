@@ -38,12 +38,11 @@ const AppProvider = ({ children }) => {
     fetchApiData(Api2, "GET_MEMBERS");
     fetchApiData(Api3, "GET_TIMER");
   }, []);
-console.log(state)
+console.log("state",state)
   return <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>;
 };
 
 const useGlobalcontext = () => {
-  console.log("put something first random thing",AppContext)
   return useContext(AppContext);
 };
 

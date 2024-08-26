@@ -1,7 +1,7 @@
 
-import React, { useState } from "react";
-import logo from '../image/Club_logo.JPG.png';
+import React, { useState,useEffect } from "react";
 import { useGlobalcontext } from "../component/contex.js";
+import { useLocation } from 'react-router-dom';
 
 const QuizBank = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -10,8 +10,30 @@ const QuizBank = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const { questions } = useGlobalcontext();
-  console.log("questions", questions);
+  const location = useLocation();
+  const [aisehi,setaisehi]=useState('')
+  const { roomKey } = location.state || {};
+  console.log("questions", questions,"roomkey",roomKey);
 
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+        if (document.hidden) {
+            console.log('User switched to another tab or window.');
+            // Perform any action when the user switches to another tab/window
+        } else {
+            console.log('User switched back to this tab.');
+            // Perform any action when the user switches back to the tab
+        }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Cleanup the event listener when the component is unmounted
+    return () => {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+}, []);
  
 
   const previousQuestion = () => {
