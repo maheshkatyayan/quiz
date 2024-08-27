@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../image/Club_logo.JPG.png';
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -84,7 +83,7 @@ const NavBar = () => {
     <nav className="bg-transparent container mx-auto p-6 flex justify-between items-center p-6 flex justify-between items-center">
     <div className="flex items-center space-x-4 text-white">
       <div className="relative w-16 h-16 rounded-full overflow-hidden">
-        <img src={logo} alt="InQuizitive Logo" className="w-full h-full object-cover" />
+        <img src='/images/Club_logo.JPG.png' alt="InQuizitive Logo" className="w-full h-full object-cover" />
       </div>
       <div className="border-l-2 border-white pl-4">
         <span className="block font-bold text-3xl">InQuizitive</span>

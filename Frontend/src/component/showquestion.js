@@ -1,20 +1,25 @@
-
 import React, { useState,useEffect } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useGlobalcontext } from "../component/contex.js";
 import { useLocation } from 'react-router-dom';
 
+
 const QuizBank = () => {
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [answers, setAnswers] = useState({});
+  const [options,setOptions] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+  const [visibility,setvisibility]=useState('')
   const { questions } = useGlobalcontext();
   const location = useLocation();
-  const [aisehi,setaisehi]=useState('')
+  const navigate = useNavigate();
   const { roomKey } = location.state || {};
   console.log("questions", questions,"roomkey",roomKey);
-
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -34,7 +39,8 @@ const QuizBank = () => {
         document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
 }, []);
- 
+
+
 
   const previousQuestion = () => {
     if (currentQuestion > 0 && currentQuestion < questions.length) {
@@ -46,8 +52,25 @@ const QuizBank = () => {
     if (currentQuestion >= 0 && currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     }
-  };
+    if(currentQuestion===questions.length){
+      const s=document.getElementById('submit');
+      const p=document.getElementById('next-question');
+      if(p&&p.parentNode){
+        p.replaceChild(s,p);
+        s.style.display="inline"
+      }
+     
+      if(currentQuestion!==questions.length){
+        const s=document.getElementById('submit');
+        const p=document.getElementById('next-question');
+        if(s&&s.parentNode){
+          s.replaceChild(p,s);
+          s.style.display="none"
+        }
+    }
 
+  };
+  }
   const numberClicked = (i) => {
     setCurrentQuestion(i - 1);
   };
@@ -66,17 +89,43 @@ const QuizBank = () => {
     console.log(answers);
   };
 
-  const questionOptClicked = (optionID, ans) => {
+  const questionOptClicked = (optionID, ans,alphabetID) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [currentQuestion]: optionID
     }));
+
+    setOptions((prev) => ({
+      ...prev,
+      [currentQuestion]: alphabetID
+    }));
+
     let n = document.getElementsByClassName('qno')[currentQuestion];
+    console.log(n);
     answersArray(ans);
     n.style.backgroundColor = 'green';
-  };
+  };  
 
-  const evaluate = () => {
+  const alphabetClicked = (optionID,alphabetID,ans)=>{
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [currentQuestion]: optionID
+    }));
+
+    setOptions((prev) => ({
+      ...prev,
+      [currentQuestion]: alphabetID
+    }));
+
+    console.log(alphabetID);
+
+
+    let n = document.getElementsByClassName('qno')[currentQuestion];
+    answersArray(ans);
+    n.style.backgroundColor='green'
+  }
+
+  const evaluate = async () => {
     let marks = 0;
     for (let i = 0; i < questions.length; i++) {
       if (answers[i] === questions[i].answer) {
@@ -85,22 +134,41 @@ const QuizBank = () => {
       }
     }
     console.log(marks);
+
+    try{
+    const data ={marks:marks,roomKey:roomKey};
+
+    const response = await  axios.post("http://localhost:5000/quiz/addMarks",{data},{withCredentials:true});
+    console.log("response",response)
+    if(response.data.ok){
+        toast.success(response.data.remarks);
+        navigate('/');
+
+    }
+    else{
+      toast.success(response.data.remarks);
+    }
+    }
+    catch(error){
+      console.log(error);
+      toast.error("Invalid Submission");
+    }
+   
   };
+
+  
 
   return (
     <>
       <div className="body">
         <h2>Inquiztive Trivia Nights</h2>
         <div className="quiz">
-          <div className='question-numbers'>
-            {spans}
-          </div>
+        
           <div className="question-card">
+
             <div className="question-text">
               <h3 className='quiz-question'>{questions[currentQuestion].question}</h3>
-            </div>
-
-            {/* Conditional Rendering */}
+               {/* Conditional Rendering */}
             {questions[currentQuestion].file_type === "image" && (
               <button onClick={() => {
                 setModalContent(
@@ -139,72 +207,129 @@ const QuizBank = () => {
                 Play Video
               </button>
             )}
-            
+            </div>
 
+           
             <div className="options">
+
               <ul className="list-options">
                 {questions[currentQuestion].options1 &&
+                <div className="option-container">
+                  <span id={`optionsA_${questions[currentQuestion].id}`} 
+                  className="alphabet w-50 h-50"
+                  onClick={
+                    (e) => alphabetClicked(`options1_${questions[currentQuestion].id}`,e.target.id,questions[currentQuestion].options1)
+                  }
+                  style={{
+                    border: options[currentQuestion] === `optionsA_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                  }}
+                  >A</span>
+
                   <li id={`options1_${questions[currentQuestion].id}`}
-                    onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options1)}
+                    onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options1,`optionsA_${questions[currentQuestion].id}`)}
                     className='option'
                     style={{
-                      backgroundColor: selectedOptions[currentQuestion] === `options1_${questions[currentQuestion].id}` ? 'green' : 'initial',
+                      border: selectedOptions[currentQuestion] === `options1_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
                     }}
                   >
-                    {questions[currentQuestion].options1}
+                   {questions[currentQuestion].options1}
                   </li>
+                  </div>
                 }
 
               {questions[currentQuestion].options2 &&
+                <div className="option-container">
+                <span id={`optionsB_${questions[currentQuestion].id}`}
+                className="alphabet w-50 h-50"
+                onClick={
+                  (e) => alphabetClicked(`options2_${questions[currentQuestion].id}`,e.target.id,questions[currentQuestion].options1)
+                }
+                style={{
+                  border: options[currentQuestion] === `optionsB_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                }}
+                >B</span>
                   <li id={`options2_${questions[currentQuestion].id}`}
-                    onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options2)}
+                    onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options2,`optionsB_${questions[currentQuestion].id}`)}
                     className='option'
                     style={{
-                      backgroundColor: selectedOptions[currentQuestion] === `options2_${questions[currentQuestion].id}` ? 'green' : 'initial',
+                      border: selectedOptions[currentQuestion] === `options2_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
                     }}
-                  >
+                  >  
                     {questions[currentQuestion].options2}
                   </li>
+                </div>
                 }
+
                 {questions[currentQuestion].options3 &&
+                  <div className="option-container">
+                  <span id={`optionsC_${questions[currentQuestion].id}`} 
+                  className="alphabet w-50 h-50"
+                  onClick={
+                    (e) => alphabetClicked(`options3_${questions[currentQuestion].id}`,e.target.id,questions[currentQuestion].options3)
+                  }
+                  style={{
+                    border: options[currentQuestion] === `optionsC_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                  }}
+                  
+                  
+                  >C</span>
                   <li id={`options3_${questions[currentQuestion].id}`}
-                    onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options3)}
+                    onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options3,`optionsC_${questions[currentQuestion].id}`)}
                     className='option'
                     style={{
-                      backgroundColor: selectedOptions[currentQuestion] === `options1_${questions[currentQuestion].id}` ? 'green' : 'initial',
+                      border: selectedOptions[currentQuestion] === `options3_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
                     }}
                   >
                     {questions[currentQuestion].options3}
                   </li>
+                  </div>
                 }
                 {questions[currentQuestion].options4 &&
+                 <div className="option-container">
+                  <span id={`optionsD_${questions[currentQuestion].id}`} 
+                 className="alphabet w-50 h-50"
+                 onClick={
+                   (e) => alphabetClicked(`options4_${questions[currentQuestion].id}`,e.target.id,questions[currentQuestion].options1)
+                 }
+                 style={{
+                   border: options[currentQuestion] === `optionsD_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                 }}>D</span>
+
+
                   <li id={`options4_${questions[currentQuestion].id}`}
-                    onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options1)}
+                    onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options4,`optionsD_${questions[currentQuestion].id}`)}
                     className='option'
                     style={{
-                      backgroundColor: selectedOptions[currentQuestion] === `options4_${questions[currentQuestion].id}` ? 'green' : 'initial',
+                      border: selectedOptions[currentQuestion] === `options4_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
                     }}
-                  >
-                    {questions[currentQuestion].options1}
+                  >  
+                    {questions[currentQuestion].options4}
                   </li>
+                  </div>
                 }
                 
               </ul>
-            </div>
-
-            <div className="buttons">
+              <div className="buttons">
               <button id='prev-question' onClick={previousQuestion}>
                 {"<"}
               </button>
               <button id='next-question' onClick={nextQuestion}>
                 {">"}
               </button>
+             
+            </div>
             </div>
           </div>
-          <button id="submit" type="button" onClick={evaluate}>
-            SUBMIT
-          </button>
+
         </div>
+        <div className='question-numbers'>
+            {spans}
+          </div>
+        <div className="submit-btn">
+        <button id="submit" onClick={evaluate}> submit</button>
+
+        </div>
+          
       </div>
 
       {/* Modal Component */}
@@ -215,6 +340,7 @@ const QuizBank = () => {
               &times;
             </button>
             {modalContent}
+            <Toaster/>
           </div>
         </div>
       )}

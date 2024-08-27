@@ -40,9 +40,9 @@ const Adminlogin = () => {
   };
 
   return (
-    <>
+    <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82]'>
       <NavBar />
-      <div className='bg-gray-900 flex items-center justify-center h-screen text-white'>
+      <div className=' flex items-center justify-center h-screen text-white'>
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
           <h3 className="text-2xl font-bold mb-6 text-center">Admin Page</h3>
           <div className='flex flex-col space-y-4'>
@@ -80,7 +80,7 @@ const Adminlogin = () => {
       <footer className="fixed bottom-0 w-full text-center text-white mt-4">
         Created with <a href="https://github.com/maheshkatyayan" className="text-teal-400 font-bold">codecraftmen</a>
       </footer>
-    </>
+    </div>
   );
 };
 

@@ -7,7 +7,7 @@ const Counter = () => {
   const [hours, setHours] = useState('1');
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(100);
+  const [timeLeft, setTimeLeft] = useState(0);
   const [isActive, setIsActive] = useState(true);
   const [roomKey, setRoomKey] = useState('');
   const navigate = useNavigate();
@@ -15,22 +15,23 @@ const Counter = () => {
   const timer = {
     id: 62,
     name: "Quiz1",
-    time: "16:17:00",
-    date: "2024-08-26T18:30:00.000Z"
+    time: "00:20:00",
+    date: "2024-08-28T18:30:00.000Z"
   };
   const showmesomething=()=>{
   const d = new Date();
-  const ate= d.toISOString();
+  const ate= d.toISOString()
   const currentDate=ate.slice(0,10)
   const targetDate=timer.date.slice(0,10)
+  console.log(d)
  
-
   let hourcurr = d.getHours();
   let minutecurr=d.getMinutes();
   let secondcurr=d.getSeconds();
+  console.log(hourcurr,minutecurr,secondcurr,ate)
   
   const targettime = timer.time.split(':').map(Number);
-  console.log("targettime",targettime[1])
+  console.log("targettime",targettime[0],targettime[1],targettime[2],currentDate,targetDate)
   if(currentDate===targetDate){
     console.log("consolen hello")
     const hr=targettime[0]-hourcurr;
@@ -40,6 +41,7 @@ const Counter = () => {
     setHours(hr);
     setMinutes(min);
     setSeconds(sec);
+    console.log("totalTime",totalTime)
     const totalTime =
       parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
     setTimeLeft(totalTime);

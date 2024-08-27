@@ -4,10 +4,10 @@ import Footer from './footer.js'
 
 
 const images = [
-  'https://tse2.mm.bing.net/th?id=OIP.5GJy56Q2QqCRHp-zjC-2NAHaFj&pid=Api&P=0&h=180',
+  'https://firebasestorage.googleapis.com/v0/b/quizmaster-b0faf.appspot.com/o/eventsimages%2FDSC_0660.JPG?alt=media&token=2e66a3bd-bc9b-4bb0-8aad-836d3c5c5e44',
   'https://tse1.mm.bing.net/th?id=OIP.S2KMMdeWejny18e8ZujPIgHaGK&pid=Api&P=0&h=180',
   'https://tse2.mm.bing.net/th?id=OIP.p7zv9rbBiVUaj_BQQX8C6gHaFx&pid=Api&P=0&h=180',
-  'https://assets.vogue.in/photos/646c6fe48f85812e8d889001/2:3/w_2560%2Cc_limit/SUNNY2.jpg',
+  'https://firebasestorage.googleapis.com/v0/b/quizmaster-b0faf.appspot.com/o/eventsimages%2FDSC_0660.JPG?alt=media&token=2e66a3bd-bc9b-4bb0-8aad-836d3c5c5e44',
   'https://tse3.mm.bing.net/th?id=OIP.CJeJjqEKLIsbfEc8qxa9YQHaHa&pid=Api&P=0&h=180',
   'https://tse3.mm.bing.net/th?id=OIP.Olb2BN-K-ilp1hd5JNW87QHaI4&pid=Api&P=0&h=180',
 ];
@@ -31,7 +31,9 @@ const RandomGridComponent = () => {
 >
   <div
     className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: `url(${shuffledImages[3]})` }}
+    style={{
+  backgroundImage: `url('https://firebasestorage.googleapis.com/v0/b/quizmaster-b0faf.appspot.com/o/eventsimages%2FDSC_0065.JPG?alt=media&token=4be02c0e-f43b-4572-833c-f679d1684113')`,
+}}
   />
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
     <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>

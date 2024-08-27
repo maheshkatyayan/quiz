@@ -57,7 +57,7 @@ const ResetPassword = () => {
       console.log('response2',response);
       if (response.data.result === 'TRUE'){
       toast.success("Password reset successfully!");
-      navigate("/");
+      navigate("/clientlogin");
       }
     } catch (error) {
       console.error("Error resetting password:", error);

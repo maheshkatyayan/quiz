@@ -131,3 +131,24 @@ export const deleteQuestion = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete question' });
   }
 };
+export const addMarks = async (req,res)=>{
+  
+  const {marks,roomKey} = req.body.data;
+  console.log(marks,roomKey);
+  try{
+  if(roomKey){
+    console.log(roomKey)
+      await db.query(
+        'UPDATE  eventregistration SET marks=$1 WHERE teamkey=$2' ,[marks,roomKey]
+     )
+      console.log(roomKey)
+      res.status(200).json({ok:true,marks:"Marks are successfully updated"});
+  }
+  else{
+    res.status(404).json({ok:false,marks:"Marks are not being Uploaded"});
+  }
+}
+  catch(error){
+    res.status(500).json({erro:error})
+  }
+} 

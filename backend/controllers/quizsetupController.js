@@ -128,3 +128,9 @@ export const GoToQuizSetUp=async(req,res)=>{
     res.status(500).json({ error: 'Failed to get questions' });
     }
     }
+
+
+
+  // export const updateTimer=(req,res)=>{
+  //   console.log("hello")
+  //   }

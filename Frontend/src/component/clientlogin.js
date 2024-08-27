@@ -54,9 +54,9 @@ const Clientlogin = () => {
   };
 
   return (
-    <>
+    <div className='bg-gradient-to-r from-[#2e1a47] to-[#624a82]'>
       <Nav/>
-      <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] flex items-center justify-center h-screen text-white" >
+      <div className=" flex items-center justify-center h-screen text-white" >
         <div className="bg-[#2e1a47] p-8 rounded-lg shadow-2xl w-96 max-w-full z-10 -mt-20">
           <h3 className="text-3xl font-bold mb-9 text-center">Login</h3>
 
@@ -100,7 +100,7 @@ const Clientlogin = () => {
           Created with <a href="https://github.com/maheshkatyayan" className="text-green-400 font-bold">codecraftmen</a>
         </footer>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -26,12 +26,13 @@ export const register = async (req, res) => {
         "SELECT id FROM users WHERE email = $1",
         [email]
       );
-      console.log(existingUser.rows[0]);
+      console.log(existingUser.rows.length);
       if (existingUser.rows.length > 0) {
         res.status(409).json({ error: "Email already exists" });
       }
 
       // Hash the password
+      else{
       const password_hash = await bcrypt.hash(password, saltRounds);
       const verification_token = jwt.sign({ email }, process.env.JWT_SECRET, {
         expiresIn: "1h",
@@ -49,9 +50,10 @@ export const register = async (req, res) => {
       return res
         .status(201)
         .json({
-          message: "User registered successfully",
+          error: "User registered successfully",
           verification_endpoint,
         });
+      }
     } catch (err) {
       res.status(500).json({ error: err });
     }
@@ -102,7 +104,7 @@ export const login = async (req, res) => {
     console.log(user);
     if (!user) {
       return res.status(403).json({ error: "Authentication failed" });
-    } else if (userResult.verified == false) {
+    } else if (userResult.verified === 'false') {
       res.status(403).json({ error: "Email not verified" });
     }
 
@@ -161,7 +163,7 @@ export const forgot_password1 = async (req, res) => {
   const { email } = req.body.data;
   console.log("email->", req.body.data);
   const token = await forgot_password(email);
-  res.cookie("token", token);
+  //res.cookie("token", token);
   if (token === "User not found") {
     //not good practices
     console.log(token);
@@ -207,13 +209,14 @@ const verify_token_reset_password = async (token, password) => {
 
 //send token and password
 export const reset_password = async (req, res) => {
-  const { password } = req.body.data;
+  const { password,token } = req.body.data;
   console.log('body',req.body.data);
-  const token = req.cookies.token;
+  
   console.log('t1',token);
   try {
     const result=await verify_token_reset_password(token, password);
     console.log(result)
+    req.cookie(token)
     res.status(200).json({message:`password updated/reset succcessfully`, result: `TRUE` });
   } catch (error) {
     res.status(200).json({message:`something went wrong`, result: `FALSE` });
@@ -279,10 +282,8 @@ export const updateProfile = async (req, res) => {
 //how put is working
 
 
-
-
-
 export const readtoken = (req, res) => {
+  console.log("token")
   const token = req.cookies.token;
   if (!token) {
     return res.status(401).json({ error: "No token provided" });

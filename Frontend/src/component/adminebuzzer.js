@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import NavBar from './Nav.js'
-import sound from '../image/tickingbuzzer-75859.mp3'
+
 
 // Initialize the socket outside of the component to avoid re-creating on each render
 const socket = io('http://localhost:8000', { autoConnect: false });
@@ -37,7 +37,7 @@ const AdminBuzzer = () => {
 
   // Handler for the start button
   const handleStartButton1 = (e) => {
-    var audio =new Audio(sound)
+    var audio =new Audio(`/images/tickingbuzzer-75859.mp3`)
     audio.play();
     socket.emit('Set', 1);
     console.log('Button clicked, emitted start event');

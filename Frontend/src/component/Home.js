@@ -3,20 +3,14 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './Nav.js';
-import clubimg from '../image/st.png';
 import Footer from './footer.js';
 import Eventregistration from './eventRegistration.js'
 
-
-
 const images = [
-  'https://tse2.mm.bing.net/th?id=OIP.5GJy56Q2QqCRHp-zjC-2NAHaFj&pid=Api&P=0&h=180',
-  'https://tse1.mm.bing.net/th?id=OIP.S2KMMdeWejny18e8ZujPIgHaGK&pid=Api&P=0&h=180',
-  'https://tse2.mm.bing.net/th?id=OIP.p7zv9rbBiVUaj_BQQX8C6gHaFx&pid=Api&P=0&h=180',
-  'https://tse2.mm.bing.net/th?id=OIP.5GJy56Q2QqCRHp-zjC-2NAHaFj&pid=Api&P=0&h=180',
-  'https://tse1.mm.bing.net/th?id=OIP.S2KMMdeWejny18e8ZujPIgHaGK&pid=Api&P=0&h=180',
-  'https://tse2.mm.bing.net/th?id=OIP.p7zv9rbBiVUaj_BQQX8C6gHaFx&pid=Api&P=0&h=180',
-  'https://tse2.mm.bing.net/th?id=OIP.5GJy56Q2QqCRHp-zjC-2NAHaFj&pid=Api&P=0&h=180',
+  'https://theory.tifr.res.in/~mukhi/Music/Images/kg-concert10.jpg',
+  'https://karnatakatourism.org/wp-content/uploads/2020/05/Dharwad-Fort.jpg',
+  'https://cdn.pixabay.com/photo/2014/07/23/08/12/sandstone-399959_1280.jpg',
+  'https://images.unsplash.com/photo-1582870495095-bfe299c87a3b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8a2FybmF0YWthfGVufDB8fDB8fHww',
   'https://media2.bollywoodhungama.in/wp-content/uploads/2022/09/Sunny-Leone.jpg'
 ];
 
@@ -95,13 +89,14 @@ const Home = () => {
 
       {/* Upcoming Events Section */}
       <section
-        className="relative py-12 px-10 mx-5 my-4 shadow-xl rounded-lg overflow-hidden"
+        className="relative py-12 px-10 mx-5 mt-4 h-800 shadow-xl rounded-lg overflow-hidden"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1551478241-1c1c610d59aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGFpbnQlMjBiYWNrZ3JvdW5kJTIwcHVycGxlfGVufDB8fDB8fHww')",
-          backgroundSize: "cover",
+         backgroundImage: `url('/images/Trivia NIGHTS (1).png')`,
+          backgroundSize: "contain",
           backgroundPosition: "center",
           backgroundBlendMode: "overlay",
+          height:"",
+
         }}
       >
      <div className="absolute inset-0 bg-black opacity-50"></div>

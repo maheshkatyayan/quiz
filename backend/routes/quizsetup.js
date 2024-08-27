@@ -11,5 +11,6 @@ router.post("/GoToQuizSetUp",GoToQuizSetUp);
 router.post("/addSaveTimer",addSaveTimer);
 router.post("/delete_quiz_setup",delete_quiz_setup);
 router.get("/getSaveTimer",getSaveTimer);
+// router.post("/updateTimer",updateTimer)
 
 export default router;

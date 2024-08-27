@@ -1,17 +1,15 @@
 import React from 'react';
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
-import logo from '../image/Club_logo.JPG.png'; // Assuming you have the logo image
 import Events from './event.js'
 import About_us from './About_us.js'
 import Home from './Home.js'
-
 const Footer = () => {
   return (
     <footer className="w-full bg-gradient-to-r from-gray-900 to-black text-white pt-5">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Logo Section */}
         <div className="flex flex-col items-center justify-center">
-          <img src={logo} alt="InQuizitive Logo" className="rounded-full border border-gray-300 w-40 h-40 mb-2" />
+          <img src='/images/Club_logo.JPG.png' alt="InQuizitive Logo" className="rounded-full border border-gray-300 w-40 h-40 mb-2" />
           <p className="text-lg font-bold">Quizzing Club</p>
           <p className="text-lg">Indian Institute of Information Technology Dharwad</p>
         </div>
