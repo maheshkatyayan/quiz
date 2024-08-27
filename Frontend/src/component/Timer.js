@@ -8,20 +8,19 @@ const Counter = () => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [isActive, setIsActive] = useState(true);
   const [roomKey, setRoomKey] = useState('');
   const navigate = useNavigate();
 
   const timer = {
     id: 62,
     name: "Quiz1",
-    time: "00:20:00",
+    time: "00:58:00",
     date: "2024-08-28T18:30:00.000Z"
   };
   const showmesomething=()=>{
   const d = new Date();
-  const ate= d.toISOString()
-  const currentDate=ate.slice(0,10)
+  const ate= d.toLocaleString()
+  const currentDate=`${ate.slice(6,10)}-${ate.slice(3,5)}-${ate.slice(0,2)}`
   const targetDate=timer.date.slice(0,10)
   console.log(d)
  
@@ -41,10 +40,9 @@ const Counter = () => {
     setHours(hr);
     setMinutes(min);
     setSeconds(sec);
-    console.log("totalTime",totalTime)
-    const totalTime =
-      parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
+    const totalTime =parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
     setTimeLeft(totalTime);
+    console.log("totalTime",totalTime)
   }
 }
   
@@ -58,13 +56,13 @@ const Counter = () => {
       }, 1000);
     } else if (timeLeft === 0) {
       clearInterval(interval);
-      setIsActive(false);
+      
     }
     else if(timeLeft<0){
-      setIsActive(false)
+      
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft]);
+  }, [ timeLeft]);
 
 
 
@@ -84,7 +82,6 @@ const Counter = () => {
       
       if (response.status === 200 && timeLeft<=0) {
         toast.success('just give me one minute')
-        setIsActive(false)
         navigate('/showquestion', { state: { roomKey } });
       } else {
           console.log('Key not found or other error');
@@ -100,7 +97,7 @@ const Counter = () => {
     <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] h-screen flex items-center justify-center">
     <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center">
       <h1 className="text-2xl font-bold mb-4 text-gray-800">Quiz Timer</h1>
-      {isActive && (<div className="text-5xl font-mono text-gray-800 mb-6">
+      {  (<div className="text-5xl font-mono text-gray-800 mb-6">
       {formatTime(timeLeft)}
       </div>)}
       <input
