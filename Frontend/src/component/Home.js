@@ -5,13 +5,18 @@ import axios from 'axios';
 import NavBar from './Nav.js';
 import Footer from './footer.js';
 import Eventregistration from './eventRegistration.js'
+import FlipCard from './flipcard.js';
 
 const images = [
   'https://theory.tifr.res.in/~mukhi/Music/Images/kg-concert10.jpg',
   'https://karnatakatourism.org/wp-content/uploads/2020/05/Dharwad-Fort.jpg',
   'https://cdn.pixabay.com/photo/2014/07/23/08/12/sandstone-399959_1280.jpg',
   'https://images.unsplash.com/photo-1582870495095-bfe299c87a3b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8a2FybmF0YWthfGVufDB8fDB8fHww',
-  'https://media2.bollywoodhungama.in/wp-content/uploads/2022/09/Sunny-Leone.jpg'
+  // 'https://media2.bollywoodhungama.in/wp-content/uploads/2022/09/Sunny-Leone.jpg',
+  'https://cdn1.byjus.com/wp-content/uploads/2018/11/free-ias-prep/2018/03/02054521/Dandimarch-300x207.jpg',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_Ms2o5hCSsuXgYNNLuWtbFr-JTfVSXlHkiw&s',
+  'https://assets.mysticamusic.com/images/artist-photos/mallikarjun-mansoor.jpg'
+
 ];
 
 const Home = () => {
@@ -92,7 +97,7 @@ const Home = () => {
         className="relative py-12 px-10 mx-5 mt-4 h-800 shadow-xl rounded-lg overflow-hidden"
         style={{
          backgroundImage: `url('/images/Trivia NIGHTS (1).png')`,
-          backgroundSize: "contain",
+          backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundBlendMode: "overlay",
 
@@ -171,7 +176,7 @@ const Home = () => {
       </div>
     </div>
 
-
+      {/* <FlipCard /> */}
       <Footer />
     </div>
   );

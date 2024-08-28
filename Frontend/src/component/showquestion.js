@@ -53,32 +53,15 @@ const QuizBank = () => {
     if (currentQuestion >= 0 && currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     }
-    if(currentQuestion===questions.length){
-      const s=document.getElementById('submit');
-      const p=document.getElementById('next-question');
-      if(p&&p.parentNode){
-        p.replaceChild(s,p);
-        s.style.display="inline"
-      }
-     
-      if(currentQuestion!==questions.length){
-        const s=document.getElementById('submit');
-        const p=document.getElementById('next-question');
-        if(s&&s.parentNode){
-          s.replaceChild(p,s);
-          s.style.display="none"
-        }
-    }
-
   };
-  }
+  
   const numberClicked = (i) => {
     setCurrentQuestion(i - 1);
   };
 
   const spans = questions.map((_, index) => (
     <span className="qno" key={index + 1} onClick={() => numberClicked(index + 1)}>
-      {index + 1}
+      
     </span>
   ));
 
@@ -166,7 +149,7 @@ const QuizBank = () => {
          style={{ backgroundImage: "url('/images/Trivia NIGHTS (1).png')" }}>Trivia Nights</h2>
         <div className="quiz">
         
-          <div className="question-card">
+          <div className="question-card ">
 
             <div className="question-text">
               <h3 className='quiz-question'>{questions[currentQuestion].question}</h3>
@@ -325,13 +308,14 @@ const QuizBank = () => {
           </div>
 
         </div>
-        <div className="flex flex-row gap-2.5 h-20 w-24 my-2.5 mx-[30rem]">
+        <div className="question-numbers flex flex-row gap-2.5 h-20 w-24  mx-[30rem] ">
       {spans}
     </div>
-      <div className="flex justify-center">
+
+      <div className="flex justify-center my-5">
       <button
         onClick={evaluate}
-        className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+        className="px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow-md hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
       >
         Submit
       </button>
@@ -349,9 +333,9 @@ const QuizBank = () => {
             {modalContent}
             <Toaster/>
           </div>
-          <Footer />
         </div>
       )}
+      <Footer />
     </>
   );
 };

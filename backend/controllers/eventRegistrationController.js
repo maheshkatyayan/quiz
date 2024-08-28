@@ -1,4 +1,8 @@
 import db from "../config.js"
+import {
+  sendVerificationEmail,
+  sendresetpassword,
+} from "../services/emailService.js";
 
 export const eventRegistration=async (req,res)=>{
   console.log("got it")
@@ -77,7 +81,7 @@ export const eventRegistration=async (req,res)=>{
 
     // Generate a random 4-digit OTP (or any other logic you prefer)
     const otp = Math.floor(1000 + Math.random() * 9000);
-
+    await sendVerificationEmail(teamleademailid, otp);
     // Update the team key in the quiz_setup table
     const updateResult = await db.query(
       'UPDATE eventregistration SET teamkey=$1 WHERE leadmailid=$2',
@@ -98,7 +102,7 @@ export const eventRegistration=async (req,res)=>{
 export const accessingquizroombykey = async (req, res) => {
   try {
     // Destructure the key from the request body
-    const { key } = req.body;
+    const { key, } = req.body;
 
     // Query the database to find a matching record in the eventregistration table
     const result = await db.query(

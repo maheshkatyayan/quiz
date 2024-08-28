@@ -40,12 +40,14 @@ const RandomGridComponent = () => {
     style={{ backgroundImage: `url(${images[2]})` }}
   />
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-    <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+    <h2 className="text-3xl font-semibold text-white mb-2">
+    {/* CREAM */}
+    </h2>
     <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      [PRO] SMART OBJECT LAYERS PHOTOSHOP
+      {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
     </p>
     <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      LINE
+      {/* LINE */}
     </p>
   </div>
 </div>
@@ -61,12 +63,14 @@ const RandomGridComponent = () => {
             style={{ backgroundImage: `url(${images[0]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+            <h2 className="text-3xl font-semibold text-white mb-2">
+            {/* CREAM */}
+            </h2>
             <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              [PRO] SMART OBJECT LAYERS PHOTOSHOP
+              {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
             </p>
             <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              LINE
+              {/* LINE */}
             </p>
           </div>
         </div>
@@ -81,12 +85,14 @@ const RandomGridComponent = () => {
             style={{ backgroundImage: `url(${images[1]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+            <h2 className="text-3xl font-semibold text-white mb-2">
+            {/* CREAM */}
+            </h2>
             <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              [PRO] SMART OBJECT LAYERS PHOTOSHOP
+              {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
             </p>
             <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              LINE
+              {/* LINE */}
             </p>
           </div>
         </div>
@@ -105,12 +111,14 @@ const RandomGridComponent = () => {
             style={{ backgroundImage: `url(${shuffledImages[5]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+            <h2 className="text-3xl font-semibold text-white mb-2">
+            {/* CREAM */}
+            </h2>
             <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              [PRO] SMART OBJECT LAYERS PHOTOSHOP
+              {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
             </p>
             <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              LINE
+              {/* LINE */}
             </p>
           </div>
         </div>
@@ -125,12 +133,14 @@ const RandomGridComponent = () => {
             style={{ backgroundImage: `url(${shuffledImages[3]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+            <h2 className="text-3xl font-semibold text-white mb-2">
+            {/* CREAM */}
+            </h2>
             <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              [PRO] SMART OBJECT LAYERS PHOTOSHOP
+              {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
             </p>
             <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              LINE
+              {/* LINE */}
             </p>
           </div>
         </div>
@@ -145,12 +155,14 @@ const RandomGridComponent = () => {
             style={{ backgroundImage: `url(${shuffledImages[4]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+            <h2 className="text-3xl font-semibold text-white mb-2">
+            {/* CREAM */}
+            </h2>
             <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              [PRO] SMART OBJECT LAYERS PHOTOSHOP
+              {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
             </p>
             <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              LINE
+              {/* LINE */}
             </p>
           </div>
         </div>
@@ -193,12 +205,14 @@ const RandomGridComponent = () => {
   />
 
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-    <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+    <h2 className="text-3xl font-semibold text-white mb-2">
+    {/* CREAM */}
+    </h2>
     <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      [PRO] SMART OBJECT LAYERS PHOTOSHOP
+      {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
     </p>
     <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      LINE
+      {/* LINE */}
     </p>
   </div>
 </div>
@@ -238,12 +252,14 @@ const RandomGridComponent = () => {
   />
 
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-    <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+    <h2 className="text-3xl font-semibold text-white mb-2">
+    {/* CREAM */}
+    </h2>
     <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      [PRO] SMART OBJECT LAYERS PHOTOSHOP
+      {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
     </p>
     <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      LINE
+      {/* LINE */}
     </p>
   </div>
 </div>
@@ -283,12 +299,14 @@ const RandomGridComponent = () => {
   />
 
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-    <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+    <h2 className="text-3xl font-semibold text-white mb-2">
+    {/* CREAM */}
+    </h2>
     <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      [PRO] SMART OBJECT LAYERS PHOTOSHOP
+      {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
     </p>
     <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      LINE
+      {/* LINE */}
     </p>
   </div>
 </div>
@@ -306,12 +324,14 @@ const RandomGridComponent = () => {
     style={{ backgroundImage: `url(${shuffledImages[8]})` }}
   />
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-    <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+    <h2 className="text-3xl font-semibold text-white mb-2">
+    {/* CREAM */}
+    </h2>
     <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      [PRO] SMART OBJECT LAYERS PHOTOSHOP
+      {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
     </p>
     <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      LINE
+      {/* LINE */}
     </p>
   </div>
   
@@ -325,12 +345,14 @@ const RandomGridComponent = () => {
     style={{ backgroundImage: `url(${shuffledImages[10]})` }}
   />
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-    <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+    <h2 className="text-3xl font-semibold text-white mb-2">
+    {/* CREAM */}
+    </h2>
     <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      [PRO] SMART OBJECT LAYERS PHOTOSHOP
+      {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
     </p>
     <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-      LINE
+      {/* LINE */}
     </p>
   </div>
   
@@ -344,12 +366,14 @@ const RandomGridComponent = () => {
             style={{ backgroundImage: `url(${shuffledImages[9]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
+            <h2 className="text-3xl font-semibold text-white mb-2">
+            {/* CREAM */}
+            </h2>
             <p className="text-lg text-white mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              [PRO] SMART OBJECT LAYERS PHOTOSHOP
+              {/* [PRO] SMART OBJECT LAYERS PHOTOSHOP */}
             </p>
             <p className="text-md text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              LINE
+              {/* LINE */}
             </p>
           </div>
         </div>

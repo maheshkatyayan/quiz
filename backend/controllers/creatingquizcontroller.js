@@ -107,7 +107,7 @@ export const getQuestion = async (req, res) => {
     const quizName = fs.readFileSync(quizNameFilePath, "utf8");
     console.log("qizName getquestion",quizName)
     const result = await db.query('SELECT * FROM quiz_question WHERE quizname = $1', [quizName]);
-    
+    console.log(result)
     res.status(200).json(result.rows);
   } catch (err) {
     console.error('Error getting questions:', err);

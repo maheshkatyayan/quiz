@@ -5,16 +5,55 @@ import Nav from "./Nav.js";
 
 const Aboutfirstpart = () => {
   const [activeCard, setActiveCard] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState('right');
   const { members } = useGlobalcontext();
+
+  const images = [
+    '/images/DSC_1.JPG',
+    '/images/DSC_2.JPG',
+    '/images/DSC_3.JPG',
+    '/images/DSC_4.JPG',
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change the image every 5 seconds (increase the interval)
+
+    return () => clearInterval(interval); // Clean up the interval on component unmount
+  }, [images.length]);
+
 
 
   return (
     <div>
       <Nav />
-      <div className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] container mx-auto px-4 pt-8 pb-40 min-h-screen">
-        <div className="text-white ml-10 lg:flex lg:items-center lg:justify-between">
+      <div className=" mb-40 mx-auto px-4 pt-8 pb-40 min-h-screen">
+     
+      <div>
+      <section
+style={{
+  height: "350px",
+  width: "100%",
+  backgroundImage: `url('/images/DSC_groupphoto.JPG')`,
+  backgroundPosition: "center",
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundBlendMode: "overlay",
+}}>
+<div className="absolute inset-0"></div>
+<div className="flex items-center justify-center text-white">
+  <h2 className="text-4xl font-bold mb-4">About us</h2>
+</div>
+</section>
+      </div>
+      
+        <div className="relative py-12 px-10 mx-5 mt-4 h-800 shadow-xl rounded-lg overflow-hidden flex flex-row">
           <div className="lg:w-1/2">
-            <h2 className="text-3xl font-bold mb-4 text-black animate-fadeInLeft">
+            <h2 className=" text-3xl mb-4 animate-fadeInLeft">
               What is InQuizitive all about?
             </h2>
             <p className="mb-4 animate-fadeIn">
@@ -35,6 +74,14 @@ const Aboutfirstpart = () => {
               there. So, join us at our events where we will promise to provide
               you a platform for you to shine.
             </p>
+          </div>
+
+          <div className="slider-container lg:w-1/2  lg:mt-0 lg:ml-20">
+            <div   className={`slide ${slideDirection}`}
+        key={currentIndex}
+        style={{
+          backgroundImage: `url(${images[currentIndex]})`,
+        }}></div>
           </div>
         </div>
 
