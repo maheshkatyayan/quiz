@@ -1,3 +1,12 @@
+ 
+ <div className="header-showQuestion">
+      <img src="/images/quiz-bulb.png" className="h-40 -mr-20"/>
+      <img src="/images/quiz-bulb.png" className="h-40"/>
+        <h2 className="text-8xl font-extrabold text-center bg-clip-text text-transparent pt-10" 
+         style={{ backgroundImage: "url('/images/Trivia NIGHTS (1).png')" }}>Trivia Nights</h2>
+          <img src="/images/quiz-bulb.png" className="h-40 -mr-20"/>
+          <img src="/images/quiz-bulb.png" className="h-40"/>
+        </div>
  <div>
       {isSwitchVisible && (
         <label className="switch">

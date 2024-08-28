@@ -14,7 +14,7 @@ const Counter = () => {
   const timer = {
     id: 62,
     name: "Quiz1",
-    time: "00:58:00",
+    time: "17:52:00",
     date: "2024-08-28T18:30:00.000Z"
   };
   const showmesomething=()=>{

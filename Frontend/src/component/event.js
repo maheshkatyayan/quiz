@@ -4,12 +4,19 @@ import Footer from './footer.js'
 
 
 const images = [
-  'https://firebasestorage.googleapis.com/v0/b/quizmaster-b0faf.appspot.com/o/eventsimages%2FDSC_0660.JPG?alt=media&token=2e66a3bd-bc9b-4bb0-8aad-836d3c5c5e44',
-  'https://tse1.mm.bing.net/th?id=OIP.S2KMMdeWejny18e8ZujPIgHaGK&pid=Api&P=0&h=180',
-  'https://tse2.mm.bing.net/th?id=OIP.p7zv9rbBiVUaj_BQQX8C6gHaFx&pid=Api&P=0&h=180',
-  'https://firebasestorage.googleapis.com/v0/b/quizmaster-b0faf.appspot.com/o/eventsimages%2FDSC_0660.JPG?alt=media&token=2e66a3bd-bc9b-4bb0-8aad-836d3c5c5e44',
-  'https://tse3.mm.bing.net/th?id=OIP.CJeJjqEKLIsbfEc8qxa9YQHaHa&pid=Api&P=0&h=180',
-  'https://tse3.mm.bing.net/th?id=OIP.Olb2BN-K-ilp1hd5JNW87QHaI4&pid=Api&P=0&h=180',
+  '/images/DSC_1.JPG',
+  '/images/DSC_2.JPG',
+  '/images/DSC_3.JPG',
+  '/images/DSC_4.JPG',
+  '/images/DSC_5.JPG',
+  '/images/DSC_6.JPG',
+  '/images/DSC_7.JPG',
+  '/images/DSC_8.JPG',
+  '/images/DSC_9.JPG',
+  '/images/DSC_10.JPG',
+  '/images/DSC_11.JPG',
+
+  
 ];
 
 const RandomGridComponent = () => {
@@ -22,7 +29,6 @@ const RandomGridComponent = () => {
   return (
     <div className='bg-black'>
       <Nav />
-      <h1>welcome to Event room</h1>
       <div className=" flex flex-wrap justify-center gap-6 p-4">
         {/* Image 1 */}
         <div
@@ -31,9 +37,7 @@ const RandomGridComponent = () => {
 >
   <div
     className="absolute inset-0 bg-cover bg-center"
-    style={{
-  backgroundImage: `url('https://firebasestorage.googleapis.com/v0/b/quizmaster-b0faf.appspot.com/o/eventsimages%2FDSC_0065.JPG?alt=media&token=4be02c0e-f43b-4572-833c-f679d1684113')`,
-}}
+    style={{ backgroundImage: `url(${images[2]})` }}
   />
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
     <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
@@ -54,7 +58,7 @@ const RandomGridComponent = () => {
         >
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${shuffledImages[3]})` }}
+            style={{ backgroundImage: `url(${images[0]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
             <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
@@ -74,7 +78,7 @@ const RandomGridComponent = () => {
         >
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${shuffledImages[3]})` }}
+            style={{ backgroundImage: `url(${images[1]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
             <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
@@ -98,7 +102,7 @@ const RandomGridComponent = () => {
         >
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${shuffledImages[3]})` }}
+            style={{ backgroundImage: `url(${shuffledImages[5]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
             <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
@@ -138,7 +142,7 @@ const RandomGridComponent = () => {
         >
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${shuffledImages[3]})` }}
+            style={{ backgroundImage: `url(${shuffledImages[4]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
             <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
@@ -171,7 +175,7 @@ const RandomGridComponent = () => {
     style={{ 
       width: '100%', 
       height: '100%', 
-      backgroundImage: `url(${shuffledImages[3]})`, 
+      backgroundImage: `url(${shuffledImages[5]})`, 
       backgroundSize: 'cover', 
       backgroundPosition: 'center' 
     }} 
@@ -216,7 +220,7 @@ const RandomGridComponent = () => {
     style={{ 
       width: '100%', 
       height: '100%', 
-      backgroundImage: `url(${shuffledImages[3]})`, 
+      backgroundImage: `url(${shuffledImages[6]})`, 
       backgroundSize: 'cover', 
       backgroundPosition: 'center' 
     }} 
@@ -261,7 +265,7 @@ const RandomGridComponent = () => {
     style={{ 
       width: '100%', 
       height: '100%', 
-      backgroundImage: `url(${shuffledImages[3]})`, 
+      backgroundImage: `url(${shuffledImages[7]})`, 
       backgroundSize: 'cover', 
       backgroundPosition: 'center' 
     }} 
@@ -299,7 +303,7 @@ const RandomGridComponent = () => {
 >
   <div
     className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: `url(${shuffledImages[3]})` }}
+    style={{ backgroundImage: `url(${shuffledImages[8]})` }}
   />
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
     <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
@@ -318,7 +322,7 @@ const RandomGridComponent = () => {
 >
   <div
     className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: `url(${shuffledImages[3]})` }}
+    style={{ backgroundImage: `url(${shuffledImages[10]})` }}
   />
   <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
     <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>
@@ -337,7 +341,7 @@ const RandomGridComponent = () => {
         >
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${shuffledImages[3]})` }}
+            style={{ backgroundImage: `url(${shuffledImages[9]})` }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-20 transition-all duration-500 flex flex-col justify-center items-center">
             <h2 className="text-3xl font-semibold text-white mb-2">CREAM</h2>

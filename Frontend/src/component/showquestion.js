@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useGlobalcontext } from "../component/contex.js";
 import { useLocation } from 'react-router-dom';
+import Footer from './footer.js'
 
 
 const QuizBank = () => {
@@ -103,7 +104,7 @@ const QuizBank = () => {
     let n = document.getElementsByClassName('qno')[currentQuestion];
     console.log(n);
     answersArray(ans);
-    n.style.backgroundColor = 'green';
+    n.style.background ='linear-gradient(180deg,#87ff00,#0b1e07)';
   };  
 
   const alphabetClicked = (optionID,alphabetID,ans)=>{
@@ -122,7 +123,7 @@ const QuizBank = () => {
 
     let n = document.getElementsByClassName('qno')[currentQuestion];
     answersArray(ans);
-    n.style.backgroundColor='green'
+    n.style.background='linear-gradient(180deg,#87ff00,#0b1e07)';
   }
 
   const evaluate = async () => {
@@ -160,8 +161,9 @@ const QuizBank = () => {
 
   return (
     <>
-      <div className="body">
-        <h2>Inquiztive Trivia Nights</h2>
+      <div className="body-showQuestion">
+        <h2 className="text-8xl font-extrabold text-center bg-clip-text text-transparent pt-10" 
+         style={{ backgroundImage: "url('/images/Trivia NIGHTS (1).png')" }}>Trivia Nights</h2>
         <div className="quiz">
         
           <div className="question-card">
@@ -221,7 +223,7 @@ const QuizBank = () => {
                     (e) => alphabetClicked(`options1_${questions[currentQuestion].id}`,e.target.id,questions[currentQuestion].options1)
                   }
                   style={{
-                    border: options[currentQuestion] === `optionsA_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                    border: options[currentQuestion] === `optionsA_${questions[currentQuestion].id}` ? '7px solid green' : '2px solid white',
                   }}
                   >A</span>
 
@@ -229,7 +231,7 @@ const QuizBank = () => {
                     onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options1,`optionsA_${questions[currentQuestion].id}`)}
                     className='option'
                     style={{
-                      border: selectedOptions[currentQuestion] === `options1_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                      border: selectedOptions[currentQuestion] === `options1_${questions[currentQuestion].id}` ? '7px solid green' : '2px solid white',
                     }}
                   >
                    {questions[currentQuestion].options1}
@@ -245,14 +247,14 @@ const QuizBank = () => {
                   (e) => alphabetClicked(`options2_${questions[currentQuestion].id}`,e.target.id,questions[currentQuestion].options1)
                 }
                 style={{
-                  border: options[currentQuestion] === `optionsB_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                  border: options[currentQuestion] === `optionsB_${questions[currentQuestion].id}` ? '7px solid green' : '2px solid white',
                 }}
                 >B</span>
                   <li id={`options2_${questions[currentQuestion].id}`}
                     onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options2,`optionsB_${questions[currentQuestion].id}`)}
                     className='option'
                     style={{
-                      border: selectedOptions[currentQuestion] === `options2_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                      border: selectedOptions[currentQuestion] === `options2_${questions[currentQuestion].id}` ? '7px solid green' : '2px solid white',
                     }}
                   >  
                     {questions[currentQuestion].options2}
@@ -268,7 +270,7 @@ const QuizBank = () => {
                     (e) => alphabetClicked(`options3_${questions[currentQuestion].id}`,e.target.id,questions[currentQuestion].options3)
                   }
                   style={{
-                    border: options[currentQuestion] === `optionsC_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                    border: options[currentQuestion] === `optionsC_${questions[currentQuestion].id}` ? '7px solid green' : '2px solid white',
                   }}
                   
                   
@@ -277,7 +279,7 @@ const QuizBank = () => {
                     onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options3,`optionsC_${questions[currentQuestion].id}`)}
                     className='option'
                     style={{
-                      border: selectedOptions[currentQuestion] === `options3_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                      border: selectedOptions[currentQuestion] === `options3_${questions[currentQuestion].id}` ? '7px solid green' : '2px solid white',
                     }}
                   >
                     {questions[currentQuestion].options3}
@@ -292,7 +294,7 @@ const QuizBank = () => {
                    (e) => alphabetClicked(`options4_${questions[currentQuestion].id}`,e.target.id,questions[currentQuestion].options1)
                  }
                  style={{
-                   border: options[currentQuestion] === `optionsD_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                   border: options[currentQuestion] === `optionsD_${questions[currentQuestion].id}` ? '7px solid green' : '2px solid white',
                  }}>D</span>
 
 
@@ -300,7 +302,7 @@ const QuizBank = () => {
                     onClick={(e) => questionOptClicked(e.target.id, questions[currentQuestion].options4,`optionsD_${questions[currentQuestion].id}`)}
                     className='option'
                     style={{
-                      border: selectedOptions[currentQuestion] === `options4_${questions[currentQuestion].id}` ? '7px solid green' : '#282828',
+                      border: selectedOptions[currentQuestion] === `options4_${questions[currentQuestion].id}` ? '7px solid green' : '2px solid white',
                     }}
                   >  
                     {questions[currentQuestion].options4}
@@ -310,6 +312,7 @@ const QuizBank = () => {
                 
               </ul>
               <div className="buttons">
+              
               <button id='prev-question' onClick={previousQuestion}>
                 {"<"}
               </button>
@@ -322,13 +325,17 @@ const QuizBank = () => {
           </div>
 
         </div>
-        <div className='question-numbers'>
-            {spans}
-          </div>
-        <div className="submit-btn">
-        <button id="submit" onClick={evaluate}> submit</button>
-
-        </div>
+        <div className="flex flex-row gap-2.5 h-20 w-24 my-2.5 mx-[30rem]">
+      {spans}
+    </div>
+      <div className="flex justify-center">
+      <button
+        onClick={evaluate}
+        className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      >
+        Submit
+      </button>
+    </div>
           
       </div>
 
@@ -342,6 +349,7 @@ const QuizBank = () => {
             {modalContent}
             <Toaster/>
           </div>
+          <Footer />
         </div>
       )}
     </>
