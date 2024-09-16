@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useGlobalcontext } from "./contex.js";
-import Nav from "./Nav.js";
+
 
 
 const Aboutfirstpart = () => {
@@ -30,7 +30,7 @@ const Aboutfirstpart = () => {
 
   return (
     <div>
-      <Nav />
+      
       <div className=" mb-40 mx-auto px-4 pt-8 pb-40 min-h-screen">
      
       <div>
@@ -45,13 +45,13 @@ style={{
   backgroundBlendMode: "overlay",
 }}>
 <div className="absolute inset-0"></div>
-<div className="flex items-center justify-center text-white">
-  <h2 className="text-4xl font-bold mb-4">About us</h2>
+<div className="flex items-end justify-center text-white h-full">
+  <h2 className="text-6xl font-bold mb-4 ">Amat Victoria Curam</h2>
 </div>
 </section>
       </div>
       
-        <div className="relative py-12 px-10 mx-5 mt-4 h-800 shadow-xl rounded-lg overflow-hidden flex flex-row">
+        <div className="relative py-12 px-10 mx-5 mt-4 h-800 shadow-xl rounded-lg overflow-hidden flex flex-row text-white">
           <div className="lg:w-1/2">
             <h2 className=" text-3xl mb-4 animate-fadeInLeft">
               What is InQuizitive all about?
@@ -85,7 +85,7 @@ style={{
           </div>
         </div>
 
-        <div className="relative py-12 px-10 mx-5 mt-4 h-800 shadow-xl rounded-lg overflow-hidden">
+        <div className="relative py-12 px-10 mx-5 mt-4 h-800 shadow-xl rounded-lg overflow-hidden text-white">
           <h2 className="text-3xl mb-4 ">
             Find your best fit with our College Quiz!
           </h2>

@@ -38,7 +38,7 @@ const AppProvider = ({ children }) => {
     fetchApiData(Api2, "GET_MEMBERS");
     fetchApiData(Api3, "GET_TIMER");
   }, []);
-console.log("state",state)
+console.log("state->",state)
   return <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>;
 };
 

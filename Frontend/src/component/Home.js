@@ -85,7 +85,7 @@ const Home = () => {
     </div>
 
     {/* Question of the Week Section */}
-    <section className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] py-12 my-8 min-w-[75%] px-5 rounded-lg shadow-xl animate-slideIn my-12">
+    <section className="bg-gradient-to-r from-[#2e1a47] to-[#624a82] py-12 my-8 max-w-[60%] px-5 rounded-lg shadow-xl animate-slideIn my-12">
       <div className="container mx-auto text-center">
         <h2 className="text-4xl text-white font-bold mb-4">Question of the Week</h2>
         <p className="text-xl text-white">What is the theme for the 12th National Sports Day being celebrated on 29th August 2024, in honor of Major Dhyan Chand's birthday?</p>
