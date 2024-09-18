@@ -22,7 +22,7 @@ const ResetPassword = () => {
       try {
         setsending(true);
         const data = { email };
-        const response = await axios.post("http://localhost:5000/users/forgot_password", { data }, { withCredentials: true });
+        const response = await axios.post("https://quiz-setx.onrender.com/users/forgot_password", { data }, { withCredentials: true });
         console.log("response", response.data.result);
         if (response.data.result === 'TRUE') {
           toast.success("Verification email sent successfully!");
@@ -53,7 +53,7 @@ const ResetPassword = () => {
     console.log("Setting new password with data:", data);
 
     try {
-      const response = await axios.post("http://localhost:5000/users/reset_password", { data }, { withCredentials: true,headers:token });
+      const response = await axios.post("https://quiz-setx.onrender.com/users/reset_password", { data }, { withCredentials: true,headers:token });
       console.log('response2',response);
       if (response.data.result === 'TRUE'){
       toast.success("Password reset successfully!");

@@ -17,7 +17,7 @@ const db = new Pg.Client({
   //   ca: fs.readFileSync(path.resolve(__dirname, 'path/to/your/cockroachdb-ca.crt')).toString(),
   // },
 });
-
+console.log(db)
 db.connect()
   .then(() => console.log("Connected to PostgreSQL"))
   .catch(err => console.error("Connection error", err.stack));

@@ -37,7 +37,7 @@ const QuestionDemo = () => {
 
     const data = { questionId, question, options, description, imgSrc, answer };
     try {
-      const response = await axios.post("http://localhost:5000/quizsetup/addquestion_to_quiz", { data });
+      const response = await axios.post("https://quiz-setx.onrender.com/quizsetup/addquestion_to_quiz", { data });
       if (response.status === 200) {
         setQuestions([...questions, data]);
         resetForm();
@@ -75,7 +75,7 @@ const QuestionDemo = () => {
     formData.append('questionId', questionId);
 
     try {
-      const response = await axios.post("http://localhost:5000/quiz/uploadMediaQuestion", formData, {
+      const response = await axios.post("https://quiz-setx.onrender.com/quiz/uploadMediaQuestion", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 

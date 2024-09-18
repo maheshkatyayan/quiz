@@ -78,7 +78,7 @@ const Counter = () => {
   const handleKeySubmit = async () => {
     try {
       // Show loading or disable the button to prevent multiple submissions
-      const response = await axios.post('http://localhost:5000/events/accessingquizroombykey', { key: roomKey });
+      const response = await axios.post('https://quiz-setx.onrender.com/events/accessingquizroombykey', { key: roomKey });
       
       if (response.status === 200 && timeLeft<=0) {
         toast.success('just give me one minute')
@@ -352,7 +352,7 @@ export default Counter;
 // //       const handleKeySubmit = async () => {
 // //         try {
 // //             // Show loading or disable the button to prevent multiple submissions
-// //             const response = await axios.post('http://localhost:5000/events/accessingquizroombykey', { key: roomKey });
+// //             const response = await axios.post('https://quiz-setx.onrender.com/events/accessingquizroombykey', { key: roomKey });
             
 // //             if (response.status === 200) {
 // //                 navigate('/showquestion', { state: { roomKey } });
@@ -423,7 +423,7 @@ export default Counter;
 //       // const handleKeySubmit = async () => {
 //   //   try {
 //   //     // Show loading or disable the button to prevent multiple submissions
-//   //     const response = await axios.post('http://localhost:5000/events/accessingquizroombykey', { key: roomKey });
+//   //     const response = await axios.post('https://quiz-setx.onrender.com/events/accessingquizroombykey', { key: roomKey });
 
 //   //     if (response.status === 200) {
 //   //       navigate('/showquestion', { state: { roomKey } });
