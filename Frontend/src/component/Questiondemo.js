@@ -37,7 +37,7 @@ const QuestionDemo = () => {
 
     const data = { questionId, question, options, description, imgSrc, answer };
     try {
-      const response = await axios.post("https://quiz-setx.onrender.com/quizsetup/addquestion_to_quiz", { data });
+      const response = await axios.post("http://localhost:5000/quizsetup/addquestion_to_quiz", { data });
       if (response.status === 200) {
         setQuestions([...questions, data]);
         resetForm();
@@ -75,12 +75,11 @@ const QuestionDemo = () => {
     formData.append('questionId', questionId);
 
     try {
-      const response = await axios.post("https://quiz-setx.onrender.com/quiz/uploadMediaQuestion", formData, {
+      const response = await axios.post("http://localhost:5000/quiz/uploadMediaQuestion", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
       if (response.status === 200) {
-        setUploadSection(false);
         toast.success("File uploaded successfully!");
       } else {
         toast.error("Something went wrong!");
@@ -153,19 +152,23 @@ const QuestionDemo = () => {
 
               {selectedMediaType && (
                 <div className="mt-4">
-                  <label className="block text-gray-700 font-semibold mb-2">Upload {selectedMediaType}</label>
-                  <input
-                    type="file"
-                    accept={`${selectedMediaType}/*`}
-                    onChange={(e) => setSelectedFile(e.target.files[0])}
-                    className="border border-gray-300 text-black p-2 rounded-md w-full"
-                  />
+                <label className="block text-gray-700 font-semibold mb-2">
+        Upload {selectedMediaType}
+      </label>
+      <input
+        type="file"
+        accept={`${selectedMediaType}/*`}
+        onChange={(e) => setSelectedFile(e.target.files[0])}
+        className="border border-gray-300 text-black p-2 rounded-md w-full"
+        name="fileUpload"
+      />
                 </div>
               )}
 
               <button
                 onClick={handleUpload}
                 className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+                disabled={!selectedFile}
               >
                 Upload
               </button>

@@ -22,6 +22,7 @@ export const register = async (req, res) => {
       }
 
       // Check if the email or phone number already exists
+
       const existingUser = await db.query(
         "SELECT id FROM users WHERE email = $1",
         [email]
@@ -43,7 +44,8 @@ export const register = async (req, res) => {
         "INSERT INTO users ( email, phone_number, password_hash, user_name, verification_token) VALUES ($1, $2, $3, $4, $5)",
         [email, phone_number, password_hash, name, verification_token]
       );
-
+      
+      console.log("This is good")
       // Trigger Notification Service to send verification email/SMS
       const verification_endpoint = `${process.env.BACKEND_URL}/users/verify/${verification_token}`;
       await sendVerificationEmail(email, verification_endpoint); //sending verification link of frontend abhi backend de rahe hai

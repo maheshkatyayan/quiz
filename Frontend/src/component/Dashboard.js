@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
-//https://quiz-setx.onrender.com/quizsetup/getSaveTimer
-//https://quiz-setx.onrender.com/quizsetup/Questionbankname
-//https://quiz-setx.onrender.com/quizsetup/addquizname
-//https://quiz-setx.onrender.com/quizsetup/delete_quiz_setup
-//https://quiz-setx.onrender.com/quizsetup/addSaveTimer
+//http://localhost:5000/quizsetup/getSaveTimer
+//http://localhost:5000/quizsetup/Questionbankname
+//http://localhost:5000/quizsetup/addquizname
+//http://localhost:5000/quizsetup/delete_quiz_setup
+//http://localhost:5000/quizsetup/addSaveTimer
 const Dashboard = () => {
   const navigate = useNavigate();
   const [quizName, setQuizName] = useState('');
@@ -31,7 +31,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get('https://quiz-setx.onrender.com/quizsetup/getSaveTimer');
+        const result = await axios.get('http://localhost:5000/quizsetup/getSaveTimer');
         console.log(result)
         setQuizzes(result.data);
       } catch (error) {
@@ -60,7 +60,7 @@ const Dashboard = () => {
   const QuizBank =async (hello) => {
     const data = { name: hello };
       try {
-        const response = await axios.post('https://quiz-setx.onrender.com/quizsetup/Questionbankname', { data });
+        const response = await axios.post('http://localhost:5000/quizsetup/Questionbankname', { data });
         if (response.status === 200) {
           navigate('/Questiondemo');
         }
@@ -84,7 +84,7 @@ const Dashboard = () => {
       setQuizName('');
       const data = { name: quizName };
       try {
-        const response = await axios.post('https://quiz-setx.onrender.com/quizsetup/addquizname', { data });
+        const response = await axios.post('http://localhost:5000/quizsetup/addquizname', { data });
         if (response.status === 200) {
           console.log("quiz is added to database")
         }
@@ -100,7 +100,7 @@ const Dashboard = () => {
     setQuizzes(newQuizzes);
     try {
       const data = quizname;
-      const response = await axios.post('https://quiz-setx.onrender.com/quizsetup/delete_quiz_setup', { data });
+      const response = await axios.post('http://localhost:5000/quizsetup/delete_quiz_setup', { data });
     } catch (error) {
       toast.error('Error deleting quiz');
     }
@@ -109,11 +109,11 @@ const Dashboard = () => {
   // const handleUpdateQuiz=async (index, quizname)=>{
   //   setEditingQuizIndex(index);
   //   const data={quizTime,quizDate,quizName}
-  //   const response = await axios.post('https://quiz-setx.onrender.com/quizsetup/updateTimer', data);
+  //   const response = await axios.post('http://localhost:5000/quizsetup/updateTimer', data);
 
   // }
 
-  const handleSetQuiz = async (index) => {
+  const handleSetQuiz = async (index,quizsetname) => {
     setEditingQuizIndex(index);
     setQuizDate(quizzes[index].date);
     setQuizTime(quizzes[index].time );
@@ -123,7 +123,7 @@ const Dashboard = () => {
     const data = { saveTimerquizname, quizDate, quizTime };
     console.log(data);
     try{
-    const response = await axios.post('https://quiz-setx.onrender.com/quizsetup/addSaveTimer', data);
+    const response = await axios.post('http://localhost:5000/quizsetup/addSaveTimer', data);
     const updatedQuizzes = quizzes.map((quiz, index) =>
       index === editingQuizIndex ? { ...quiz, date: quizDate, time: quizTime } : quiz
     );
@@ -146,7 +146,7 @@ const Dashboard = () => {
   const handleAddMember = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://quiz-setx.onrender.com/admine/addMember', memberDetails);
+      const response = await axios.post('http://localhost:5000/admine/addMember', memberDetails);
       if (response.status === 200) {
         toast.success('Member added successfully');
         setMemberDetails({
@@ -192,7 +192,7 @@ const Dashboard = () => {
                   ) : (
                     <div>
                       {!quiz.date && !quiz.time && (
-                        <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => handleSetQuiz(index)}>Set Timer</button>
+                        <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name)}>Set Timer</button>
                       )}
                       {quiz.date && quiz.time && (
                         <>

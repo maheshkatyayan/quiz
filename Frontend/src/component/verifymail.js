@@ -9,7 +9,7 @@ const VerifyEmail = () => {
 
   const Verifyuser = async (e) => {
     try {
-        await axios.get("https://quiz-setx.onrender.com/users/verify");
+        await axios.get("http://localhost:5000/users/verify");
         toast.success("Signed in successfully!");
          navigate("/Clientlogin");
       } catch (error) {

@@ -20,7 +20,7 @@ function Enternewpassword() {
         console.log("Signing in with data:", data);
     
         try {
-       const respond= await axios.post("https://quiz-setx.onrender.com/users/reset_password", { data }, { withCredentials: true });
+       const respond= await axios.post("http://localhost:5000/users/reset_password", { data }, { withCredentials: true });
        console.log(respond)
           toast.success("Signed in successfully!");
           navigate("/Clientlogin");

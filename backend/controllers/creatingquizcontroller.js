@@ -13,72 +13,66 @@ const firebaseConfig = {
   messagingSenderId: "620399637174",
   appId: "1:620399637174:web:11397e200c8fc4c7866c17",
   measurementId: "G-6MD1EF1R78"
-  };
+};
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
-const firebaseStorage = getStorage(firebaseApp);
+//const firebaseStorage = getStorage(firebaseApp);
 
 // Multer setup for file uploads
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'uploads/'); // Directory to save uploaded files
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname); // Use original file name
-//   }
-// });
-const upload = multer({ dest: 'uploads/' });
-
+const upload = multer({ dest: 'uploads/' }); 
 
 // Express route handler for uploading media questions
-
-upload.single('noob')
-
 export const uploadMediaQuestion = async (req, res) => {
-  const file = req.file;
-  console.log("upload",req.body,file)
-  const mediaType=req.body.mediaType;
-  const questionId=req.body.questionId;
-  var fileUrl;
-  if (!file) {
-  return res.status(400).send('No file uploaded.');
-  }
-  try {
-  // Read the file and convert it to a buffer
-  const fileBuffer = fs.readFileSync(file.path);
-  // Firebase storage reference
-  const storage = getStorage();
-  if(mediaType==='image'){
-  //console.log("image")
-  const storageRef = ref(storage, `image/${file.originalname}`);
-  await uploadBytes(storageRef, fileBuffer);
-  fileUrl = await getDownloadURL(storageRef);
-  }
-  else if(mediaType==='audio'){
-  //console.log("audio")
-  const storageRef = ref(storage, `audio/${file.originalname}`);
-  await uploadBytes(storageRef, fileBuffer);
-  fileUrl = await getDownloadURL(storageRef);
-  }
-  else if(mediaType==='video'){
-  const storageRef = ref(storage, `video/${file.originalname}`);
-  await uploadBytes(storageRef, fileBuffer);
-  fileUrl = await getDownloadURL(storageRef);
-  }
-  //console.log("file",fileUrl)
-  // Insert file reference into the database
-  await db.query('INSERT INTO quiz_question(question_id,file_type,file_url) VALUES ($1, $2,$3)', [questionId,mediaType,fileUrl]);
-  // Clean up the uploaded file
-  
-  fs.unlinkSync(file.path);
-  res.status(200).json({ message: 'File uploaded successfully.' });// getting error
-  //file ko gip me kar ke save kar sakte hai
-  } catch (err) {
-  console.error('Error uploading file:', err);
-  res.status(500).send('Error uploading file.');
-  }
-  };
+  // Using Multer to handle file upload
+  upload.single('file')(req, res, async (err) => {
+    if (err) {
+      return res.status(500).send('Error with file upload.');
+    }
+
+    const file = req.file;
+    const mediaType = req.body.mediaType;
+    const questionId = req.body.questionId;
+    
+    var fileUrl;
+    if (!file) {
+    return res.status(400).send('No file uploaded.');
+    }
+    try {
+    // Read the file and convert it to a buffer
+    const fileBuffer = fs.readFileSync(file.path);
+    // Firebase storage reference
+    const storage = getStorage();
+    if(mediaType==='image'){
+    //console.log("image")
+    const storageRef = ref(storage, `image/${file.originalname}`);
+    await uploadBytes(storageRef, fileBuffer);
+    fileUrl = await getDownloadURL(storageRef);
+    }
+    else if(mediaType==='audio'){
+    //console.log("audio")
+    const storageRef = ref(storage, `audio/${file.originalname}`);
+    await uploadBytes(storageRef, fileBuffer);
+    fileUrl = await getDownloadURL(storageRef);
+    }
+    else if(mediaType==='video'){
+    const storageRef = ref(storage, `video/${file.originalname}`);
+    await uploadBytes(storageRef, fileBuffer);
+    fileUrl = await getDownloadURL(storageRef);
+    }
+    console.log("file",fileUrl)
+    // Insert file reference into the database
+    await db.query('INSERT INTO quiz_question(question_id,file_type,file_url) VALUES ($1, $2,$3)', [questionId,mediaType,fileUrl]);
+    // Clean up the uploaded file
+    fs.unlinkSync(file.path);
+    res.status(200).json({ message: 'File uploaded successfully.' });// getting error
+    //file ko gip me kar ke save kar sakte hai
+    } catch (err) {
+    console.error('Error uploading file:', err);
+    res.status(500).send('Error uploading file.');
+    }
+  });
+};
 
 
 
