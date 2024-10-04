@@ -4,11 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const dbConfig = {
- host: 'database-1.c5k8wya6yico.us-east-1.rds.amazonaws.com', // Your RDS endpoint
-  port: 5432,
-  user: 'postgres',  // Your username
-  password: 'InQuiztive2024',  // Your password
-  database: 'postgres',  // Your database name
+ host: process.env.DATABASE_HOST, // Your RDS endpoint
+  port: process.env.DATABASE_PORT,
+  user: process.env.DATABASE_USER,  // Your username
+  password: process.env.DATABASE_PASSWORD,  // Your password
+  database: process.env.DATABASE_NAME,  // Your database name
   ssl: {
     rejectUnauthorized:false
 }
