@@ -11,11 +11,12 @@ const saveQuizNameToFile = (name) => {
 }
 
 export const addquizname =async(req,res)=>{
-  console.log("addquizname",req.body.data.name);
+  console.log("addquizname1",req.body.data);
   quizName = req.body.data.name;
   saveQuizNameToFile(quizName);
   try{
-    await db.query("INSERT INTO quiz_setup(name) VALUES ($1)", [req.body.data.name]);
+    const response = await db.query("INSERT INTO quiz_setup(name1) VALUES ($1)", [req.body.data.name]);
+    console.log("addquizname",response.rows[0]);
     res.status(200).send('Data updated successfully');
   }catch(err){
     //console.log("your err is",err)
@@ -23,8 +24,10 @@ export const addquizname =async(req,res)=>{
   }
 
 export const questionForonequiz=async(req,res)=>{
+  console.log("questionforonequiz",quizName)
   try {
     const result = await db.query('SELECT * FROM quiz_question WHERE quizname=$1',[quizName]);
+    console.log("questionforonequiz",result.rows[0])
      res.json(result.rows);
     } catch (err) {
     console.error('Error getting questions:', err);
@@ -102,25 +105,37 @@ export const GoToQuizSetUp=async(req,res)=>{
   export const addSaveTimer=async(req,res)=>{
     console.log("addSaveTimer",req.body)
     const {quizTime,quizDate,saveTimerquizname}=req.body;
-    await db.query("UPDATE quiz_setup SET time=$1, date=$2 WHERE name=$3",[quizTime,quizDate,saveTimerquizname])
+    await db.query("UPDATE quiz_setup SET time1=$1, date1=$2 WHERE name1=$3",[quizTime,quizDate,saveTimerquizname])
     res.status(200).send({quizTime,quizDate,saveTimerquizname})
     }
     
     export const getSaveTimer=async(req,res)=>{
-      console.log("getsavetimer")
+      
+    const quizName = fs.readFileSync(quizNameFilePath, "utf8");
+    console.log("qizName getsavetime",quizName)
       try{
-        const result= await db.query("SELECT * FROM quiz_setup");
+        const result= await db.query("SELECT * FROM quiz_setup where name1=$1",[quizName]);
         res.status(200).json(result.rows);
       }catch(e){
         console.log(e)
       }
-    
     }
+
+    export const dashboardgetSaveTimer=async(req,res)=>{
+        try{
+          const result= await db.query("SELECT * FROM quiz_setup");
+          console.log("dashboardgetSaveTimer",result.rows)
+          res.status(200).json(result.rows);
+        }catch(e){
+          console.log(e)
+        }
+      
+      }
     
     export const delete_quiz_setup=async(req,res)=>{
     console.log("deletequizname",req.body.data)
     try{
-    await db.query("DELETE FROM quiz_setup WHERE name=$1",[req.body.data])
+    await db.query("DELETE FROM quiz_setup WHERE name1=$1",[req.body.data])
     await db.query("DELETE FROM quiz_question WHERE quizname=$1",[req.body.data])
     res.status(200)
     } catch (err) {

@@ -31,9 +31,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get('http://localhost:5000/quizsetup/getSaveTimer');
-        console.log(result)
+        const result = await axios.get('http://localhost:5000/quizsetup/dashboardgetSaveTimer');
+        console.log("dashboardatagetSaveTimer",result.data)
         setQuizzes(result.data);
+        console.log()
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -115,13 +116,15 @@ const Dashboard = () => {
 
   const handleSetQuiz = async (index,quizsetname) => {
     setEditingQuizIndex(index);
+    console.log("index",index,quizsetname)
+    setTimerqizname(quizsetname)
     setQuizDate(quizzes[index].date);
     setQuizTime(quizzes[index].time );
   };
 
   const handleSave_Timer = async () => {
     const data = { saveTimerquizname, quizDate, quizTime };
-    console.log(data);
+    console.log("data",data);
     try{
     const response = await axios.post('http://localhost:5000/quizsetup/addSaveTimer', data);
     const updatedQuizzes = quizzes.map((quiz, index) =>
@@ -174,9 +177,9 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {quizzes.map((quiz, index) => (
                 <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                  <h3 className="text-xl font-bold mb-4">{quiz.name}</h3>
-                  <p>Date: {quiz.date}</p>
-                  <p>Time: {quiz.time}</p>
+                  <h3 className="text-xl font-bold mb-4">{quiz.name1}</h3>
+                  <p>Date: {quiz.date1}</p>
+                  <p>Time: {quiz.time1}</p>
                   {editingQuizIndex === index ? (
                     <div>
                       <div className="mb-4">
@@ -191,16 +194,16 @@ const Dashboard = () => {
                     </div>
                   ) : (
                     <div>
-                      {!quiz.date && !quiz.time && (
-                        <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name)}>Set Timer</button>
+                      {!quiz.date1 && !quiz.time1 && (
+                        <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name1)}>Set Timer</button>
                       )}
-                      {quiz.date && quiz.time && (
+                      {quiz.date1 && quiz.time1 && (
                         <>
-                          <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => QuizBank(quiz.name)}>Go to Quiz bank</button>
-                          <button className="mt-4 w-full py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name)}>Update</button>
+                          <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => QuizBank(quiz.name1)}>Go to Quiz bank</button>
+                          <button className="mt-4 w-full py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name1)}>Update</button>
                         </>
                       )}
-                      <button className="mt-4 w-full py-2 bg-red-600 rounded hover:bg-red-700 transition-colors" onClick={() => handleDeleteQuiz(index, quiz.name)}>Delete Quiz</button>
+                      <button className="mt-4 w-full py-2 bg-red-600 rounded hover:bg-red-700 transition-colors" onClick={() => handleDeleteQuiz(index, quiz.name1)}>Delete Quiz</button>
                     </div>
                   )}
                 </div>

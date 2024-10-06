@@ -31,7 +31,7 @@ function Timer() {
     const d = new Date();
     const currentDateTime = d.toISOString();
     const currentDate = currentDateTime.slice(0, 10);
-    const targetDate = Timer.date.slice(0, 10);
+    const targetDate = Timer.date1.slice(0, 10);
     console.log("current dare",currentDate,targetDate)
     if (currentDate === targetDate) {
       setIsActive(true);
@@ -40,7 +40,7 @@ function Timer() {
       const currentMinutes = d.getMinutes();
       const currentSeconds = d.getSeconds();
 
-      const [targetHours, targetMinutes, targetSeconds] = Timer.time.split(':').map(Number);
+      const [targetHours, targetMinutes, targetSeconds] = Timer.time1.split(':').map(Number);
 
       const hoursDiff = targetHours - currentHours;
       const minutesDiff = targetMinutes - currentMinutes;
