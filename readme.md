@@ -35,3 +35,19 @@ Make sure you have the following installed:
 ```bash
 git clone https://github.com/yourusername/quizmaster.git
 cd quizmaster
+
+
+# Usage
+
+- Register a new account or log in if you already have one.
+- Create a quiz or browse available quizzes to participate in.
+- Answer the quiz questions in real-time and submit your answers.
+- View your results and compare your performance on the leaderboard.
+
+# Contributing
+
+Contributions are welcome! Please feel free to submit a pull request with any updates, bug fixes, or new features.
+
+# License
+
+This project is licensed under the MIT License.
