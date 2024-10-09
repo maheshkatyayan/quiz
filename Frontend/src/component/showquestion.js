@@ -21,7 +21,7 @@ const QuizBank = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/quiz/getQuestion");
+        const response = await axios.get("https://quiz-t7o5.onrender.com/quiz/getQuestion");
         setQuestions(response.data); // Set questions directly
       } catch (err) {
         console.log("Error fetching questions", err);
@@ -94,7 +94,7 @@ const QuizBank = () => {
 
     try {
       const data = { marks, roomKey };
-      const response = await axios.post("http://localhost:5000/quiz/addMarks", { data }, { withCredentials: true });
+      const response = await axios.post("https://quiz-t7o5.onrender.com/quiz/addMarks", { data }, { withCredentials: true });
       toast.success(response.data.remarks);
       if (response.data.ok) {
         navigate('/');

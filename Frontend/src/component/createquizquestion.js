@@ -13,7 +13,7 @@ const Createquizquestion = ({ onQuestionsChange }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/quizsetup/questionForonequiz");
+        const response = await axios.get("https://quiz-t7o5.onrender.com/quizsetup/questionForonequiz");
         setQuestionList(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -29,7 +29,7 @@ const Createquizquestion = ({ onQuestionsChange }) => {
 
   const handleDelete = async (question_id) => {
     try {
-      await axios.post("http://localhost:5000/quiz/deletequestion", { question_id });
+      await axios.post("https://quiz-t7o5.onrender.com/quiz/deletequestion", { question_id });
       setQuestionList(questionList.filter(q => q.question_id !== question_id));
       onQuestionsChange();
     } catch (error) {
@@ -45,7 +45,7 @@ const Createquizquestion = ({ onQuestionsChange }) => {
   const setQuizForExam = async () => {
     try {
       const name = quiznameforconformation;
-      const response=await axios.post("http://localhost:5000/quiz/setQuizNameToFile", { name });
+      const response=await axios.post("https://quiz-t7o5.onrender.com/quiz/setQuizNameToFile", { name });
       console.log("Quiz name set for the exam:", response.status);
       if(response.status===200){
         setQuizNameForConformation('')

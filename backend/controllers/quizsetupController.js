@@ -127,7 +127,7 @@ export const GoToQuizSetUp=async(req,res)=>{
           console.log("dashboardgetSaveTimer",result.rows)
           res.status(200).json(result.rows);
         }catch(e){
-          console.log(e)
+          res.status(500).json("something went wrong")
         }
       
       }
