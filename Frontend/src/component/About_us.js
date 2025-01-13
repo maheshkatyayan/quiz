@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useGlobalcontext } from "../component/contex.js";
 import Nav from "./Nav.js";
 import clubimg from "../image/st.png";
-
+//okay
 const AboutUs = () => {
   const [activeCard, setActiveCard] = useState(0);
   const { members } = useGlobalcontext();
