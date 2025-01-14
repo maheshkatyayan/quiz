@@ -6,7 +6,7 @@ const Card = () => {
   useEffect(()=>{
     const set = async () => {
         try {
-            const result=await axios.get("http://localhost:5000/admine/membersDetail")
+            const result=await axios.get("https://inquizitive-web.onrender.com/admine/membersDetail")
             setmember(result.data)
             console.log(result.data)
             // if (response.data.success) {
