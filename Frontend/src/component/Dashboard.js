@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
-//https://quiz-t7o5.onrender.com/quizsetup/getSaveTimer
-//https://quiz-t7o5.onrender.com/quizsetup/Questionbankname
-//https://quiz-t7o5.onrender.com/quizsetup/addquizname
-//https://quiz-t7o5.onrender.com/quizsetup/delete_quiz_setup
-//https://quiz-t7o5.onrender.com/quizsetup/addSaveTimer
+//https://inquizitive-web.onrender.com/quizsetup/getSaveTimer
+//https://inquizitive-web.onrender.com/quizsetup/Questionbankname
+//https://inquizitive-web.onrender.com/quizsetup/addquizname
+//https://inquizitive-web.onrender.com/quizsetup/delete_quiz_setup
+//https://inquizitive-web.onrender.com/quizsetup/addSaveTimer
 const Dashboard = () => {
   const navigate = useNavigate();
   const [quizName, setQuizName] = useState('');
@@ -34,7 +34,7 @@ const Dashboard = () => {
         const result = await axios.get('https://inquizitive-web.onrender.com/quizsetup/dashboardgetSaveTimer');
         console.log("dashboardatagetSaveTimer",result.data)
         setQuizzes(result.data);
-        console.log()
+        console.log("setQuizzer done",quizzes)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -110,16 +110,17 @@ const Dashboard = () => {
   // const handleUpdateQuiz=async (index, quizname)=>{
   //   setEditingQuizIndex(index);
   //   const data={quizTime,quizDate,quizName}
-  //   const response = await axios.post('https://quiz-t7o5.onrender.com/quizsetup/updateTimer', data);
+  //   const response = await axios.post('https://inquizitive-web.onrender.com/quizsetup/updateTimer', data);
 
   // }
 
   const handleSetQuiz = async (index,quizsetname) => {
     setEditingQuizIndex(index);
-    console.log("index",index,quizsetname)
+    console.log("index",index,quizsetname,quizzes[index].date,quizzes[index].time)
     setTimerqizname(quizsetname)
     setQuizDate(quizzes[index].date);
     setQuizTime(quizzes[index].time );
+    console.log("after update",quizDate,quizTime)
   };
 
   const handleSave_Timer = async () => {
@@ -177,9 +178,9 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {quizzes.map((quiz, index) => (
                 <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
-                  <h3 className="text-xl font-bold mb-4">{quiz.name1}</h3>
-                  <p>Date: {quiz.date1}</p>
-                  <p>Time: {quiz.time1}</p>
+                  <h3 className="text-xl font-bold mb-4">{quiz.name}</h3>
+                  <p>Date: {quiz.date}</p>
+                  <p>Time: {quiz.time}</p>
                   {editingQuizIndex === index ? (
                     <div>
                       <div className="mb-4">
@@ -194,16 +195,16 @@ const Dashboard = () => {
                     </div>
                   ) : (
                     <div>
-                      {!quiz.date1 && !quiz.time1 && (
-                        <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name1)}>Set Timer</button>
+                      {!quiz.date && !quiz.time && (
+                        <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name)}>Set Timer</button>
                       )}
-                      {quiz.date1 && quiz.time1 && (
+                      {quiz.date && quiz.time && (
                         <>
-                          <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => QuizBank(quiz.name1)}>Go to Quiz bank</button>
-                          <button className="mt-4 w-full py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name1)}>Update</button>
+                          <button className="mt-4 w-full py-2 bg-blue-600 rounded hover:bg-blue-700 transition-colors" onClick={() => QuizBank(quiz.name)}>Go to Quiz bank</button>
+                          <button className="mt-4 w-full py-2 bg-yellow-600 rounded hover:bg-yellow-700 transition-colors" onClick={() => handleSetQuiz(index,quiz.name)}>Update</button>
                         </>
                       )}
-                      <button className="mt-4 w-full py-2 bg-red-600 rounded hover:bg-red-700 transition-colors" onClick={() => handleDeleteQuiz(index, quiz.name1)}>Delete Quiz</button>
+                      <button className="mt-4 w-full py-2 bg-red-600 rounded hover:bg-red-700 transition-colors" onClick={() => handleDeleteQuiz(index, quiz.name)}>Delete Quiz</button>
                     </div>
                   )}
                 </div>
