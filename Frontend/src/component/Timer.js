@@ -32,7 +32,7 @@ function Timer() {
     const d = new Date();
     const currentDateTime = d.toISOString();
     const currentDate = currentDateTime.slice(0, 10);
-    const targetDate = Timer.date1.slice(0, 10);
+    const targetDate = Timer.date.slice(0, 10);
   
     if (currentDate === targetDate) {
       setIsActive(true);
@@ -41,7 +41,7 @@ function Timer() {
       const currentMinutes = d.getMinutes();
       const currentSeconds = d.getSeconds();
   
-      const [targetHours, targetMinutes, targetSeconds] = Timer.time1.split(':').map(Number);
+      const [targetHours, targetMinutes, targetSeconds] = Timer.time.split(':').map(Number);
   
       const hoursDiff = targetHours - currentHours;
       const minutesDiff = targetMinutes - currentMinutes;
@@ -80,7 +80,7 @@ function Timer() {
   const handleKeySubmit = async () => {
     try {
       // Show loading or disable the button to prevent multiple submissions
-      const response = await axios.post('https://quiz-t7o5.onrender.com/events/accessingquizroombykey', { key: roomKey });
+      const response = await axios.post('https://inquizitive-web.onrender.com/events/accessingquizroombykey', { key: roomKey });
       
       if (response.status === 200 && timeLeft<=0) {
         toast.success('just give me one minute')
