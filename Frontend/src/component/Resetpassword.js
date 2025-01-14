@@ -53,7 +53,7 @@ const ResetPassword = () => {
     console.log("Setting new password with data:", data);
 
     try {
-      const response = await axios.post("https://quiz-t7o5.onrender.com/users/reset_password", { data }, { withCredentials: true,headers:token });
+      const response = await axios.post("https://inquizitive-web.onrender.com/users/reset_password", { data }, { withCredentials: true,headers:token });
       console.log('response2',response);
       if (response.data.result === 'TRUE'){
       toast.success("Password reset successfully!");
