@@ -31,7 +31,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get('https://quiz-t7o5.onrender.com/quizsetup/dashboardgetSaveTimer');
+        const result = await axios.get('https://inquizitive-web.onrender.com/quizsetup/dashboardgetSaveTimer');
         console.log("dashboardatagetSaveTimer",result.data)
         setQuizzes(result.data);
         console.log()
@@ -61,7 +61,7 @@ const Dashboard = () => {
   const QuizBank =async (hello) => {
     const data = { name: hello };
       try {
-        const response = await axios.post('https://quiz-t7o5.onrender.com/quizsetup/Questionbankname', { data });
+        const response = await axios.post('https://inquizitive-web.onrender.com/quizsetup/Questionbankname', { data });
         if (response.status === 200) {
           navigate('/Questiondemo');
         }
@@ -85,7 +85,7 @@ const Dashboard = () => {
       setQuizName('');
       const data = { name: quizName };
       try {
-        const response = await axios.post('https://quiz-t7o5.onrender.com/quizsetup/addquizname', { data });
+        const response = await axios.post('https://inquizitive-web.onrender.com/quizsetup/addquizname', { data });
         if (response.status === 200) {
           console.log("quiz is added to database")
         }
@@ -101,7 +101,7 @@ const Dashboard = () => {
     setQuizzes(newQuizzes);
     try {
       const data = quizname;
-      const response = await axios.post('https://quiz-t7o5.onrender.com/quizsetup/delete_quiz_setup', { data });
+      const response = await axios.post('https://inquizitive-web.onrender.com/quizsetup/delete_quiz_setup', { data });
     } catch (error) {
       toast.error('Error deleting quiz');
     }
@@ -126,7 +126,7 @@ const Dashboard = () => {
     const data = { saveTimerquizname, quizDate, quizTime };
     console.log("data",data);
     try{
-    const response = await axios.post('https://quiz-t7o5.onrender.com/quizsetup/addSaveTimer', data);
+    const response = await axios.post('https://inquizitive-web.onrender.com/quizsetup/addSaveTimer', data);
     const updatedQuizzes = quizzes.map((quiz, index) =>
       index === editingQuizIndex ? { ...quiz, date: quizDate, time: quizTime } : quiz
     );
@@ -149,7 +149,7 @@ const Dashboard = () => {
   const handleAddMember = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://quiz-t7o5.onrender.com/admine/addMember', memberDetails);
+      const response = await axios.post('https://inquizitive-web.onrender.com/admine/addMember', memberDetails);
       if (response.status === 200) {
         toast.success('Member added successfully');
         setMemberDetails({
