@@ -22,7 +22,7 @@ const ResetPassword = () => {
       try {
         setsending(true);
         const data = { email };
-        const response = await axios.post("https://quiz-t7o5.onrender.com/users/forgot_password", { data }, { withCredentials: true });
+        const response = await axios.post("https://inquizitive-web.onrender.com/users/forgot_password", { data }, { withCredentials: true });
         console.log("response", response.data.result);
         if (response.data.result === 'TRUE') {
           toast.success("Verification email sent successfully!");
