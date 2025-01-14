@@ -14,7 +14,7 @@ function Timer() {
   useEffect(() => {
     async function fetchTimer() {
       try {
-        const response = await axios.get("https://quiz-t7o5.onrender.com/QuizSetUp/getSaveTimer");
+        const response = await axios.get("https://inquizitive-web.onrender.com/QuizSetUp/getSaveTimer");
         console.log("response", response.data[0]);
         setTimer(response.data[0]); // Set the first timer data
       } catch (error) {
