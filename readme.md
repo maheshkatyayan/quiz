@@ -3,7 +3,7 @@
 QuizMaster is a dynamic quiz application built using **React**, **Node.js**, **Express.js**, and **PostgreSQL**. It features user authentication, a leaderboard system, and a responsive design. Users can create and participate in quizzes, and track their results in real-time.
 
 ##visite the website
-[label](https://inquizitive-front.vercel.app/)
+[inquizitive.com](https://inquizitive-front.vercel.app/)
 
 ## Features
 
